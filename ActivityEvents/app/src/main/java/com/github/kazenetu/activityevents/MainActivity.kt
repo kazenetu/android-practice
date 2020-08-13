@@ -22,11 +22,15 @@ class TextViewModel : ViewModel() {
     val publish : LiveData<String> get() = text
 
     fun add(string: String) {
-        textList.add(0,string)
+        textList.add(0,"${getTime()}:$string")
         text.postValue(textList.joinToString(separator = "\n"))
     }
-
-
+    
+    fun getTime():String {
+        val date = Date()
+        val format = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
+        return format.format(date)
+    }
 }
 
 /**
@@ -52,13 +56,7 @@ class MainActivity : AppCompatActivity() {
             textView.text = publish
         })
 
-        viewModel.add("onCreate state:" + lifecycle.currentState + ":" + getTime() + "\n-------------------")
-    }
-
-    fun getTime():String {
-        val date = Date()
-        val format = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
-        return format.format(date)
+        viewModel.add("onCreate state:" + lifecycle.currentState  + "\n-------------------")
     }
 
     /**
