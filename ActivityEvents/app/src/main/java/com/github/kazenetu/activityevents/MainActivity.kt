@@ -13,7 +13,7 @@ import java.util.*
  */
 class TextViewModel : ViewModel() {
     companion object{
-        var textList:MutableList<String> = mutableListOf<String>()
+        private var textList:MutableList<String> = mutableListOf<String>()
 
         private var instance:TextViewModel = ViewModelProvider.NewInstanceFactory().create(TextViewModel::class.java)
         fun getInstance():TextViewModel = instance
