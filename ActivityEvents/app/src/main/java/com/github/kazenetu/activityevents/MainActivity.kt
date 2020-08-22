@@ -25,7 +25,7 @@ class TextViewModel : ViewModel() {
         textList.add(0,"${getTime()}:$string")
         text.postValue(textList.joinToString(separator = "\n"))
     }
-    
+
     fun getTime():String {
         val date = Date()
         val format = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
             textView.text = publish
         })
 
-        viewModel.add("onCreate state:" + lifecycle.currentState  + "\n-------------------")
+        viewModel.add("onCreate state:" + lifecycle.currentState + "\nExistsBunle:${savedInstanceState!=null}\n-------------------")
     }
 
     /**
