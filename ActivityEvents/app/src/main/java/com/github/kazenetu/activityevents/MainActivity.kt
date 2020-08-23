@@ -111,4 +111,14 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         viewModel.add("onDestroy state:"+lifecycle.currentState)
     }
+
+    /**
+     * 戻るボタン
+     */
+    override fun onBackPressed()
+    {
+        // super.onBackPressed()で通常処理を実行
+        super.onBackPressed()
+        viewModel.add("onBackPressed state:"+lifecycle.currentState)
+    }
 }
