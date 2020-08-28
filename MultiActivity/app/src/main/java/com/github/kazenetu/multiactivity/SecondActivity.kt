@@ -10,10 +10,6 @@ class SecondActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second)
 
-        with(window) {
-            // set transition
-            enterTransition = Explode()
-            exitTransition = Explode()
-        }
+        overridePendingTransition(0,0)
     }
 }

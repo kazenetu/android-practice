@@ -15,11 +15,7 @@ class FirstActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_first)
 
-        with(window) {
-            // set transition
-            enterTransition = Explode()
-            exitTransition = Explode()
-        }
+        overridePendingTransition(0,0)
 
         button.setOnClickListener { view ->
             val intent = Intent(this, SecondActivity::class.java).apply {

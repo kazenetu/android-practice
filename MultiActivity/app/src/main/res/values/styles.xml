@@ -7,7 +7,7 @@
         <item name="colorAccent">@color/colorAccent</item>
 
         <!-- enable window content transitions -->
-        <item name="android:windowActivityTransitions">true</item>
+        <item name="android:windowActivityTransitions">false</item>
     </style>
 
 </resources>
