@@ -5,9 +5,6 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-
-        <!-- enable window content transitions -->
-        <item name="android:windowActivityTransitions">false</item>
     </style>
 
 </resources>
