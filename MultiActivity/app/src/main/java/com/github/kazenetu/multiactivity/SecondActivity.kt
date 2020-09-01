@@ -8,8 +8,18 @@ import android.view.Window
 class SecondActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_second)
 
-        overridePendingTransition(0,0)
+        // エフェクト設定
+        if(EffectViewModel.getInstance().useEffect){
+            with(window){
+                requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
+                enterTransition = Explode()
+                exitTransition = Explode()
+            }
+        }else{
+            overridePendingTransition(0,0)
+        }
+
+        setContentView(R.layout.activity_second)
     }
 }
