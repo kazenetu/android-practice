@@ -18,7 +18,7 @@ class FirstActivity : AppCompatActivity() {
         // エフェクト設定
         if(EffectViewModel.getInstance().useEffect){
             with(window){
-                requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
+                requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)
                 enterTransition = Explode()
                 exitTransition = Explode()
             }
@@ -39,6 +39,5 @@ class FirstActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
-
     }
 }
