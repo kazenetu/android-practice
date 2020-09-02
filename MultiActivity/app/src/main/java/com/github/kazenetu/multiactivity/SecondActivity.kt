@@ -10,16 +10,28 @@ class SecondActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         // エフェクト設定
-        if(EffectViewModel.getInstance().useEffect){
-            with(window){
-                requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
+        if (EffectViewModel.getInstance().useEffect) {
+            with(window) {
+                requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)
                 enterTransition = Explode()
                 exitTransition = Explode()
             }
-        }else{
-            overridePendingTransition(0,0)
+        } else {
+            overridePendingTransition(0, 0)
         }
 
         setContentView(R.layout.activity_second)
+    }
+
+    /**
+     * 親Activityに戻るイベント
+     */
+    override fun onSupportNavigateUp(): Boolean {
+        if (EffectViewModel.getInstance().useEffect) {
+            // Backを実行
+            onBackPressed()
+            return true
+        }
+        return super.onSupportNavigateUp()
     }
 }
