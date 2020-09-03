@@ -8,9 +8,12 @@ import android.transition.Explode
 import android.view.Window
 import android.view.Window.*
 import android.widget.Button
+import android.widget.CheckBox
+import kotlinx.android.synthetic.main.activity_first.view.*
 
 class FirstActivity : AppCompatActivity() {
     private val button: Button by lazy{findViewById<Button>(R.id.button)}
+    private val checkbox: CheckBox by lazy{findViewById<CheckBox>(R.id.checkBox)}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +31,9 @@ class FirstActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_first)
 
+        // チェックボックスの初期値設定
+        checkbox.setChecked(EffectViewModel.getInstance().useEffect)
+
         button.setOnClickListener { view ->
             val intent = Intent(this, SecondActivity::class.java).apply {
                 //putExtra(EXTRA_MESSAGE, message)
@@ -38,6 +44,10 @@ class FirstActivity : AppCompatActivity() {
             else{
                 startActivity(intent)
             }
+        }
+
+        checkbox.setOnClickListener { view ->
+            EffectViewModel.getInstance().useEffect = view.checkBox.isChecked
         }
     }
 }
