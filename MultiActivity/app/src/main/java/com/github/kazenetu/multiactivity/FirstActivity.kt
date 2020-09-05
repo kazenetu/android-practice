@@ -9,6 +9,7 @@ import android.view.Window
 import android.view.Window.*
 import android.widget.Button
 import android.widget.CheckBox
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_first.view.*
 
 class FirstActivity : AppCompatActivity() {
@@ -48,6 +49,13 @@ class FirstActivity : AppCompatActivity() {
 
         checkbox.setOnClickListener { view ->
             EffectViewModel.getInstance().useEffect = view.checkBox.isChecked
+
+            // トースト通知
+            var text = "エフェクトOFF"
+            if(view.checkBox.isChecked){
+                text = "エフェクトON"
+            }
+            Toast.makeText(applicationContext, text, Toast.LENGTH_SHORT).show()
         }
     }
 }
