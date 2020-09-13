@@ -6,9 +6,10 @@ import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.activity_list.*
 
 class ListActivity : AppCompatActivity() {
-    private val recyclerView: RecyclerView by lazy { findViewById<RecyclerView>(R.id.recycler_list) }
+    private val recyclerView: RecyclerView by lazy { recycler_list }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
