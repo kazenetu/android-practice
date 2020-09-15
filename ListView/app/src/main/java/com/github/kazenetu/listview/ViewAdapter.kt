@@ -8,6 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 
 class ViewAdapter(private val list: List<RowItem>, private val listener: ItemClickListener) : RecyclerView.Adapter<ItemViewHolder>() {
 
+    /**
+     * ViewHolderを作成
+     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         Log.d("Adapter", "onCreateViewHolder")
         val rowView: View = LayoutInflater.from(parent.context).inflate(R.layout.text_row_item, parent, false)
@@ -15,6 +18,10 @@ class ViewAdapter(private val list: List<RowItem>, private val listener: ItemCli
         return ItemViewHolder(rowView)
     }
 
+    /**
+     * データとViewHolder(リストアイテム)とのバインド
+     * クリックイベントも設定
+     */
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         Log.d("Adapter", "onBindViewHolder")
         holder.titleView.text = list[position].title
@@ -26,11 +33,17 @@ class ViewAdapter(private val list: List<RowItem>, private val listener: ItemCli
         }
     }
 
+    /**
+     * アイテム数を返す
+     */
     override fun getItemCount(): Int {
         Log.d("Adapter", "getItemCount")
         return list.size
     }
 
+    /**
+     * クリックイベント用インターフェイス
+     */
     interface ItemClickListener {
         fun onItemClick(view: View, position: Int, value:RowItem)
     }
