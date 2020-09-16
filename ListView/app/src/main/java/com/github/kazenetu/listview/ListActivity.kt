@@ -35,7 +35,7 @@ class ListActivity : AppCompatActivity() {
         })
         // Adapterの内容がRecyclerViewのサイズに影響しない場合はtrueにするとパフォーマンスアップ
         recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.layoutManager = LinearLayoutManager(applicationContext)
         recyclerView.adapter = adapter
     }
 
