@@ -25,7 +25,7 @@ class ListActivity : AppCompatActivity() {
         setContentView(R.layout.activity_list)
 
         // リストセット
-        val adapter = ViewAdapter(createDataList(), object:ViewAdapter.ItemClickListener {
+        val adapter = ViewAdapter(TodoViewModel.getInstance().items, object:ViewAdapter.ItemClickListener {
             /**
              * アイテムクリックイベント
              */
@@ -38,18 +38,4 @@ class ListActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(applicationContext)
         recyclerView.adapter = adapter
     }
-
-    /**
-     * ダミーデータ作成
-     */
-    private fun createDataList(): List<RowItem> {
-
-        val dataList = mutableListOf<RowItem>()
-        for (i in 0..49) {
-            val data: RowItem = RowItem("タイトル$i","詳細$i")
-            dataList.add(data)
-        }
-        return dataList
-    }
-
 }
