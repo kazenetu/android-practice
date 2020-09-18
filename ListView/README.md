@@ -1,7 +1,15 @@
 # リストビュー
 リストビューの実装確認
 
-## [WIP]前提
+## 実行環境
+* Debian10.1(Celeron 2.5Ghsx2Core 8GB)
+  * Android Studio 4.0
+  * kotlin 1.3.72
+
+* Windows10(i7 16GB)
+  * Android Studio 4.0
+  * kotlin 1.3.72
+
 
 ## 参考サイト 
 * [Qiita:【kotlin】RecyclerViewの簡単な使い方【初心者向け】](https://qiita.com/saiki-ii/items/78ed73134784f3e5db7e)
