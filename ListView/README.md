@@ -1,7 +1,7 @@
 # リストビュー
 リストビューの実装確認
 
-## 実行環境
+## 開発環境
 * Debian10.1(Celeron 2.5Ghsx2Core 8GB)
   * Android Studio 4.0
   * kotlin 1.3.72
