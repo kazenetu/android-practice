@@ -34,6 +34,7 @@ class ListActivity : AppCompatActivity() {
                 val intent = Intent(myInstance, DetailActivity::class.java).apply {
                 }
                 startActivity(intent)
+                overridePendingTransition(R.anim.list_in, R.anim.list_out)
             }
         })
         // Adapterの内容がRecyclerViewのサイズに影響しない場合はtrueにするとパフォーマンスアップ
