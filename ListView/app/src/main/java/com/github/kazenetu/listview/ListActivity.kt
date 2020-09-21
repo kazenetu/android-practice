@@ -17,6 +17,11 @@ class ListActivity : AppCompatActivity() {
      */
     private val recyclerView: RecyclerView by lazy { recycler_list }
 
+    companion object{
+        val EXTRA_POSITION = "INTENT_POSITION"
+        val EXTRA_DATA = "EXTRA_DATA"
+    }
+
     /**
      * Activity生成
      */
@@ -32,6 +37,8 @@ class ListActivity : AppCompatActivity() {
              */
             override fun onItemClick(view: View, position: Int, value:RowItem) {
                 val intent = Intent(myInstance, DetailActivity::class.java).apply {
+                    putExtra(EXTRA_POSITION,position)
+                    putExtra(EXTRA_DATA,value)
                 }
                 startActivity(intent)
                 overridePendingTransition(R.anim.list_in, R.anim.list_out)
