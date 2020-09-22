@@ -40,7 +40,7 @@ class ListActivity : AppCompatActivity() {
                     putExtra(EXTRA_POSITION,position)
                     putExtra(EXTRA_DATA,value)
                 }
-                startActivity(intent)
+                startActivityForResult(intent,0)
                 overridePendingTransition(R.anim.list_in, R.anim.list_out)
             }
         })
@@ -48,5 +48,20 @@ class ListActivity : AppCompatActivity() {
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(applicationContext)
         recyclerView.adapter = adapter
+    }
+
+    /**
+     * 詳細から更新イベント
+     */
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(requestCode==0 && resultCode== RESULT_OK && data!=null) {
+            val position = data.getIntExtra(EXTRA_POSITION,-1)
+            val row = data.getSerializableExtra(EXTRA_DATA) as RowItem
+            if(position<0 || row==null) return
+
+            TodoViewModel.getInstance().items[position] = row
+        }
     }
 }
