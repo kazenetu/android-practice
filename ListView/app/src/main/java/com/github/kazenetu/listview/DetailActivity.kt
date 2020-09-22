@@ -17,16 +17,16 @@ class DetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_detail)
 
         val rowItem = intent.getSerializableExtra(ListActivity.EXTRA_DATA) as RowItem
-        title.setText(rowItem?.title)
-        description.setText(rowItem?.detail)
+        title.setText(rowItem.title)
+        description.setText(rowItem.detail)
 
         /**
          * 登録ボタンクリックイベント
          */
-        changeButton.setOnClickListener { view->
+        changeButton.setOnClickListener {
             val i=intent.apply {
-                putExtra("EXTRA_POSITION",rowPosition)
-                putExtra("EXTRA_DATA",RowItem(title.text.toString(),description.text.toString()))
+                putExtra(ListActivity.EXTRA_POSITION,rowPosition)
+                putExtra(ListActivity.EXTRA_DATA,RowItem(title.text.toString(),description.text.toString()))
             }
             setResult(RESULT_OK,i)
             finish()

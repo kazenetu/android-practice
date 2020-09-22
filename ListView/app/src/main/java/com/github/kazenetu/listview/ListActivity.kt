@@ -17,9 +17,9 @@ class ListActivity : AppCompatActivity() {
      */
     private val recyclerView: RecyclerView by lazy { recycler_list }
 
-    companion object{
-        val EXTRA_POSITION = "INTENT_POSITION"
-        val EXTRA_DATA = "EXTRA_DATA"
+    internal companion object{
+        const val EXTRA_POSITION = "INTENT_POSITION"
+        const val EXTRA_DATA = "EXTRA_DATA"
     }
 
     /**
@@ -59,7 +59,7 @@ class ListActivity : AppCompatActivity() {
         if(requestCode==0 && resultCode== RESULT_OK && data!=null) {
             val position = data.getIntExtra(EXTRA_POSITION,-1)
             val row = data.getSerializableExtra(EXTRA_DATA) as RowItem
-            if(position<0 || row==null) return
+            if(position < 0) return
 
             TodoViewModel.getInstance().items[position] = row
         }
