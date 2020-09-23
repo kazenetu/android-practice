@@ -16,6 +16,7 @@ class DetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
 
+        rowPosition = intent.getIntExtra(ListActivity.EXTRA_POSITION,-1)
         val rowItem = intent.getSerializableExtra(ListActivity.EXTRA_DATA) as RowItem
         title.setText(rowItem.title)
         description.setText(rowItem.detail)
