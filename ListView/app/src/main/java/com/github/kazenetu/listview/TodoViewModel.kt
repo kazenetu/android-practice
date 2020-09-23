@@ -28,4 +28,17 @@ class TodoViewModel: ViewModel() {
             items.add(RowItem("タイトル$i","詳細$i"))
         }
     }
+
+    /**
+     * 更新
+     */
+    fun update(position:Int,data:RowItem){
+        if(items.size <= position){
+            return
+        }
+        items[position].apply {
+            title = data.title
+            detail = data.detail
+        }
+    }
 }
