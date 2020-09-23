@@ -31,7 +31,7 @@ class ListActivity : AppCompatActivity() {
 
         val myInstance = this
         // リストセット
-        val adapter = ViewAdapter(TodoViewModel.getInstance().items, object:ViewAdapter.ItemClickListener {
+        val adapter = ViewAdapter(TodoViewModel.getInstance().listItems, object:ViewAdapter.ItemClickListener {
             /**
              * アイテムクリックイベント
              */
@@ -61,7 +61,8 @@ class ListActivity : AppCompatActivity() {
             val row = data.getSerializableExtra(EXTRA_DATA) as RowItem
             if(position < 0) return
 
-            TodoViewModel.getInstance().items[position] = row
+            TodoViewModel.getInstance().update(position,row)
+            recyclerView.adapter?.notifyItemChanged(position)
         }
     }
 }

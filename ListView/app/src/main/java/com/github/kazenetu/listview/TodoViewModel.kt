@@ -17,7 +17,12 @@ class TodoViewModel: ViewModel() {
     /**
      * リストアイテム
      */
-    val items:MutableList<RowItem> = mutableListOf()
+    private val items:MutableList<RowItem> = mutableListOf()
+
+    /**
+     * 公開用リストアイテム
+     */
+    val listItems:List<RowItem> = items
 
     /**
      * コンストラクタ
