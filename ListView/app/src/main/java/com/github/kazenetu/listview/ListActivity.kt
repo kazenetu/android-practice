@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_list.*
@@ -48,6 +49,12 @@ class ListActivity : AppCompatActivity() {
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(applicationContext)
         recyclerView.adapter = adapter
+
+        // ViewModelの更新監視
+        TodoViewModel.getInstance().update.observe(this, Observer { index ->
+            adapter.notifyItemChanged(index)
+        })
+
     }
 
     /**
@@ -62,7 +69,6 @@ class ListActivity : AppCompatActivity() {
             if(position < 0) return
 
             TodoViewModel.getInstance().update(position,row)
-            recyclerView.adapter?.notifyItemChanged(position)
         }
     }
 }
