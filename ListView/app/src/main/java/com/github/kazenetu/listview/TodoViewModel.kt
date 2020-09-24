@@ -1,5 +1,7 @@
 package com.github.kazenetu.listview
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
@@ -13,6 +15,9 @@ class TodoViewModel: ViewModel() {
 
         fun getInstance() = instance
     }
+
+    private var itemIndex: MutableLiveData<Int> = MutableLiveData()
+    val update : LiveData<Int> get() = itemIndex
 
     /**
      * リストアイテム
@@ -45,5 +50,6 @@ class TodoViewModel: ViewModel() {
             title = data.title
             detail = data.detail
         }
+        itemIndex.postValue(position)
     }
 }
