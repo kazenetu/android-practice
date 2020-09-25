@@ -18,6 +18,11 @@ class ListActivity : AppCompatActivity() {
      */
     private val recyclerView: RecyclerView by lazy { recycler_list }
 
+    /**
+     * TodoViewModelのインスタンス
+     */
+    private val viewModel:TodoViewModel by lazy{TodoViewModel.getInstance()}
+
     internal companion object{
         const val EXTRA_POSITION = "INTENT_POSITION"
         const val EXTRA_DATA = "EXTRA_DATA"
@@ -32,7 +37,7 @@ class ListActivity : AppCompatActivity() {
 
         val myInstance = this
         // リストセット
-        val adapter = ViewAdapter(TodoViewModel.getInstance().listItems, object:ViewAdapter.ItemClickListener {
+        val adapter = ViewAdapter(viewModel.listItems, object:ViewAdapter.ItemClickListener {
             /**
              * アイテムクリックイベント
              */
@@ -51,7 +56,7 @@ class ListActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
 
         // ViewModelの更新監視
-        TodoViewModel.getInstance().update.observe(this, Observer { index ->
+        viewModel.update.observe(this, Observer { index ->
             adapter.notifyItemChanged(index)
         })
 
