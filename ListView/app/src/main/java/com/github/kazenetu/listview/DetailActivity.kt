@@ -31,6 +31,7 @@ class DetailActivity : AppCompatActivity() {
             }
             setResult(RESULT_OK,i)
             finish()
+            overridePendingTransition( R.anim.detail_in,R.anim.detail_out)
         }
     }
 
