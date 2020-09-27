@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">ListView</string>
+    <string name="Save">登録</string>
+    <string name="Update">更新</string>
 </resources>
