@@ -21,6 +21,9 @@ class DetailActivity : AppCompatActivity() {
         title.setText(rowItem.title)
         description.setText(rowItem.detail)
 
+        // ボタンの名称を設定
+        button.setText(R.string.Update)
+
         /**
          * 登録ボタンクリックイベント
          */
