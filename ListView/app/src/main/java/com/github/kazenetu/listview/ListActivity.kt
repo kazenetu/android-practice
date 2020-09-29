@@ -62,7 +62,12 @@ class ListActivity : AppCompatActivity() {
 
         // ViewModelの更新監視
         viewModel.update.observe(this, Observer { index ->
-            adapter.notifyItemChanged(index)
+            if(index < 0) {
+                adapter.notifyItemInserted(0)
+                recyclerView.smoothScrollToPosition(0)
+            }else{
+                adapter.notifyItemChanged(index)
+            }
         })
 
         // 追加ボタンイベント

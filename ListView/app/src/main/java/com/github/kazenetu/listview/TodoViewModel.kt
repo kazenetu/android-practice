@@ -46,10 +46,8 @@ class TodoViewModel: ViewModel() {
         if(items.size <= position){
             return
         }
-        var targetPosition = position
         if(position < 0){
             items.add(0,RowItem(data.title,data.detail))
-            targetPosition = 0
         } else {
             items[position].apply {
                 title = data.title
@@ -57,6 +55,6 @@ class TodoViewModel: ViewModel() {
             }
         }
 
-        itemIndex.postValue(targetPosition)
+        itemIndex.postValue(position)
     }
 }
