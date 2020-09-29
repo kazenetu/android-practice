@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.*
 import kotlinx.android.synthetic.main.activity_list.*
 
 /**
@@ -17,6 +18,11 @@ class ListActivity : AppCompatActivity() {
      * リストビューのインスタンス
      */
     private val recyclerView: RecyclerView by lazy { recycler_list }
+
+    /**
+     * 追加ボタン
+     */
+    private val ActionButton: FloatingActionButton by lazy { addButton }
 
     /**
      * TodoViewModelのインスタンス
@@ -40,19 +46,13 @@ class ListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
 
-        val myInstance = this
         // リストセット
         adapter = ViewAdapter(viewModel.listItems, object:ViewAdapter.ItemClickListener {
             /**
              * アイテムクリックイベント
              */
             override fun onItemClick(view: View, position: Int, value:RowItem) {
-                val intent = Intent(myInstance, DetailActivity::class.java).apply {
-                    putExtra(EXTRA_POSITION,position)
-                    putExtra(EXTRA_DATA,value)
-                }
-                startActivityForResult(intent,0)
-                overridePendingTransition(R.anim.list_in, R.anim.list_out)
+                callDetail(position, value)
             }
         })
         // Adapterの内容がRecyclerViewのサイズに影響しない場合はtrueにするとパフォーマンスアップ
@@ -65,6 +65,22 @@ class ListActivity : AppCompatActivity() {
             adapter.notifyItemChanged(index)
         })
 
+        // 追加ボタンイベント
+        ActionButton.setOnClickListener {_->
+            callDetail(-1, RowItem("", ""))
+        }
+    }
+
+    /**
+     * 詳細画面呼び出し
+     */
+    private fun callDetail(position: Int, value:RowItem){
+        val intent = Intent(this, DetailActivity::class.java).apply {
+            putExtra(EXTRA_POSITION,position)
+            putExtra(EXTRA_DATA,value)
+        }
+        startActivityForResult(intent,0)
+        overridePendingTransition(R.anim.list_in, R.anim.list_out)
     }
 
     /**
@@ -76,7 +92,6 @@ class ListActivity : AppCompatActivity() {
         if(requestCode==0 && resultCode== RESULT_OK && data!=null) {
             val position = data.getIntExtra(EXTRA_POSITION,-1)
             val row = data.getSerializableExtra(EXTRA_DATA) as RowItem
-            if(position < 0) return
 
             TodoViewModel.getInstance().update(position,row)
         }
