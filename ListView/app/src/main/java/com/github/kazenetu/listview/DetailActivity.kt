@@ -1,6 +1,8 @@
 package com.github.kazenetu.listview
 
+import android.content.Context
 import android.os.Bundle
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
@@ -30,6 +32,15 @@ class DetailActivity : AppCompatActivity() {
          * 登録ボタンクリックイベント
          */
         changeButton.setOnClickListener {
+            if(title.text.trim().isEmpty()){
+                title.requestFocus()
+                val softKeyboard:InputMethodManager =  title.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                softKeyboard.showSoftInput(title,0)
+                val labelTitleName = labelTitle.text.toString()
+                title.error = "${labelTitleName}を入力してください"
+                return@setOnClickListener
+            }
+
             val i=intent.apply {
                 putExtra(ListActivity.EXTRA_POSITION,rowPosition)
                 putExtra(ListActivity.EXTRA_DATA,RowItem(title.text.toString(),description.text.toString()))
