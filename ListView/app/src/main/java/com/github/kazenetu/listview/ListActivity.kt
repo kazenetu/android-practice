@@ -22,7 +22,7 @@ class ListActivity : AppCompatActivity() {
     /**
      * 追加ボタン
      */
-    private val ActionButton: FloatingActionButton by lazy { addButton }
+    private val ActionButton: ExtendedFloatingActionButton by lazy { addButton }
 
     /**
      * TodoViewModelのインスタンス
