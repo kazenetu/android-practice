@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.*
 import kotlinx.android.synthetic.main.activity_list.*
 
+
 /**
  * メインActivity
  */
@@ -59,6 +60,25 @@ class ListActivity : AppCompatActivity() {
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(applicationContext)
         recyclerView.adapter = adapter
+
+        // スクロール監視
+        recyclerView.addOnScrollListener(object:RecyclerView.OnScrollListener(){
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                if(dy != 0 && ActionButton.isExtended){
+                    ActionButton.shrink()
+                }
+                super.onScrolled(recyclerView, dx, dy)
+            }
+
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                if(newState == RecyclerView.SCROLL_STATE_IDLE &&
+                    recyclerView.computeVerticalScrollOffset() == 0 &&
+                    !ActionButton.isExtended){
+                    ActionButton.extend()
+                }
+                super.onScrollStateChanged(recyclerView, newState)
+            }
+        })
 
         // ViewModelの更新監視
         viewModel.update.observe(this, Observer { index ->
