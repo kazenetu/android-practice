@@ -39,6 +39,9 @@ class ViewAdapter(private val list: List<RowItem>, private val listener: ItemCli
         holder.itemView.setOnClickListener { view->
             listener.onItemClick(view, position, list[position])
         }
+        holder.itemView.setOnLongClickListener{view->
+            listener.OnItemLongClickListener(view, position, list[position])
+        }
     }
 
     /**
@@ -54,5 +57,6 @@ class ViewAdapter(private val list: List<RowItem>, private val listener: ItemCli
      */
     interface ItemClickListener {
         fun onItemClick(view: View, position: Int, value:RowItem)
+        fun OnItemLongClickListener(view: View, position: Int, value:RowItem):Boolean
     }
 }

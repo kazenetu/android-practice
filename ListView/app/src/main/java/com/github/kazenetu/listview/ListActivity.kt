@@ -55,6 +55,16 @@ class ListActivity : AppCompatActivity() {
             override fun onItemClick(view: View, position: Int, value:RowItem) {
                 callDetail(position, value)
             }
+
+            /**
+             * アイテム長押し
+             */
+            override fun OnItemLongClickListener(view: View, position: Int, value:RowItem): Boolean {
+                value.showImage =!value.showImage
+                TodoViewModel.getInstance().update(position, value)
+
+                return true
+            }
         })
         // Adapterの内容がRecyclerViewのサイズに影響しない場合はtrueにするとパフォーマンスアップ
         recyclerView.setHasFixedSize(true)
