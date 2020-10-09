@@ -92,7 +92,7 @@ class ListActivity : AppCompatActivity() {
 
         // 追加ボタンイベント
         ActionButton.setOnClickListener {_->
-            callDetail(-1, RowItem("", ""))
+            callDetail(-1, RowItem(false,"", ""))
         }
     }
 

@@ -35,7 +35,7 @@ class TodoViewModel: ViewModel() {
     init{
         // ダミーデータ追加
         for (i in 0..49) {
-            items.add(RowItem("タイトル$i","詳細$i"))
+            items.add(RowItem(false,"タイトル$i","詳細$i"))
         }
     }
 
@@ -47,7 +47,7 @@ class TodoViewModel: ViewModel() {
             return
         }
         if(position < 0){
-            items.add(0,RowItem(data.title,data.detail))
+            items.add(0,RowItem(false, data.title,data.detail))
         } else {
             items[position].apply {
                 title = data.title

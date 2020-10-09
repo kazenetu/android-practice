@@ -43,7 +43,7 @@ class DetailActivity : AppCompatActivity() {
 
             val i=intent.apply {
                 putExtra(ListActivity.EXTRA_POSITION,rowPosition)
-                putExtra(ListActivity.EXTRA_DATA,RowItem(title.text.toString(),description.text.toString()))
+                putExtra(ListActivity.EXTRA_DATA,RowItem(false,title.text.toString(),description.text.toString()))
             }
             setResult(RESULT_OK,i)
             finish()
