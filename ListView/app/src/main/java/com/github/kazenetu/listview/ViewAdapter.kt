@@ -4,9 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.text_row_item.view.*
 
 class ViewAdapter(private val list: List<RowItem>, private val listener: ItemClickListener) : RecyclerView.Adapter<ItemViewHolder>() {
 
@@ -32,7 +30,7 @@ class ViewAdapter(private val list: List<RowItem>, private val listener: ItemCli
         if(list[position].showImage){
             holder.deleteTarget.visibility = View.VISIBLE
         } else {
-            holder.deleteTarget.visibility = View.INVISIBLE
+            holder.deleteTarget.visibility = View.GONE
         }
 
         // タップしたとき
