@@ -17,7 +17,9 @@ class TodoViewModel: ViewModel() {
     }
 
     private var itemIndex: MutableLiveData<Int> = MutableLiveData()
+    private var deleteIndex: MutableLiveData<Int> = MutableLiveData()
     val update : LiveData<Int> get() = itemIndex
+    val delete: LiveData<Int> get() = deleteIndex
 
     /**
      * リストアイテム
@@ -56,5 +58,13 @@ class TodoViewModel: ViewModel() {
         }
 
         itemIndex.postValue(position)
+    }
+
+    /**
+     * すべて削除
+     */
+    fun deleteAll(){
+        items.removeAll(items.filter { it.showImage })
+        deleteIndex.postValue(-1)
     }
 }
