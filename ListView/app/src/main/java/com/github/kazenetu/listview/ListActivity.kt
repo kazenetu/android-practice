@@ -99,6 +99,13 @@ class ListActivity : AppCompatActivity() {
                 adapter.notifyItemChanged(index)
             }
         })
+        viewModel.delete.observe(this, Observer { index ->
+            if(index < 0) {
+                adapter.notifyDataSetChanged()
+            }else{
+                adapter.notifyItemRemoved(index)
+            }
+        })
 
         // 追加ボタンイベント
         ActionButton.setOnClickListener {_->
