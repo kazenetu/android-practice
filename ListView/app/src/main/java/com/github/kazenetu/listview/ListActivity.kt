@@ -26,6 +26,11 @@ class ListActivity : AppCompatActivity() {
     private val ActionButton: ExtendedFloatingActionButton by lazy { addButton }
 
     /**
+     * 削除ボタン
+     */
+    private val ActionDeletButton: ExtendedFloatingActionButton by lazy { deleteButton }
+
+    /**
      * TodoViewModelのインスタンス
      */
     private val viewModel:TodoViewModel by lazy{TodoViewModel.getInstance()}
@@ -60,9 +65,12 @@ class ListActivity : AppCompatActivity() {
              * アイテム長押し
              */
             override fun OnItemLongClickListener(view: View, position: Int, value:RowItem): Boolean {
-                value.showImage =!value.showImage
-                TodoViewModel.getInstance().update(position, value)
-
+                if(value.showImage){
+                    TodoViewModel.getInstance().hideDeleteImage(position)
+                }
+                else{
+                    TodoViewModel.getInstance().showDeleteImage(position)
+                }
                 return true
             }
         })
@@ -106,10 +114,25 @@ class ListActivity : AppCompatActivity() {
                 adapter.notifyItemRemoved(index)
             }
         })
+        viewModel.taggleDeleteImage.observe(this, Observer { isShow ->
+            if(isShow) {
+                ActionButton.hide()
+                ActionDeletButton.show()
+            }else{
+                ActionButton.show()
+                ActionDeletButton.hide()
+            }
+            adapter.notifyDataSetChanged()
+        })
 
         // 追加ボタンイベント
         ActionButton.setOnClickListener {_->
             callDetail(-1, RowItem(false,"", ""))
+        }
+
+        // 削除ボタンイベント
+        ActionDeletButton.setOnClickListener {_->
+            viewModel.deleteAll()
         }
     }
 
