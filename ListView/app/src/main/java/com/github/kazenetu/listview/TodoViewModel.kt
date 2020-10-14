@@ -68,6 +68,7 @@ class TodoViewModel: ViewModel() {
     fun deleteAll(){
         items.removeAll(items.filter { it.showImage })
         deleteIndex.postValue(-1)
+        taggleDeleteImageFlag.postValue(false)
     }
 
     /**
@@ -83,7 +84,7 @@ class TodoViewModel: ViewModel() {
      */
     fun hideDeleteImage(position:Int){
         items[position].showImage = false
-
+        
         taggleDeleteImageFlag.postValue(items.any{it.showImage})
     }
 }
