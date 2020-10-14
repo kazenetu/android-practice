@@ -18,8 +18,10 @@ class TodoViewModel: ViewModel() {
 
     private var itemIndex: MutableLiveData<Int> = MutableLiveData()
     private var deleteIndex: MutableLiveData<Int> = MutableLiveData()
+    private var taggleDeleteImageFlag: MutableLiveData<Boolean> = MutableLiveData()
     val update : LiveData<Int> get() = itemIndex
     val delete: LiveData<Int> get() = deleteIndex
+    val taggleDeleteImage: LiveData<Boolean> get() = taggleDeleteImageFlag
 
     /**
      * リストアイテム
@@ -66,5 +68,22 @@ class TodoViewModel: ViewModel() {
     fun deleteAll(){
         items.removeAll(items.filter { it.showImage })
         deleteIndex.postValue(-1)
+    }
+
+    /**
+     * 削除対象イメージ表示
+     */
+    fun showDeleteImage(position:Int){
+        items[position].showImage = true
+        taggleDeleteImageFlag.postValue(true)
+    }
+
+    /**
+     * 削除対象イメージ非表示
+     */
+    fun hideDeleteImage(position:Int){
+        items[position].showImage = false
+
+        taggleDeleteImageFlag.postValue(items.any{it.showImage})
     }
 }
