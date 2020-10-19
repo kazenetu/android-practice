@@ -10,7 +10,8 @@ data class TodoItem(
     @PrimaryKey(autoGenerate = true) val id: Int,
     @Ignore var showImage: Boolean,
     var title: String,
-    var detail: String
+    var detail: String,
+    var isDone: Boolean
 ){
-    constructor(id:Int,title: String,detail: String):this(id,false,title,detail)
+    constructor(id:Int,title: String,detail: String):this(id,false,title,detail,false)
 }
