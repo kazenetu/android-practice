@@ -13,6 +13,7 @@ class DetailActivity : AppCompatActivity() {
     private val description: EditText by lazy { editDescription }
     private val changeButton: Button by lazy { button }
     private var rowPosition:Int=-1
+    private var isDone:Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,6 +23,7 @@ class DetailActivity : AppCompatActivity() {
         val rowItem = intent.getSerializableExtra(ListActivity.EXTRA_DATA) as RowItem
         title.setText(rowItem.title)
         description.setText(rowItem.detail)
+        isDone = rowItem.isDone
 
         // ボタンの名称を設定
         if(rowPosition >=0 ) {
@@ -43,7 +45,7 @@ class DetailActivity : AppCompatActivity() {
 
             val i=intent.apply {
                 putExtra(ListActivity.EXTRA_POSITION,rowPosition)
-                putExtra(ListActivity.EXTRA_DATA,RowItem(false,title.text.toString(),description.text.toString()))
+                putExtra(ListActivity.EXTRA_DATA,RowItem(false,title.text.toString(),description.text.toString(),isDone))
             }
             setResult(RESULT_OK,i)
             finish()

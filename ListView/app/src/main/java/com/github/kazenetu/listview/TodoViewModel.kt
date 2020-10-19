@@ -1,20 +1,20 @@
 package com.github.kazenetu.listview
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import android.app.Application
+import androidx.lifecycle.*
+import com.github.kazenetu.listview.repository.TodoRepository
+import com.github.kazenetu.listview.room.AppDatabase
+import com.github.kazenetu.listview.room.TodoItem
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 /**
  * TODOリスト用ViewModel
  */
-class TodoViewModel: ViewModel() {
-    companion object {
-        private var instance =
-            ViewModelProvider.NewInstanceFactory().create(TodoViewModel::class.java)
+class TodoViewModel(application: Application) : AndroidViewModel(application) {
 
-        fun getInstance() = instance
-    }
+    private val repository: TodoRepository
+
 
     private var itemIndex: MutableLiveData<Int> = MutableLiveData()
     private var deleteIndex: MutableLiveData<Int> = MutableLiveData()
@@ -24,39 +24,39 @@ class TodoViewModel: ViewModel() {
     val taggleDeleteImage: LiveData<Boolean> get() = taggleDeleteImageFlag
 
     /**
-     * リストアイテム
-     */
-    private val items:MutableList<RowItem> = mutableListOf()
-
-    /**
      * 公開用リストアイテム
      */
-    val listItems:List<RowItem> = items
+    val listItems: LiveData<List<TodoItem>>
+
+    private val items: List<TodoItem>
+        get(){
+            if(listItems.value != null){
+                return  listItems.value!!
+            }
+            return emptyList<TodoItem>()
+        }
 
     /**
      * コンストラクタ
      */
     init{
-        // ダミーデータ追加
-        for (i in 0..49) {
-            items.add(RowItem(false,"タイトル$i","詳細$i"))
-        }
+        val todoDao = AppDatabase.getDatabase(application).todoDao()
+        repository = TodoRepository(todoDao)
+        listItems = repository.allData
     }
 
     /**
      * 更新
      */
-    fun update(position:Int,data:RowItem){
+    fun update(position:Int,data:RowItem) = viewModelScope.launch(Dispatchers.IO) {
         if(items.size <= position){
-            return
+            return@launch
         }
         if(position < 0){
-            items.add(0,RowItem(false, data.title,data.detail))
+            repository.insert(TodoItem(0,false, data.title,data.detail,false))
         } else {
-            items[position].apply {
-                title = data.title
-                detail = data.detail
-            }
+            val id = listItems.value!![position]?.id
+            repository.update(TodoItem(id,false, data.title,data.detail,data.isDone))
         }
 
         itemIndex.postValue(position)
@@ -65,12 +65,15 @@ class TodoViewModel: ViewModel() {
     /**
      * すべて削除
      */
-    fun deleteAll(){
-        items.removeAll(items.filter { it.showImage })
+    fun deleteAll() = viewModelScope.launch(Dispatchers.IO) {
+        val deleteTarget = items.filter { it.showImage }
+        deleteTarget.forEach(){
+            repository.delete(it)
+        }
+
         deleteIndex.postValue(-1)
         taggleDeleteImageFlag.postValue(false)
     }
-
     /**
      * 削除対象イメージ表示
      */
@@ -84,7 +87,7 @@ class TodoViewModel: ViewModel() {
      */
     fun hideDeleteImage(position:Int){
         items[position].showImage = false
-        
+
         taggleDeleteImageFlag.postValue(items.any{it.showImage})
     }
 }

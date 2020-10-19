@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.github.kazenetu.listview.room.TodoItem
 import com.google.android.material.floatingactionbutton.*
 import kotlinx.android.synthetic.main.activity_list.*
 
@@ -33,7 +35,7 @@ class ListActivity : AppCompatActivity() {
     /**
      * TodoViewModelのインスタンス
      */
-    private val viewModel:TodoViewModel by lazy{TodoViewModel.getInstance()}
+    private lateinit var todoViewModel: TodoViewModel
 
     /**
      * RecyclerView.Adapterのインスタンス
@@ -52,24 +54,26 @@ class ListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
 
+        todoViewModel = ViewModelProvider(this).get(TodoViewModel::class.java)
+
         // リストセット
-        adapter = ViewAdapter(viewModel.listItems, object:ViewAdapter.ItemClickListener {
+        adapter = ViewAdapter(this, object:ViewAdapter.ItemClickListener {
             /**
              * アイテムクリックイベント
              */
-            override fun onItemClick(view: View, position: Int, value:RowItem) {
-                callDetail(position, value)
+            override fun onItemClick(view: View, position: Int, value: TodoItem) {
+                callDetail(position, RowItem(value.showImage,value.title,value.detail,value.isDone))
             }
 
             /**
              * アイテム長押し
              */
-            override fun OnItemLongClickListener(view: View, position: Int, value:RowItem): Boolean {
+            override fun onItemLongClickListener(view: View, position: Int, value: TodoItem): Boolean {
                 if(value.showImage){
-                    TodoViewModel.getInstance().hideDeleteImage(position)
+                    todoViewModel.hideDeleteImage(position)
                 }
                 else{
-                    TodoViewModel.getInstance().showDeleteImage(position)
+                    todoViewModel.showDeleteImage(position)
                 }
                 return true
             }
@@ -99,22 +103,29 @@ class ListActivity : AppCompatActivity() {
         })
 
         // ViewModelの更新監視
-        viewModel.update.observe(this, Observer { index ->
+        todoViewModel.listItems.observe(this, Observer {
+            it.let{adapter.setList(it)}
+        })
+        todoViewModel.update.observe(this, Observer { index ->
+/*
             if(index < 0) {
                 adapter.notifyItemInserted(0)
                 recyclerView.smoothScrollToPosition(0)
             }else{
                 adapter.notifyItemChanged(index)
             }
+ */
         })
-        viewModel.delete.observe(this, Observer { index ->
+        todoViewModel.delete.observe(this, Observer { index ->
+            /*
             if(index < 0) {
                 adapter.notifyDataSetChanged()
             }else{
                 adapter.notifyItemRemoved(index)
             }
+            */
         })
-        viewModel.taggleDeleteImage.observe(this, Observer { isShow ->
+        todoViewModel.taggleDeleteImage.observe(this, Observer { isShow ->
             if(isShow) {
                 ActionButton.hide()
                 ActionDeletButton.show()
@@ -127,12 +138,12 @@ class ListActivity : AppCompatActivity() {
 
         // 追加ボタンイベント
         ActionButton.setOnClickListener {_->
-            callDetail(-1, RowItem(false,"", ""))
+            callDetail(-1, RowItem(false,"", "",false))
         }
 
         // 削除ボタンイベント
         ActionDeletButton.setOnClickListener {_->
-            viewModel.deleteAll()
+            todoViewModel.deleteAll()
         }
     }
 
@@ -158,7 +169,7 @@ class ListActivity : AppCompatActivity() {
             val position = data.getIntExtra(EXTRA_POSITION,-1)
             val row = data.getSerializableExtra(EXTRA_DATA) as RowItem
 
-            TodoViewModel.getInstance().update(position,row)
+            todoViewModel.update(position,row)
         }
     }
 }

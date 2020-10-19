@@ -1,12 +1,18 @@
 package com.github.kazenetu.listview
 
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.github.kazenetu.listview.room.TodoItem
 
-class ViewAdapter(private val list: List<RowItem>, private val listener: ItemClickListener) : RecyclerView.Adapter<ItemViewHolder>() {
+class ViewAdapter internal constructor(
+    context: Context,
+    private val listener: ItemClickListener
+) : RecyclerView.Adapter<ItemViewHolder>() {
+    private var list = emptyList<TodoItem>()
 
     /**
      * ViewHolderを作成
@@ -38,7 +44,7 @@ class ViewAdapter(private val list: List<RowItem>, private val listener: ItemCli
             listener.onItemClick(view, position, list[position])
         }
         holder.itemView.setOnLongClickListener{view->
-            listener.OnItemLongClickListener(view, position, list[position])
+            listener.onItemLongClickListener(view, position, list[position])
         }
     }
 
@@ -51,10 +57,18 @@ class ViewAdapter(private val list: List<RowItem>, private val listener: ItemCli
     }
 
     /**
+     * 表示用コレクションを設定
+     */
+    internal fun setList(items: List<TodoItem>) {
+        this.list = items
+        notifyDataSetChanged()
+    }
+
+    /**
      * クリックイベント用インターフェイス
      */
     interface ItemClickListener {
-        fun onItemClick(view: View, position: Int, value:RowItem)
-        fun OnItemLongClickListener(view: View, position: Int, value:RowItem):Boolean
+        fun onItemClick(view: View, position: Int, value:TodoItem)
+        fun onItemLongClickListener(view: View, position: Int, value:TodoItem):Boolean
     }
 }
