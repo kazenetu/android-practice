@@ -11,7 +11,7 @@ data class TodoItem(
     @Ignore var showImage: Boolean,
     var title: String,
     var detail: String,
-    var isDone: Boolean
+    @ColumnInfo(defaultValue = "false") var isDone: Boolean
 ){
     constructor(id:Int,title: String,detail: String):this(id,false,title,detail,false)
 }
