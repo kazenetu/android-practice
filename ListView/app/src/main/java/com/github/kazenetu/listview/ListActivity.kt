@@ -171,5 +171,8 @@ class ListActivity : AppCompatActivity() {
 
             todoViewModel.update(position,row)
         }
+
+        // 削除フラグを非表示にする
+        todoViewModel.hideAllDeleteImage()
     }
 }
