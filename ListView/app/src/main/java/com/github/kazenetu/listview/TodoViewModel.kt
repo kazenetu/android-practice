@@ -74,6 +74,18 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
         deleteIndex.postValue(-1)
         taggleDeleteImageFlag.postValue(false)
     }
+
+    /**
+     * すべての削除イメージを非表示にする
+     */
+    fun hideAllDeleteImage(){
+        val deleteTarget = items.filter { it.showImage }
+        deleteTarget.forEach() {
+            it.showImage = false
+        }
+        taggleDeleteImageFlag.postValue(false)
+    }
+
     /**
      * 削除対象イメージ表示
      */
