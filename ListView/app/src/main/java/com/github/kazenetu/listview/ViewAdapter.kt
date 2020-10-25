@@ -1,15 +1,19 @@
 package com.github.kazenetu.listview
 
+import android.animation.AnimatorInflater
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
 import com.github.kazenetu.listview.room.TodoItem
+import kotlinx.android.synthetic.main.activity_list.view.*
+import kotlinx.android.synthetic.main.text_row_item.view.*
 
 class ViewAdapter internal constructor(
-    context: Context,
+    private val context: Context,
     private val listener: ItemClickListener
 ) : RecyclerView.Adapter<ItemViewHolder>() {
     private var list = emptyList<TodoItem>()
@@ -45,6 +49,12 @@ class ViewAdapter internal constructor(
         }
         holder.itemView.setOnLongClickListener{view->
             listener.onItemLongClickListener(view, position, list[position])
+        }
+
+        if(list[position].showImage) {
+            AnimationUtils.loadAnimation(context, R.anim.show_image).apply {
+                holder.deleteTarget.animation = this
+            }
         }
     }
 
