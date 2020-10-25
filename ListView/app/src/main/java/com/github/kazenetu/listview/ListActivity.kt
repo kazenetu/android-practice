@@ -126,7 +126,7 @@ class ListActivity : AppCompatActivity() {
             }
             */
         })
-        todoViewModel.taggleDeleteImage.observe(this, Observer { isShow ->
+        todoViewModel.taggleDeleteImage.observe(this, Observer { (isShow,all) ->
             if(isShow) {
                 ActionButton.hide()
                 ActionDeletButton.show()
@@ -134,7 +134,9 @@ class ListActivity : AppCompatActivity() {
                 ActionButton.show()
                 ActionDeletButton.hide()
             }
-            adapter.notifyDataSetChanged()
+            if(all){
+                adapter.notifyDataSetChanged()
+            }
         })
 
         // 追加ボタンイベント

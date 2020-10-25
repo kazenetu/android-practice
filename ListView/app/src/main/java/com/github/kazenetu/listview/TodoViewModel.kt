@@ -18,10 +18,10 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
 
     private var itemIndex: MutableLiveData<Int> = MutableLiveData()
     private var deleteIndex: MutableLiveData<Int> = MutableLiveData()
-    private var taggleDeleteImageFlag: MutableLiveData<Boolean> = MutableLiveData()
+    private var taggleDeleteImageFlag: MutableLiveData<Pair<Boolean,Boolean>> = MutableLiveData()
     val update : LiveData<Int> get() = itemIndex
     val delete: LiveData<Int> get() = deleteIndex
-    val taggleDeleteImage: LiveData<Boolean> get() = taggleDeleteImageFlag
+    val taggleDeleteImage: LiveData<Pair<Boolean,Boolean>> get() = taggleDeleteImageFlag
 
     /**
      * 公開用リストアイテム
@@ -72,7 +72,7 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
         }
 
         deleteIndex.postValue(-1)
-        taggleDeleteImageFlag.postValue(false)
+        taggleDeleteImageFlag.postValue(Pair(false,true))
     }
 
     /**
@@ -83,7 +83,7 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
         deleteTarget.forEach() {
             it.showImage = false
         }
-        taggleDeleteImageFlag.postValue(false)
+        taggleDeleteImageFlag.postValue(Pair(false,true))
     }
 
     /**
@@ -91,7 +91,7 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
      */
     fun showDeleteImage(position:Int){
         items[position].showImage = true
-        taggleDeleteImageFlag.postValue(true)
+        taggleDeleteImageFlag.postValue(Pair(true,false))
     }
 
     /**
@@ -100,6 +100,6 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
     fun hideDeleteImage(position:Int){
         items[position].showImage = false
 
-        taggleDeleteImageFlag.postValue(items.any{it.showImage})
+        taggleDeleteImageFlag.postValue(Pair(items.any{it.showImage},false))
     }
 }
