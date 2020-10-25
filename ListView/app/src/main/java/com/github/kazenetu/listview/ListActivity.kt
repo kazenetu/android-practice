@@ -75,6 +75,7 @@ class ListActivity : AppCompatActivity() {
                 else{
                     todoViewModel.showDeleteImage(position)
                 }
+                adapter.notifyItemChanged(position)
                 return true
             }
         })
