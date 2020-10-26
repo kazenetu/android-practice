@@ -49,4 +49,9 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:$archLifecycleVersion"
     kapt "androidx.lifecycle:lifecycle-compiler:$archLifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$archLifecycleVersion"
+
+    // koinライブラリ
+    implementation "org.koin:koin-android:1.0.2"
+    implementation "org.koin:koin-androidx-scope:1.0.2"
+    implementation "org.koin:koin-androidx-viewmodel:1.0.2"
 }
