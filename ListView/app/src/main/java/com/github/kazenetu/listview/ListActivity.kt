@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.kazenetu.listview.room.TodoItem
 import com.google.android.material.floatingactionbutton.*
 import kotlinx.android.synthetic.main.activity_list.*
+import org.koin.android.ext.android.inject
 
 
 /**
@@ -35,8 +36,7 @@ class ListActivity : AppCompatActivity() {
     /**
      * TodoViewModelのインスタンス
      */
-    private lateinit var todoViewModel: TodoViewModel
-
+    private val todoViewModel: TodoViewModel by inject()
     /**
      * RecyclerView.Adapterのインスタンス
      */
@@ -53,8 +53,6 @@ class ListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
-
-        todoViewModel = ViewModelProvider(this).get(TodoViewModel::class.java)
 
         // リストセット
         adapter = ViewAdapter(this, object:ViewAdapter.ItemClickListener {
