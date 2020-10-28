@@ -5,16 +5,14 @@ import androidx.lifecycle.*
 import com.github.kazenetu.listview.repository.TodoRepository
 import com.github.kazenetu.listview.room.AppDatabase
 import com.github.kazenetu.listview.room.TodoItem
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 /**
  * TODOリスト用ViewModel
  */
-class TodoViewModel(application: Application) : AndroidViewModel(application) {
-
-    private val repository: TodoRepository
-
+class TodoViewModel(application: Application,private val repository: TodoRepository) {
 
     private var itemIndex: MutableLiveData<Int> = MutableLiveData()
     private var deleteIndex: MutableLiveData<Int> = MutableLiveData()
@@ -40,15 +38,13 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
      * コンストラクタ
      */
     init{
-        val todoDao = AppDatabase.getDatabase(application).todoDao()
-        repository = TodoRepository(todoDao)
         listItems = repository.allData
     }
 
     /**
      * 更新
      */
-    fun update(position:Int,data:RowItem) = viewModelScope.launch(Dispatchers.IO) {
+    fun update(position:Int,data:RowItem) = CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
         if(items.size <= position){
             return@launch
         }
@@ -65,7 +61,7 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
     /**
      * すべて削除
      */
-    fun deleteAll() = viewModelScope.launch(Dispatchers.IO) {
+    fun deleteAll() = CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
         val deleteTarget = items.filter { it.showImage }
         deleteTarget.forEach(){
             repository.delete(it)
