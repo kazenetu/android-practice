@@ -1,10 +1,14 @@
 package com.github.kazenetu.listview
 
+import androidx.room.Room
 import com.github.kazenetu.listview.repository.TodoRepository
 import com.github.kazenetu.listview.room.AppDatabase
+import com.github.kazenetu.listview.room.migrations.Migration1to2
 import org.koin.dsl.module.Module
 import org.koin.dsl.module.module
 import org.koin.android.ext.android.startKoin
+import org.koin.android.ext.koin.androidContext
+import org.koin.androidx.viewmodel.ext.koin.viewModel
 
 /**
  * アプリケーションクラス
@@ -23,7 +27,13 @@ class App :android.app.Application() {
 
     // Koinモジュール
     private val modules: Module = module {
-        factory { TodoRepository(AppDatabase.getDatabase(this@App).todoDao()) }
-        factory { TodoViewModel(this@App, get()) }
+        single {
+            Room.databaseBuilder(androidContext(), AppDatabase::class.java, "todo_database.db")
+                .addMigrations(Migration1to2.migration)
+                .build()
+        }
+        factory { get<AppDatabase>().todoDao() }
+        single { TodoRepository(get()) }
+        viewModel { TodoViewModel(get()) }
     }
 }
