@@ -28,5 +28,12 @@
 
   * [Qiita:［Android］Room を使ったサンプルと解説](https://qiita.com/kaleidot725/items/34f29efaeb6d836e010e)
 
+* Koin系
+  * [Qiita:Kotlinで DI （Dependency Injection）~ Koin 編](https://qiita.com/sudachi808/items/8e03503f52b4f11533a2)
+
+  * [[Android]KoinでDIに入門する](https://dev.classmethod.jp/articles/koin_di_exercise/)
+
+  * [Room + Coroutines + Koin + Kotlin構成での実装](https://qiita.com/Slowhand0309/items/ece245e2c0e3656afe6b)
+
 * その他
   * [Qiita:KotlinでfindViewByIdとさよならしましょう](https://qiita.com/superman9387/items/9df8038c4db92a7136c8)
