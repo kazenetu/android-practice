@@ -36,6 +36,11 @@ class ViewAdapter internal constructor(
         Log.d("Adapter", "onBindViewHolder")
         holder.titleView.text = list[position].title
         holder.detailView.text = list[position].detail
+        if(list[position].isDone){
+            holder.donekButton.setImageResource(android.R.drawable.checkbox_on_background)
+        }else{
+            holder.donekButton.setImageResource(android.R.drawable.checkbox_off_background)
+        }
 
         if(list[position].showImage){
             holder.deleteTarget.visibility = View.VISIBLE
@@ -44,11 +49,14 @@ class ViewAdapter internal constructor(
         }
 
         // タップしたとき
-        holder.itemView.setOnClickListener { view->
+        holder.liner.setOnClickListener { view->
             listener.onItemClick(view, position, list[position])
         }
-        holder.itemView.setOnLongClickListener{view->
+        holder.liner.setOnLongClickListener{view->
             listener.onItemLongClickListener(view, position, list[position])
+        }
+        holder.donekButton.setOnClickListener { view->
+            listener.onItemDoneClick(view, position, list[position])
         }
 
         if(list[position].showImage) {
@@ -78,6 +86,7 @@ class ViewAdapter internal constructor(
      * クリックイベント用インターフェイス
      */
     interface ItemClickListener {
+        fun onItemDoneClick(view: View, position: Int, value:TodoItem)
         fun onItemClick(view: View, position: Int, value:TodoItem)
         fun onItemLongClickListener(view: View, position: Int, value:TodoItem):Boolean
     }
