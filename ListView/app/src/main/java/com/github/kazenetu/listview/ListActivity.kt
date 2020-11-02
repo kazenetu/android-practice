@@ -11,6 +11,7 @@ import com.github.kazenetu.listview.room.TodoItem
 import com.google.android.material.floatingactionbutton.*
 import kotlinx.android.synthetic.main.activity_list.*
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 /**
@@ -75,6 +76,14 @@ class ListActivity : AppCompatActivity() {
                 adapter.notifyItemChanged(position)
                 return true
             }
+
+            /**
+             * Doneボタン
+             */
+            override fun onItemDoneClick(view: View, position: Int, value: TodoItem) {
+                todoViewModel.update(position,RowItem(false,value.title,value.detail,!value.isDone))
+                adapter.notifyItemChanged(position)
+            }
         })
         // Adapterの内容がRecyclerViewのサイズに影響しない場合はtrueにするとパフォーマンスアップ
         recyclerView.setHasFixedSize(true)
@@ -105,14 +114,14 @@ class ListActivity : AppCompatActivity() {
             it.let{adapter.setList(it)}
         })
         todoViewModel.update.observe(this, Observer { index ->
-/*
+            /*
             if(index < 0) {
                 adapter.notifyItemInserted(0)
                 recyclerView.smoothScrollToPosition(0)
             }else{
                 adapter.notifyItemChanged(index)
             }
- */
+             */
         })
         todoViewModel.delete.observe(this, Observer { index ->
             /*
