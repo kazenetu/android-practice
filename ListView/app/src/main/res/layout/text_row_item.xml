@@ -6,12 +6,24 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+
     <LinearLayout
-        android:id="@+id/linear"
+        android:id="@+id/mainlinear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:orientation="horizontal">
+    <ImageButton
+        android:id="@+id/donekButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/checkbox_off_background" />
+
+    <LinearLayout
+        android:id="@+id/linear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <TextView
@@ -29,6 +41,7 @@
             android:lines="1" />
 
     </LinearLayout>
+</LinearLayout>
 
     <androidx.cardview.widget.CardView
     android:id="@+id/mainView"
@@ -37,8 +50,8 @@
     android:layout_margin="1dp"
     android:layout_gravity="right"
     app:cardElevation="0dp"
-    app:layout_constraintRight_toRightOf="@+id/linear"
-    app:layout_constraintTop_toTopOf="@+id/linear">
+    app:layout_constraintRight_toRightOf="@+id/mainlinear"
+    app:layout_constraintTop_toTopOf="@+id/mainlinear">
 
         <ImageView
             android:id="@+id/delete_target"
