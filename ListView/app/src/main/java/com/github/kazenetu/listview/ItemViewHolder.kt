@@ -1,7 +1,6 @@
 package com.github.kazenetu.listview
 
 import android.view.View
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -16,5 +15,5 @@ class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
     val liner:LinearLayout =  itemView.linear
     val titleView: TextView = itemView.row_title
     val detailView: TextView = itemView.row_detail
-    var donekButton: ImageButton = itemView.donekButton
+    var donekButton: ImageView = itemView.donekButton
 }
