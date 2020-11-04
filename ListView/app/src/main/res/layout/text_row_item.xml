@@ -14,11 +14,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:orientation="horizontal">
-    <ImageButton
-        android:id="@+id/donekButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/checkbox_off_background" />
+
+        <ImageView
+            android:id="@+id/donekButton"
+            android:layout_width="32dp"
+            android:layout_height="42dp"
+            android:layout_marginRight="2dp"
+            app:srcCompat="@android:drawable/checkbox_off_background" />
 
     <LinearLayout
         android:id="@+id/linear"
