@@ -15,5 +15,5 @@ class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
     val liner:LinearLayout =  itemView.linear
     val titleView: TextView = itemView.row_title
     val detailView: TextView = itemView.row_detail
-    var donekButton: ImageView = itemView.donekButton
+    var doneButton: ImageView = itemView.donekButton
 }

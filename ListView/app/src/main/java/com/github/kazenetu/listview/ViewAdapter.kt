@@ -37,9 +37,9 @@ class ViewAdapter internal constructor(
         holder.titleView.text = list[position].title
         holder.detailView.text = list[position].detail
         if(list[position].isDone){
-            holder.donekButton.setImageResource(android.R.drawable.checkbox_on_background)
+            holder.doneButton.setImageResource(android.R.drawable.checkbox_on_background)
         }else{
-            holder.donekButton.setImageResource(android.R.drawable.checkbox_off_background)
+            holder.doneButton.setImageResource(android.R.drawable.checkbox_off_background)
         }
 
         if(list[position].showImage){
@@ -55,7 +55,7 @@ class ViewAdapter internal constructor(
         holder.liner.setOnLongClickListener{view->
             listener.onItemLongClickListener(view, position, list[position])
         }
-        holder.donekButton.setOnClickListener { view->
+        holder.doneButton.setOnClickListener { view->
             listener.onItemDoneClick(view, position, list[position])
         }
 
