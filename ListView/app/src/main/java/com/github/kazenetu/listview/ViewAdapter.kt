@@ -1,6 +1,5 @@
 package com.github.kazenetu.listview
 
-import android.animation.AnimatorInflater
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,8 +8,6 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
 import com.github.kazenetu.listview.room.TodoItem
-import kotlinx.android.synthetic.main.activity_list.view.*
-import kotlinx.android.synthetic.main.text_row_item.view.*
 
 class ViewAdapter internal constructor(
     private val context: Context,
@@ -36,11 +33,11 @@ class ViewAdapter internal constructor(
         Log.d("Adapter", "onBindViewHolder")
         holder.titleView.text = list[position].title
         holder.detailView.text = list[position].detail
+        var checkStatus = android.R.drawable.checkbox_off_background
         if(list[position].isDone){
-            holder.doneButton.setImageResource(android.R.drawable.checkbox_on_background)
-        }else{
-            holder.doneButton.setImageResource(android.R.drawable.checkbox_off_background)
+            checkStatus = android.R.drawable.checkbox_on_background
         }
+        holder.doneButton.setImageResource(checkStatus)
 
         if(list[position].showImage){
             holder.deleteTarget.visibility = View.VISIBLE
