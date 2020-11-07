@@ -41,8 +41,10 @@ class ViewAdapter internal constructor(
 
         if(list[position].showImage){
             holder.deleteTarget.visibility = View.VISIBLE
+            holder.doneButton.visibility = View.GONE
         } else {
             holder.deleteTarget.visibility = View.GONE
+            holder.doneButton.visibility = View.VISIBLE
         }
 
         // タップしたとき
