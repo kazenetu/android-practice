@@ -12,6 +12,7 @@ import kotlinx.android.synthetic.main.text_row_item.view.*
  */
 class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
     val deleteTarget: ImageView = itemView.delete_target
+    val mainLiner:LinearLayout =  itemView.mainlinear
     val liner:LinearLayout =  itemView.linear
     val titleView: TextView = itemView.row_title
     val detailView: TextView = itemView.row_detail
