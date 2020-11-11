@@ -1,6 +1,7 @@
 package com.github.kazenetu.listview
 
 import android.content.Context
+import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -41,7 +42,7 @@ class ViewAdapter internal constructor(
 
         if(list[position].showImage){
             holder.deleteTarget.visibility = View.VISIBLE
-            holder.doneButton.visibility = View.GONE
+            holder.doneButton.visibility = View.INVISIBLE
         } else {
             holder.deleteTarget.visibility = View.GONE
             holder.doneButton.visibility = View.VISIBLE
@@ -55,7 +56,9 @@ class ViewAdapter internal constructor(
             listener.onItemLongClickListener(view, position, list[position])
         }
         holder.doneButton.setOnClickListener { view->
-            listener.onItemDoneClick(view, position, list[position])
+            if(!list[position].showImage){
+                listener.onItemDoneClick(view, position, list[position])
+            }
         }
 
         if(list[position].showImage) {
