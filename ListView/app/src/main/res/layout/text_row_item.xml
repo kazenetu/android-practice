@@ -18,7 +18,7 @@
         <ImageView
             android:id="@+id/donekButton"
             android:layout_width="32dp"
-            android:layout_height="42dp"
+            android:layout_height="32dp"
             android:layout_marginRight="2dp"
             app:srcCompat="@android:drawable/checkbox_off_background" />
 
@@ -45,14 +45,13 @@
     </LinearLayout>
 </LinearLayout>
 
-    <androidx.cardview.widget.CardView
+<LinearLayout
     android:id="@+id/mainView"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="1dp"
+    android:layout_margin="0dp"
     android:layout_gravity="right"
-    app:cardElevation="0dp"
-    app:layout_constraintRight_toRightOf="@+id/mainlinear"
+    app:layout_constraintLeft_toLeftOf="@+id/mainlinear"
     app:layout_constraintTop_toTopOf="@+id/mainlinear">
 
         <ImageView
@@ -61,6 +60,6 @@
             android:layout_height="wrap_content"
             app:srcCompat="@android:drawable/ic_delete" />
 
-</androidx.cardview.widget.CardView>
+</LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
