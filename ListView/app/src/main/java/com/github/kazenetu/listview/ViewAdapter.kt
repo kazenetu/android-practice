@@ -34,13 +34,14 @@ class ViewAdapter internal constructor(
         Log.d("Adapter", "onBindViewHolder")
         holder.titleView.text = list[position].title
         holder.detailView.text = list[position].detail
+
         var checkStatus = android.R.drawable.checkbox_off_background
-        if(list[position].isDone){
+        if (list[position].isDone) {
             checkStatus = android.R.drawable.checkbox_on_background
         }
         holder.doneButton.setImageResource(checkStatus)
 
-        if(list[position].showImage){
+        if (list[position].showImage) {
             holder.deleteTarget.visibility = View.VISIBLE
             holder.doneButton.visibility = View.INVISIBLE
         } else {
@@ -49,19 +50,19 @@ class ViewAdapter internal constructor(
         }
 
         // タップしたとき
-        holder.liner.setOnClickListener { view->
+        holder.liner.setOnClickListener { view ->
             listener.onItemClick(view, position, list[position])
         }
-        holder.liner.setOnLongClickListener{view->
+        holder.liner.setOnLongClickListener { view ->
             listener.onItemLongClickListener(view, position, list[position])
         }
-        holder.doneButton.setOnClickListener { view->
-            if(!list[position].showImage){
+        holder.doneButton.setOnClickListener { view ->
+            if (!list[position].showImage) {
                 listener.onItemDoneClick(view, position, list[position])
             }
         }
 
-        if(list[position].showImage) {
+        if (list[position].showImage) {
             AnimationUtils.loadAnimation(context, R.anim.show_image).apply {
                 holder.deleteTarget.animation = this
             }
