@@ -65,6 +65,9 @@ class ViewAdapter internal constructor(
             AnimationUtils.loadAnimation(context, R.anim.show_image).apply {
                 holder.deleteTarget.animation = this
             }
+            holder.mainLiner.setBackgroundColor(Color.LTGRAY)
+        } else {
+            holder.mainLiner.setBackgroundColor(Color.WHITE)
         }
     }
 
