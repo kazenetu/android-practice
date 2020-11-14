@@ -50,10 +50,10 @@ class ViewAdapter internal constructor(
         }
 
         // タップしたとき
-        holder.liner.setOnClickListener { view ->
+        holder.mainLiner.setOnClickListener { view ->
             listener.onItemClick(view, position, list[position])
         }
-        holder.liner.setOnLongClickListener { view ->
+        holder.mainLiner.setOnLongClickListener { view ->
             listener.onItemLongClickListener(view, position, list[position])
         }
         holder.doneButton.setOnClickListener { view ->
