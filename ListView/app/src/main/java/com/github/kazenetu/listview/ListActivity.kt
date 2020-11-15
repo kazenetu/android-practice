@@ -12,8 +12,6 @@ import com.github.kazenetu.listview.room.TodoItem
 import com.google.android.material.floatingactionbutton.*
 import kotlinx.android.synthetic.main.activity_list.*
 import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ext.android.viewModel
-
 
 /**
  * メインActivity
