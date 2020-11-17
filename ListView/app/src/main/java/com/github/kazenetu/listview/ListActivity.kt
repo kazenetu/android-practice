@@ -4,43 +4,26 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.ListFragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.github.kazenetu.listview.fragments.BlankFragment
+import com.github.kazenetu.listview.fragments.LFragment
+import com.github.kazenetu.listview.fragments.TodoFragment
 import com.github.kazenetu.listview.room.TodoItem
 import com.google.android.material.floatingactionbutton.*
 import kotlinx.android.synthetic.main.activity_list.*
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 /**
  * メインActivity
  */
 class ListActivity : AppCompatActivity() {
-    /**
-     * リストビューのインスタンス
-     */
-    private val recyclerView: RecyclerView by lazy { recycler_list }
-
-    /**
-     * 追加ボタン
-     */
-    private val ActionButton: ExtendedFloatingActionButton by lazy { addButton }
-
-    /**
-     * 削除ボタン
-     */
-    private val ActionDeletButton: ExtendedFloatingActionButton by lazy { deleteButton }
-
-    /**
-     * TodoViewModelのインスタンス
-     */
-    private val todoViewModel: TodoViewModel by inject()
-    /**
-     * RecyclerView.Adapterのインスタンス
-     */
-    private lateinit var adapter: ViewAdapter
-
     internal companion object{
         const val EXTRA_POSITION = "INTENT_POSITION"
         const val EXTRA_DATA = "EXTRA_DATA"
@@ -53,138 +36,14 @@ class ListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
 
-        // リストセット
-        adapter = ViewAdapter(this, object:ViewAdapter.ItemClickListener {
-            /**
-             * アイテムクリックイベント
-             */
-            override fun onItemClick(view: View, position: Int, value: TodoItem) {
-                callDetail(position, RowItem(value.showImage,value.title,value.detail,value.isDone))
-            }
+        replaceFragment(TodoFragment.newInstance())
 
-            /**
-             * アイテム長押し
-             */
-            override fun onItemLongClickListener(view: View, position: Int, value: TodoItem): Boolean {
-                if(value.showImage){
-                    todoViewModel.hideDeleteImage(position)
-                }
-                else{
-                    todoViewModel.showDeleteImage(position)
-                }
-                adapter.notifyItemChanged(position)
-                return true
-            }
-
-            /**
-             * Doneボタン
-             */
-            override fun onItemDoneClick(view: View, position: Int, value: TodoItem) {
-                todoViewModel.update(position,RowItem(false,value.title,value.detail,!value.isDone))
-                adapter.notifyItemChanged(position)
-            }
-        })
-        // Adapterの内容がRecyclerViewのサイズに影響しない場合はtrueにするとパフォーマンスアップ
-        recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = LinearLayoutManager(applicationContext)
-        recyclerView.adapter = adapter
-
-        // 区切り線を設定
-        val separateLine = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
-        recyclerView.addItemDecoration(separateLine)
-
-        // スクロール監視
-        recyclerView.addOnScrollListener(object:RecyclerView.OnScrollListener(){
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                if(dy != 0 && ActionButton.isExtended){
-                    ActionButton.shrink()
-                }
-                super.onScrolled(recyclerView, dx, dy)
-            }
-
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                if(newState == RecyclerView.SCROLL_STATE_IDLE &&
-                    recyclerView.computeVerticalScrollOffset() == 0 &&
-                    !ActionButton.isExtended){
-                    ActionButton.extend()
-                }
-                super.onScrollStateChanged(recyclerView, newState)
-            }
-        })
-
-        // ViewModelの更新監視
-        todoViewModel.listItems.observe(this, Observer {
-            it.let{adapter.setList(it)}
-        })
-        todoViewModel.update.observe(this, Observer { index ->
-            /*
-            if(index < 0) {
-                adapter.notifyItemInserted(0)
-                recyclerView.smoothScrollToPosition(0)
-            }else{
-                adapter.notifyItemChanged(index)
-            }
-             */
-        })
-        todoViewModel.delete.observe(this, Observer { index ->
-            /*
-            if(index < 0) {
-                adapter.notifyDataSetChanged()
-            }else{
-                adapter.notifyItemRemoved(index)
-            }
-            */
-        })
-        todoViewModel.taggleDeleteImage.observe(this, Observer { (isShow,all) ->
-            if(isShow) {
-                ActionButton.hide()
-                ActionDeletButton.show()
-            }else{
-                ActionButton.show()
-                ActionDeletButton.hide()
-            }
-            if(all){
-                adapter.notifyDataSetChanged()
-            }
-        })
-
-        // 追加ボタンイベント
-        ActionButton.setOnClickListener {_->
-            callDetail(-1, RowItem(false,"", "",false))
-        }
-
-        // 削除ボタンイベント
-        ActionDeletButton.setOnClickListener {_->
-            todoViewModel.deleteAll()
-        }
     }
 
-    /**
-     * 詳細画面呼び出し
-     */
-    private fun callDetail(position: Int, value:RowItem){
-        val intent = Intent(this, DetailActivity::class.java).apply {
-            putExtra(EXTRA_POSITION,position)
-            putExtra(EXTRA_DATA,value)
-        }
-        startActivityForResult(intent,0)
-        overridePendingTransition(R.anim.list_in, R.anim.list_out)
-    }
-
-    /**
-     * 詳細から更新イベント
-     */
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if(requestCode==0 && resultCode== RESULT_OK && data!=null) {
-            val position = data.getIntExtra(EXTRA_POSITION,-1)
-            val row = data.getSerializableExtra(EXTRA_DATA) as RowItem
-
-            todoViewModel.update(position,row)
-        }
-
-        // 削除フラグを非表示にする
-        todoViewModel.hideAllDeleteImage()
+    fun replaceFragment(fragment: Fragment) {
+        val fragmentManager = supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.container, fragment)
+        fragmentTransaction.commit()
     }
 }
