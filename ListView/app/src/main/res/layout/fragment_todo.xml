@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.TodoFragment">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -22,7 +23,7 @@
         android:focusable="true"
         android:text="追加"
         android:layout_gravity="bottom|end"
-        android:icon="@android:drawable/ic_menu_add" />
+        app:icon="@android:drawable/ic_menu_add" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/deleteButton"
@@ -35,6 +36,6 @@
         android:visibility="gone"
         android:text="すべて削除"
         android:layout_gravity="bottom|end"
-        android:icon="@android:drawable/ic_menu_delete" />
+        app:icon="@android:drawable/ic_menu_delete" />
 
 </FrameLayout>
