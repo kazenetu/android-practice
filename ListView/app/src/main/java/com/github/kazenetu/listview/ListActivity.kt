@@ -3,7 +3,10 @@ package com.github.kazenetu.listview
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.github.kazenetu.listview.fragments.DoneFragment
 import com.github.kazenetu.listview.fragments.TodoFragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.android.synthetic.main.activity_list.*
 
 /**
  * メインActivity
@@ -21,11 +24,28 @@ class ListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
 
-        replaceFragment(TodoFragment.newInstance())
+        // 切り替え用Fragmentインスタンス
+        val todoFragment = TodoFragment.newInstance()
+        val doneFragment = DoneFragment.newInstance()
 
+        replaceFragment(todoFragment)
+
+        // BottomNavigationの設定
+        bottomNavigation.setOnNavigationItemSelectedListener(BottomNavigationView.OnNavigationItemSelectedListener { item ->
+            when(item.itemId){
+                R.id.navigation_todo->{
+                    replaceFragment(todoFragment)
+                }
+                R.id.navigation_done->{
+                    replaceFragment(doneFragment)
+                }
+            }
+
+            return@OnNavigationItemSelectedListener true
+        })
     }
 
-    fun replaceFragment(fragment: Fragment) {
+    private fun replaceFragment(fragment: Fragment) {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.container, fragment)
