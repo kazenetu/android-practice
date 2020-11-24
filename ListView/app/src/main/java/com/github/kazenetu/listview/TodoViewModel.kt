@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 /**
  * TODOリスト用ViewModel
  */
-class TodoViewModel(private val repository: TodoRepository):AndroidViewModel(Application()) {
+open class TodoViewModel(private val repository: TodoRepository):AndroidViewModel(Application()) {
 
     private var itemIndex: MutableLiveData<Int> = MutableLiveData()
     private var deleteIndex: MutableLiveData<Int> = MutableLiveData()
@@ -23,7 +23,7 @@ class TodoViewModel(private val repository: TodoRepository):AndroidViewModel(App
     /**
      * 公開用リストアイテム
      */
-    val listItems: LiveData<List<TodoItem>>
+    var listItems: LiveData<List<TodoItem>>
 
     private val items: List<TodoItem>
         get(){
