@@ -35,5 +35,6 @@ class App :android.app.Application() {
         factory { get<AppDatabase>().todoDao() }
         single { TodoRepository(get()) }
         viewModel { TodoViewModel(get()) }
+        viewModel { DoneViewModel(get()) }
     }
 }
