@@ -6,6 +6,8 @@ import com.github.kazenetu.listview.room.TodoItem
 
 class TodoRepository(private val todoDao: TodoDao) {
     val allData: LiveData<List<TodoItem>> = todoDao.getAll()
+    val todoData: LiveData<List<TodoItem>> = todoDao.getTodo()
+    val doneData: LiveData<List<TodoItem>> = todoDao.getDone()
 
     suspend fun insert(todo: TodoItem) {
         todoDao.insert(todo)
