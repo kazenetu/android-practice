@@ -37,7 +37,7 @@ open class TodoViewModel(private val repository: TodoRepository):AndroidViewMode
      * コンストラクタ
      */
     init{
-        listItems = repository.allData
+        listItems = repository.todoData
     }
 
     /**
