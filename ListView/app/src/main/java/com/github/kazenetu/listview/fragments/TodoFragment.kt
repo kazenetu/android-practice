@@ -42,6 +42,11 @@ class TodoFragment : Fragment() {
      */
     private lateinit var adapter: ViewAdapter
 
+    /**
+     * 詳細画面の遷移フラグ
+     */
+    private var isMovedDetail:Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -85,11 +90,21 @@ class TodoFragment : Fragment() {
      * 詳細画面呼び出し
      */
     private fun callDetail(position: Int, value:RowItem){
+
+        // 遷移済みの場合はキャンセル
+        if(isMovedDetail) return;
+
+        // 遷移済みに設定
+        isMovedDetail = true
+
+        // 遷移処理
         val intent = Intent(activity, DetailActivity::class.java).apply {
             putExtra(ListActivity.EXTRA_POSITION,position)
             putExtra(ListActivity.EXTRA_DATA,value)
         }
         startActivityForResult(intent,0)
+
+        // 遷移アニメーション設定
         activity!!.overridePendingTransition(R.anim.list_in, R.anim.list_out)
     }
 
@@ -98,6 +113,9 @@ class TodoFragment : Fragment() {
      */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
+        // 未遷移に設定
+        isMovedDetail = false
 
         if(requestCode==0 && resultCode== AppCompatActivity.RESULT_OK && data!=null) {
             val position = data.getIntExtra(ListActivity.EXTRA_POSITION,-1)
