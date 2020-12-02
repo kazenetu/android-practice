@@ -119,7 +119,7 @@ class TodoFragment : Fragment() {
 
         if(requestCode==0 && resultCode== AppCompatActivity.RESULT_OK && data!=null) {
             val position = data.getIntExtra(ListActivity.EXTRA_POSITION,-1)
-            val row = data.getSerializableExtra(ListActivity.EXTRA_DATA) as RowItem
+            val row = data.getParcelableExtra(ListActivity.EXTRA_DATA) as RowItem
 
             todoViewModel.update(position,row)
         }
