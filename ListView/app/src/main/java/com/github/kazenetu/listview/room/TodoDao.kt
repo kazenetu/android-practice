@@ -5,9 +5,6 @@ import androidx.room.*
 
 @Dao
 interface TodoDao {
-    @Query("SELECT * FROM items ORDER BY id DESC")
-    fun getAll(): LiveData<List<TodoItem>>
-
     @Query("SELECT * FROM items WHERE isDone = 0 ORDER BY id DESC")
     fun getTodo(): LiveData<List<TodoItem>>
 
