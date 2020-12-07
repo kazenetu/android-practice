@@ -8,14 +8,15 @@ class TodoRepository(private val todoDao: TodoDao) {
     val todoData: LiveData<List<TodoItem>> = todoDao.getTodo()
     val doneData: LiveData<List<TodoItem>> = todoDao.getDone()
 
-    fun insert(todo: TodoItem) {
+    suspend fun insert(todo: TodoItem) {
         todoDao.insert(todo)
     }
-    fun update(todo: TodoItem) {
+
+    suspend fun update(todo: TodoItem) {
         todoDao.update(todo)
     }
 
-    fun delete(todo: TodoItem) {
+    suspend fun delete(todo: TodoItem) {
         todoDao.delete(todo)
     }
 }

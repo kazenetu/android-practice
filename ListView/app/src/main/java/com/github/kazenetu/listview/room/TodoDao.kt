@@ -12,14 +12,14 @@ interface TodoDao {
     fun getDone(): LiveData<List<TodoItem>>
 
     @Query("SELECT * FROM items WHERE id IN (:todoIds)")
-    fun loadAllByIds(todoIds: IntArray): List<TodoItem>
+    suspend fun loadAllByIds(todoIds: IntArray): List<TodoItem>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert(todo: TodoItem)
+    suspend fun insert(todo: TodoItem)
 
     @Update
-    fun update(todo: TodoItem)
+    suspend fun update(todo: TodoItem)
 
     @Delete
-    fun delete(todo: TodoItem)
+    suspend fun delete(todo: TodoItem)
 }
