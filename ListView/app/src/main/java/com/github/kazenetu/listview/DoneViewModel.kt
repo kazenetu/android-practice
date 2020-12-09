@@ -11,12 +11,12 @@ import kotlinx.coroutines.launch
 /**
  * TODOリスト用ViewModel
  */
-open class DoneViewModel(private val repository: TodoRepository):TodoViewModel(repository) {
+class DoneViewModel(private val repository: TodoRepository):BaseViewModel(repository) {
 
     /**
      * コンストラクタ
      */
-    init{
-        listItems = repository.doneData
+    init {
+        setListItem(repository.doneData)
     }
 }
