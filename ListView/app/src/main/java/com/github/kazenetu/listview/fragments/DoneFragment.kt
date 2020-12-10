@@ -55,7 +55,7 @@ class DoneFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        var view = inflater.inflate(R.layout.fragment_done, container, false)
+        val view = inflater.inflate(R.layout.fragment_done, container, false)
 
         recyclerView = view.findViewById(R.id.recycler_list)
 
