@@ -26,12 +26,12 @@ class TodoFragment : Fragment() {
     /**
      * 追加ボタン
      */
-    private lateinit var ActionButton: ExtendedFloatingActionButton
+    private lateinit var actionButton: ExtendedFloatingActionButton
 
     /**
      * 削除ボタン
      */
-    private lateinit var ActionDeletButton: ExtendedFloatingActionButton
+    private lateinit var actionDeletButton: ExtendedFloatingActionButton
 
     /**
      * TodoViewModelのインスタンス
@@ -54,32 +54,13 @@ class TodoFragment : Fragment() {
         todoViewModel.listItems.observe(this, Observer {
             it.let{adapter.setList(it)}
         })
-        todoViewModel.update.observe(this, Observer { index ->
-            /*
-            if(index < 0) {
-                adapter.notifyItemInserted(0)
-                recyclerView.smoothScrollToPosition(0)
-            }else{
-                adapter.notifyItemChanged(index)
-            }
-             */
-        })
-        todoViewModel.delete.observe(this, Observer { index ->
-            /*
-            if(index < 0) {
-                adapter.notifyDataSetChanged()
-            }else{
-                adapter.notifyItemRemoved(index)
-            }
-            */
-        })
         todoViewModel.taggleDeleteImage.observe(this, Observer { (isShow,all) ->
             if(isShow) {
-                ActionButton.hide()
-                ActionDeletButton.show()
+                actionButton.hide()
+                actionDeletButton.show()
             }else{
-                ActionButton.show()
-                ActionDeletButton.hide()
+                actionButton.show()
+                actionDeletButton.hide()
             }
             if(all){
                 adapter.notifyDataSetChanged()
@@ -92,7 +73,7 @@ class TodoFragment : Fragment() {
     private fun callDetail(position: Int, value:RowItem){
 
         // 遷移済みの場合はキャンセル
-        if(isMovedDetail) return;
+        if(isMovedDetail) return
 
         // 遷移済みに設定
         isMovedDetail = true
@@ -128,16 +109,13 @@ class TodoFragment : Fragment() {
         todoViewModel.hideAllDeleteImage()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        var view = inflater.inflate(R.layout.fragment_todo, container, false)
+        val view = inflater.inflate(R.layout.fragment_todo, container, false)
 
         recyclerView = view.findViewById(R.id.recycler_list)
-        ActionButton = view.findViewById(R.id.addButton)
-        ActionDeletButton=view.findViewById(R.id.deleteButton)
+        actionButton = view.findViewById(R.id.addButton)
+        actionDeletButton=view.findViewById(R.id.deleteButton)
 
         // リストセット
         adapter = ViewAdapter(activity?.applicationContext!!, object:ViewAdapter.ItemClickListener {
@@ -184,8 +162,8 @@ class TodoFragment : Fragment() {
         // スクロール監視
         recyclerView.addOnScrollListener(object:RecyclerView.OnScrollListener(){
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                if(dy != 0 && ActionButton.isExtended){
-                    ActionButton.shrink()
+                if(dy != 0 && actionButton.isExtended){
+                    actionButton.shrink()
                 }
                 super.onScrolled(recyclerView, dx, dy)
             }
@@ -193,20 +171,20 @@ class TodoFragment : Fragment() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 if(newState == RecyclerView.SCROLL_STATE_IDLE &&
                     recyclerView.computeVerticalScrollOffset() == 0 &&
-                    !ActionButton.isExtended){
-                    ActionButton.extend()
+                    !actionButton.isExtended){
+                    actionButton.extend()
                 }
                 super.onScrollStateChanged(recyclerView, newState)
             }
         })
 
         // 追加ボタンイベント
-        ActionButton.setOnClickListener {_->
+        actionButton.setOnClickListener {
             callDetail(-1, RowItem(false,"", "",false))
         }
 
         // 削除ボタンイベント
-        ActionDeletButton.setOnClickListener {_->
+        actionDeletButton.setOnClickListener {
             todoViewModel.deleteAll()
         }
 
