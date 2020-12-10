@@ -31,7 +31,7 @@ class TodoFragment : Fragment() {
     /**
      * 削除ボタン
      */
-    private lateinit var actionDeletButton: ExtendedFloatingActionButton
+    private lateinit var actionDeleteButton: ExtendedFloatingActionButton
 
     /**
      * TodoViewModelのインスタンス
@@ -57,10 +57,10 @@ class TodoFragment : Fragment() {
         todoViewModel.taggleDeleteImage.observe(this, Observer { (isShow,all) ->
             if(isShow) {
                 actionButton.hide()
-                actionDeletButton.show()
+                actionDeleteButton.show()
             }else{
                 actionButton.show()
-                actionDeletButton.hide()
+                actionDeleteButton.hide()
             }
             if(all){
                 adapter.notifyDataSetChanged()
@@ -115,7 +115,7 @@ class TodoFragment : Fragment() {
 
         recyclerView = view.findViewById(R.id.recycler_list)
         actionButton = view.findViewById(R.id.addButton)
-        actionDeletButton=view.findViewById(R.id.deleteButton)
+        actionDeleteButton=view.findViewById(R.id.deleteButton)
 
         // リストセット
         adapter = ViewAdapter(activity?.applicationContext!!, object:ViewAdapter.ItemClickListener {
@@ -184,7 +184,7 @@ class TodoFragment : Fragment() {
         }
 
         // 削除ボタンイベント
-        actionDeletButton.setOnClickListener {
+        actionDeleteButton.setOnClickListener {
             todoViewModel.deleteAll()
         }
 
