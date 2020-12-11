@@ -29,14 +29,8 @@ abstract class BaseViewModel(private val repository: TodoRepository): AndroidVie
             if(listItems.value != null){
                 return  listItems.value!!
             }
-            return emptyList<TodoItem>()
+            return emptyList()
         }
-
-    /**
-     * コンストラクタ
-     */
-    init{
-    }
 
     fun setListItem(items: LiveData<List<TodoItem>>) {
         viewModelScope.launch{
@@ -54,7 +48,7 @@ abstract class BaseViewModel(private val repository: TodoRepository): AndroidVie
         if(position < 0){
             repository.insert(TodoItem(0,false, data.title,data.detail,false))
         } else {
-            val id = listItems.value!![position]?.id
+            val id = listItems.value!![position].id
             repository.update(TodoItem(id,false, data.title,data.detail,data.isDone))
         }
 
@@ -66,12 +60,12 @@ abstract class BaseViewModel(private val repository: TodoRepository): AndroidVie
      */
     fun deleteAll() = CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
         val deleteTarget = items.filter { it.showImage }
-        deleteTarget.forEach(){
+        deleteTarget.forEach {
             repository.delete(it)
         }
 
         deleteIndex.postValue(-1)
-        taggleDeleteImageFlag.postValue(Pair(false,true))
+        this@BaseViewModel.taggleDeleteImageFlag.postValue(Pair(first = false, second = true))
     }
 
     /**
@@ -79,10 +73,10 @@ abstract class BaseViewModel(private val repository: TodoRepository): AndroidVie
      */
     fun hideAllDeleteImage(){
         val deleteTarget = items.filter { it.showImage }
-        deleteTarget.forEach() {
+        deleteTarget.forEach {
             it.showImage = false
         }
-        taggleDeleteImageFlag.postValue(Pair(false,true))
+        this.taggleDeleteImageFlag.postValue(Pair(first = false, second = true))
     }
 
     /**
@@ -90,7 +84,7 @@ abstract class BaseViewModel(private val repository: TodoRepository): AndroidVie
      */
     fun showDeleteImage(position:Int){
         items[position].showImage = true
-        taggleDeleteImageFlag.postValue(Pair(true,false))
+        this.taggleDeleteImageFlag.postValue(Pair(first = true, second = false))
     }
 
     /**
@@ -98,7 +92,6 @@ abstract class BaseViewModel(private val repository: TodoRepository): AndroidVie
      */
     fun hideDeleteImage(position:Int){
         items[position].showImage = false
-
-        taggleDeleteImageFlag.postValue(Pair(items.any{it.showImage},false))
+        this.taggleDeleteImageFlag.postValue(Pair(first = items[position].showImage, second = false))
     }
 }
