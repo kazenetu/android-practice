@@ -3,7 +3,7 @@ package com.github.kazenetu.listview
 import com.github.kazenetu.listview.repository.TodoRepository
 
 /**
- * TODOリスト用ViewModel
+ * Doneリスト用ViewModel
  */
 class DoneViewModel(repository: TodoRepository):BaseViewModel(repository) {
 
