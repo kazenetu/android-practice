@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.kazenetu.listview.*
 import com.github.kazenetu.listview.room.TodoItem
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+import kotlinx.android.synthetic.main.fragment_todo.*
 import org.koin.android.ext.android.inject
 
 class TodoFragment : Fragment() {
@@ -52,7 +53,8 @@ class TodoFragment : Fragment() {
 
         // ViewModelの更新監視
         todoViewModel.listItems.observe(this, Observer {
-            it.let{adapter.setList(it)}
+            adapter.setList(it)
+            progress.visibility = View.GONE
         })
         todoViewModel.taggleDeleteImage.observe(this, Observer { (isShow,all) ->
             if(isShow) {
