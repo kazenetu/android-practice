@@ -34,7 +34,7 @@
         android:layout_marginBottom="30dp"
         android:clickable="true"
         android:focusable="true"
-        android:text="追加"
+        android:text="@string/AddItem"
         app:icon="@android:drawable/ic_menu_add" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
@@ -47,7 +47,7 @@
         android:clickable="true"
         android:focusable="true"
         app:icon="@android:drawable/ic_menu_delete"
-        android:text="すべて削除"
+        android:text="@string/AllRemove"
         android:visibility="gone" />
 
 </FrameLayout>

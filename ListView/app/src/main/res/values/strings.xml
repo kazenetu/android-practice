@@ -4,4 +4,6 @@
     <string name="Update">更新</string>
     <string name="titleLabel">タイトル</string>
     <string name="detailLabel">説明</string>
+    <string name="AddItem">追加</string>
+    <string name="AllRemove">すべて削除</string>
 </resources>
