@@ -5,7 +5,7 @@ import com.github.kazenetu.listview.repository.TodoRepository
 /**
  * Doneリスト用ViewModel
  */
-class DoneViewModel(repository: TodoRepository):BaseViewModel(repository) {
+class DoneViewModel(repository: TodoRepository):ViewModel(repository) {
 
     /**
      * コンストラクタ

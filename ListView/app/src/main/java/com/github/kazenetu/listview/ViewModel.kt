@@ -11,7 +11,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-abstract class BaseViewModel(private val repository: TodoRepository): AndroidViewModel(Application()) {
+abstract class ViewModel(private val repository: TodoRepository): AndroidViewModel(Application()) {
     private var itemIndex: MutableLiveData<Int> = MutableLiveData()
     private var deleteIndex: MutableLiveData<Int> = MutableLiveData()
     private var taggleDeleteImageFlag: MutableLiveData<Pair<Boolean, Boolean>> = MutableLiveData()
@@ -65,7 +65,7 @@ abstract class BaseViewModel(private val repository: TodoRepository): AndroidVie
         }
 
         deleteIndex.postValue(-1)
-        this@BaseViewModel.taggleDeleteImageFlag.postValue(Pair(first = false, second = true))
+        this@ViewModel.taggleDeleteImageFlag.postValue(Pair(first = false, second = true))
     }
 
     /**
