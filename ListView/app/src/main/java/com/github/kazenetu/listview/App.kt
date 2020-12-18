@@ -4,10 +4,11 @@ import androidx.room.Room
 import com.github.kazenetu.listview.repository.TodoRepository
 import com.github.kazenetu.listview.room.AppDatabase
 import com.github.kazenetu.listview.room.migrations.Migration1to2
-import org.koin.dsl.module.module
-import org.koin.android.ext.android.startKoin
 import org.koin.android.ext.koin.androidContext
-import org.koin.androidx.viewmodel.ext.koin.viewModel
+import org.koin.android.ext.koin.androidLogger
+import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.context.startKoin
+import org.koin.dsl.module
 
 /**
  * アプリケーションクラス
@@ -17,15 +18,15 @@ class App :android.app.Application() {
         super.onCreate()
 
         // Koinコンテナ生成
-        startKoin(
-            this.applicationContext, listOf(
-                this.modules
-            )
-        )
+        startKoin{
+            androidLogger()
+            androidContext(this@App)
+            modules(appModule)
+        }
     }
 
     // Koinモジュール
-    private val modules = module {
+    private val appModule = module {
         single {
             Room.databaseBuilder(androidContext(), AppDatabase::class.java, "todo_database.db")
                 .addMigrations(Migration1to2.migration)
