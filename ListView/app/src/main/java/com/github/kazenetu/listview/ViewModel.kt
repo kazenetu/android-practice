@@ -14,10 +14,10 @@ import kotlinx.coroutines.launch
 abstract class ViewModel(private val repository: TodoRepository): AndroidViewModel(Application()) {
     private var itemIndex: MutableLiveData<Int> = MutableLiveData()
     private var deleteIndex: MutableLiveData<Int> = MutableLiveData()
-    private var taggleDeleteImageFlag: MutableLiveData<Pair<Boolean, Boolean>> = MutableLiveData()
+    private var toggleDeleteImageFlag: MutableLiveData<Pair<Boolean, Boolean>> = MutableLiveData()
     val update : LiveData<Int> get() = itemIndex
     val delete: LiveData<Int> get() = deleteIndex
-    val taggleDeleteImage: LiveData<Pair<Boolean, Boolean>> get() = taggleDeleteImageFlag
+    val toggleDeleteImage: LiveData<Pair<Boolean, Boolean>> get() = toggleDeleteImageFlag
 
     /**
      * 公開用リストアイテム
@@ -65,7 +65,7 @@ abstract class ViewModel(private val repository: TodoRepository): AndroidViewMod
         }
 
         deleteIndex.postValue(-1)
-        this@ViewModel.taggleDeleteImageFlag.postValue(Pair(first = false, second = true))
+        this@ViewModel.toggleDeleteImageFlag.postValue(Pair(first = false, second = true))
     }
 
     /**
@@ -76,7 +76,7 @@ abstract class ViewModel(private val repository: TodoRepository): AndroidViewMod
         deleteTarget.forEach {
             it.showImage = false
         }
-        this.taggleDeleteImageFlag.postValue(Pair(first = false, second = true))
+        this.toggleDeleteImageFlag.postValue(Pair(first = false, second = true))
     }
 
     /**
@@ -84,7 +84,7 @@ abstract class ViewModel(private val repository: TodoRepository): AndroidViewMod
      */
     fun showDeleteImage(position:Int){
         items[position].showImage = true
-        this.taggleDeleteImageFlag.postValue(Pair(first = true, second = false))
+        this.toggleDeleteImageFlag.postValue(Pair(first = true, second = false))
     }
 
     /**
@@ -92,6 +92,6 @@ abstract class ViewModel(private val repository: TodoRepository): AndroidViewMod
      */
     fun hideDeleteImage(position:Int){
         items[position].showImage = false
-        this.taggleDeleteImageFlag.postValue(Pair(first = items[position].showImage, second = false))
+        this.toggleDeleteImageFlag.postValue(Pair(first = items[position].showImage, second = false))
     }
 }
