@@ -20,7 +20,7 @@ class DetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_detail)
 
         rowPosition = intent.getIntExtra(ListActivity.EXTRA_POSITION,-1)
-        val rowItem = intent.getParcelableExtra(ListActivity.EXTRA_DATA) as RowItem
+        val rowItem = intent.getParcelableExtra<RowItem>(ListActivity.EXTRA_DATA) as RowItem
         title.setText(rowItem.title)
         description.setText(rowItem.detail)
         isDone = rowItem.isDone

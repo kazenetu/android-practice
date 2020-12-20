@@ -56,7 +56,7 @@ class TodoFragment : Fragment() {
             adapter.setList(it)
             progress.visibility = View.GONE
         })
-        todoViewModel.taggleDeleteImage.observe(this, Observer { (isShow,all) ->
+        todoViewModel.toggleDeleteImage.observe(this, Observer { (isShow,all) ->
             if(isShow) {
                 actionButton.hide()
                 actionDeleteButton.show()
@@ -88,7 +88,7 @@ class TodoFragment : Fragment() {
         startActivityForResult(intent,0)
 
         // 遷移アニメーション設定
-        activity!!.overridePendingTransition(R.anim.list_in, R.anim.list_out)
+        activity?.overridePendingTransition(R.anim.list_in, R.anim.list_out)
     }
 
     /**
@@ -102,7 +102,7 @@ class TodoFragment : Fragment() {
 
         if(requestCode==0 && resultCode== AppCompatActivity.RESULT_OK && data!=null) {
             val position = data.getIntExtra(ListActivity.EXTRA_POSITION,-1)
-            val row = data.getParcelableExtra(ListActivity.EXTRA_DATA) as RowItem
+            val row = data.getParcelableExtra<RowItem>(ListActivity.EXTRA_DATA) as RowItem
 
             todoViewModel.update(position,row)
         }
@@ -154,7 +154,7 @@ class TodoFragment : Fragment() {
         })
         // Adapterの内容がRecyclerViewのサイズに影響しない場合はtrueにするとパフォーマンスアップ
         recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = LinearLayoutManager(context!!)
+        recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
 
         // 区切り線を設定
