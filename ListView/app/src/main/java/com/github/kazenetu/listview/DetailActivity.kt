@@ -2,6 +2,7 @@ package com.github.kazenetu.listview
 
 import android.content.Context
 import android.os.Bundle
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
@@ -24,6 +25,13 @@ class DetailActivity : AppCompatActivity() {
         title.setText(rowItem.title)
         description.setText(rowItem.detail)
         isDone = rowItem.isDone
+        
+        // Doneの場合は表示のみ
+        if(isDone) {
+            title.freezesText = false
+            description.freezesText = false
+            button.visibility = View.GONE
+        }
 
         // ボタンの名称を設定
         if(rowPosition >=0 ) {
