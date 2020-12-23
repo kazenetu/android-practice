@@ -1,5 +1,6 @@
 package com.github.kazenetu.listview.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -35,6 +36,11 @@ class DoneFragment : Fragment() {
      */
     private lateinit var adapter: ViewAdapter
 
+    /**
+     * 詳細画面の遷移フラグ
+     */
+    private var isMovedDetail:Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -48,6 +54,28 @@ class DoneFragment : Fragment() {
         doneViewModel.delete.observe(this, Observer { index ->
             adapter.notifyItemRemoved(index)
         })
+    }
+
+    /**
+     * 詳細画面呼び出し
+     */
+    private fun callDetail(position: Int, value:RowItem){
+
+        // 遷移済みの場合はキャンセル
+        if(isMovedDetail) return
+
+        // 遷移済みに設定
+        isMovedDetail = true
+
+        // 遷移処理
+        val intent = Intent(activity, DetailActivity::class.java).apply {
+            putExtra(ListActivity.EXTRA_POSITION,position)
+            putExtra(ListActivity.EXTRA_DATA,value)
+        }
+        startActivity(intent)
+
+        // 遷移アニメーション設定
+        activity?.overridePendingTransition(R.anim.list_in, R.anim.list_out)
     }
 
     override fun onCreateView(
@@ -65,6 +93,7 @@ class DoneFragment : Fragment() {
              * アイテムクリックイベント
              */
             override fun onItemClick(view: View, position: Int, value: TodoItem) {
+                callDetail(position, RowItem(value.showImage,value.title,value.detail,value.isDone))
             }
 
             /**
