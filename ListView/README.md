@@ -29,6 +29,7 @@
   * [Qiita:［Android］Room を使ったサンプルと解説](https://qiita.com/kaleidot725/items/34f29efaeb6d836e010e)
 
 * Koin系
+  * [koin2.2.2](https://start.insert-koin.io/)
   * [Qiita:Kotlinで DI （Dependency Injection）~ Koin 編](https://qiita.com/sudachi808/items/8e03503f52b4f11533a2)
 
   * [[Android]KoinでDIに入門する](https://dev.classmethod.jp/articles/koin_di_exercise/)
