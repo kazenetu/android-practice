@@ -1,17 +1,14 @@
 package com.github.kazenetu.listview
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.github.kazenetu.listview.repository.TodoRepository
 import com.github.kazenetu.listview.room.TodoItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-abstract class ViewModel(private val repository: TodoRepository): AndroidViewModel(Application()) {
+abstract class ViewModel(protected val repository: TodoRepository): AndroidViewModel(Application()) {
     private var itemIndex: MutableLiveData<Int> = MutableLiveData()
     private var deleteIndex: MutableLiveData<Int> = MutableLiveData()
     private var toggleDeleteImageFlag: MutableLiveData<Pair<Boolean, Boolean>> = MutableLiveData()
@@ -22,7 +19,8 @@ abstract class ViewModel(private val repository: TodoRepository): AndroidViewMod
     /**
      * 公開用リストアイテム
      */
-    lateinit var listItems: LiveData<List<TodoItem>>
+    private var _listItems: MutableLiveData<List<TodoItem>> = MutableLiveData()
+    val listItems: LiveData<List<TodoItem>> get() =_listItems
 
     private val items: List<TodoItem>
         get(){
@@ -32,11 +30,17 @@ abstract class ViewModel(private val repository: TodoRepository): AndroidViewMod
             return emptyList()
         }
 
-    fun setListItem(items: LiveData<List<TodoItem>>) {
+    init{
+        select()
+    }
+
+    private fun select() {
         viewModelScope.launch{
-            listItems = items
+            _listItems.postValue(getSelectData())
         }
     }
+    protected abstract suspend fun getSelectData():List<TodoItem>
+
 
     /**
      * 更新
@@ -51,6 +55,7 @@ abstract class ViewModel(private val repository: TodoRepository): AndroidViewMod
             val id = listItems.value!![position].id
             repository.update(TodoItem(id,false, data.title,data.detail,data.isDone))
         }
+        select()
 
         itemIndex.postValue(position)
     }
@@ -63,6 +68,7 @@ abstract class ViewModel(private val repository: TodoRepository): AndroidViewMod
         deleteTarget.forEach {
             repository.delete(it)
         }
+        select()
 
         deleteIndex.postValue(-1)
         this@ViewModel.toggleDeleteImageFlag.postValue(Pair(first = false, second = true))
