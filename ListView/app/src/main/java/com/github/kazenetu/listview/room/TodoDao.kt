@@ -1,15 +1,14 @@
 package com.github.kazenetu.listview.room
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Dao
 interface TodoDao {
     @Query("SELECT * FROM items WHERE isDone = 0 ORDER BY id DESC")
-    fun getTodo(): LiveData<List<TodoItem>>
+    suspend fun getTodo(): List<TodoItem>
 
     @Query("SELECT * FROM items WHERE isDone = 1 ORDER BY id DESC")
-    fun getDone(): LiveData<List<TodoItem>>
+    suspend fun getDone(): List<TodoItem>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(todo: TodoItem)
