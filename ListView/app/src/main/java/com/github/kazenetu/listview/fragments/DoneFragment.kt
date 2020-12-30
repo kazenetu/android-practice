@@ -2,11 +2,10 @@ package com.github.kazenetu.listview.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -45,13 +44,13 @@ class DoneFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         // ViewModelの更新監視
-        doneViewModel.listItems.observe(this, Observer {
+        doneViewModel.listItems.observe(this, {
             it.let{adapter.setList(it)}
         })
-        doneViewModel.update.observe(this, Observer { index ->
+        doneViewModel.update.observe(this, { index ->
             adapter.notifyItemChanged(index)
         })
-        doneViewModel.delete.observe(this, Observer { index ->
+        doneViewModel.delete.observe(this, { index ->
             adapter.notifyItemRemoved(index)
         })
     }
