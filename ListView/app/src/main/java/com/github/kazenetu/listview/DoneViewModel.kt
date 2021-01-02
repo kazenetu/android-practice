@@ -8,6 +8,9 @@ import com.github.kazenetu.listview.room.TodoItem
  */
 class DoneViewModel(repository: TodoRepository):ViewModel(repository) {
 
+    /**
+     * 選択対象取得
+     */
     override suspend fun getSelectData():List<TodoItem> {
         return repository.doneData()
     }

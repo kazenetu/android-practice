@@ -22,6 +22,9 @@ abstract class ViewModel(protected val repository: TodoRepository): AndroidViewM
     private var _listItems: MutableLiveData<List<TodoItem>> = MutableLiveData()
     val listItems: LiveData<List<TodoItem>> get() =_listItems
 
+    /**
+     * リストアイテム
+     */
     private val items: List<TodoItem>
         get(){
             if(listItems.value != null){
@@ -30,15 +33,25 @@ abstract class ViewModel(protected val repository: TodoRepository): AndroidViewM
             return emptyList()
         }
 
+    /**
+     * コンストラクタ
+     */
     init{
         select()
     }
 
+    /**
+     * 選択
+     */
     private fun select() {
         viewModelScope.launch{
             _listItems.postValue(getSelectData())
         }
     }
+
+    /**
+     * 選択対象取得
+     */
     protected abstract suspend fun getSelectData():List<TodoItem>
 
 
@@ -55,6 +68,7 @@ abstract class ViewModel(protected val repository: TodoRepository): AndroidViewM
             val id = listItems.value!![position].id
             repository.update(TodoItem(id,false, data.title,data.detail,data.isDone))
         }
+        // 処理後の状態を取得
         select()
 
         itemIndex.postValue(position)
@@ -68,6 +82,7 @@ abstract class ViewModel(protected val repository: TodoRepository): AndroidViewM
         deleteTarget.forEach {
             repository.delete(it)
         }
+        // 処理後の状態を取得
         select()
 
         deleteIndex.postValue(-1)
