@@ -27,10 +27,11 @@ abstract class ViewModel(protected val repository: TodoRepository): AndroidViewM
      */
     private val items: List<TodoItem>
         get(){
-            if(listItems.value != null){
-                return  listItems.value!!
+            return if (listItems.value == null) {
+                emptyList()
+            } else {
+                listItems.value!!
             }
-            return emptyList()
         }
 
     /**
@@ -65,7 +66,7 @@ abstract class ViewModel(protected val repository: TodoRepository): AndroidViewM
         if(position < 0){
             repository.insert(TodoItem(0,false, data.title,data.detail,false))
         } else {
-            val id = listItems.value!![position].id
+            val id = items[position].id
             repository.update(TodoItem(id,false, data.title,data.detail,data.isDone))
         }
         // 処理後の状態を取得
