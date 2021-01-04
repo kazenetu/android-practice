@@ -26,12 +26,8 @@ abstract class ViewModel(protected val repository: TodoRepository): AndroidViewM
      * リストアイテム
      */
     private val items: List<TodoItem>
-        get(){
-            return if (listItems.value == null) {
-                emptyList()
-            } else {
-                listItems.value!!
-            }
+        get() {
+            return listItems.value ?: emptyList()
         }
 
     /**
