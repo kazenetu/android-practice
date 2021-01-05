@@ -9,11 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 abstract class ViewModel(protected val repository: TodoRepository): AndroidViewModel(Application()) {
-    private var itemIndex: MutableLiveData<Int> = MutableLiveData()
-    private var deleteIndex: MutableLiveData<Int> = MutableLiveData()
     private var toggleDeleteImageFlag: MutableLiveData<Pair<Boolean, Boolean>> = MutableLiveData()
-    val update : LiveData<Int> get() = itemIndex
-    val delete: LiveData<Int> get() = deleteIndex
     val toggleDeleteImage: LiveData<Pair<Boolean, Boolean>> get() = toggleDeleteImageFlag
 
     /**
@@ -67,8 +63,6 @@ abstract class ViewModel(protected val repository: TodoRepository): AndroidViewM
         }
         // 処理後の状態を取得
         select()
-
-        itemIndex.postValue(position)
     }
 
     /**
@@ -81,8 +75,6 @@ abstract class ViewModel(protected val repository: TodoRepository): AndroidViewM
         }
         // 処理後の状態を取得
         select()
-
-        deleteIndex.postValue(-1)
         this@ViewModel.toggleDeleteImageFlag.postValue(Pair(first = false, second = true))
     }
 
