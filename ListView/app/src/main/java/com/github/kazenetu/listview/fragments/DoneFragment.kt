@@ -47,12 +47,6 @@ class DoneFragment : Fragment() {
         doneViewModel.listItems.observe(this, {
             it.let{adapter.setList(it)}
         })
-        doneViewModel.update.observe(this, { index ->
-            adapter.notifyItemChanged(index)
-        })
-        doneViewModel.delete.observe(this, { index ->
-            adapter.notifyItemRemoved(index)
-        })
     }
 
     /**
