@@ -66,6 +66,21 @@ abstract class ViewModel(protected val repository: TodoRepository): AndroidViewM
     }
 
     /**
+     * Doneフラグの更新
+     */
+    fun updateDone(position:Int,isDone:Boolean) = CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
+        if (items.size <= position) {
+            return@launch
+        }
+
+        val data = items[position]
+        repository.update(TodoItem(data.id, false, data.title, data.detail, isDone))
+
+        // 処理後の状態を取得
+        select()
+    }
+
+    /**
      * すべて削除
      */
     fun deleteAll() = CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
