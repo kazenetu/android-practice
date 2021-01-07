@@ -100,9 +100,7 @@ class DoneFragment : Fragment() {
              * Doneボタン
              */
             override fun onItemDoneClick(view: View, position: Int, value: TodoItem) {
-                doneViewModel.update(position,
-                    RowItem(false,value.title,value.detail,!value.isDone)
-                )
+                doneViewModel.updateDone(position, !value.isDone)
                 adapter.notifyItemChanged(position)
             }
         })
