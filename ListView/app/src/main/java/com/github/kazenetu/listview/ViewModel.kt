@@ -36,7 +36,7 @@ abstract class ViewModel(protected val repository: TodoRepository): AndroidViewM
     /**
      * 選択
      */
-    private fun select() {
+    protected fun select() {
         viewModelScope.launch{
             _listItems.postValue(getSelectData())
         }
@@ -77,7 +77,7 @@ abstract class ViewModel(protected val repository: TodoRepository): AndroidViewM
         repository.update(TodoItem(data.id, false, data.title, data.detail, isDone))
 
         // 処理後の状態を取得
-        select()
+        changedDoneEvent.postValue(Unit)
     }
 
     /**
@@ -118,5 +118,10 @@ abstract class ViewModel(protected val repository: TodoRepository): AndroidViewM
     fun hideDeleteImage(position:Int){
         items[position].showImage = false
         this.toggleDeleteImageFlag.postValue(Pair(first = items[position].showImage, second = false))
+    }
+
+    companion object{
+        private var changedDoneEvent: MutableLiveData<Unit> = MutableLiveData()
+        val changeddDone:LiveData<Unit> get() = changedDoneEvent
     }
 }
