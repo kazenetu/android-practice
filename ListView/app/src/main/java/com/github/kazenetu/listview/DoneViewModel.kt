@@ -8,6 +8,12 @@ import com.github.kazenetu.listview.room.TodoItem
  */
 class DoneViewModel(repository: TodoRepository):ViewModel(repository) {
 
+    init{
+        changeddDone.observeForever({
+            select()
+        })
+    }
+
     /**
      * 選択対象取得
      */
