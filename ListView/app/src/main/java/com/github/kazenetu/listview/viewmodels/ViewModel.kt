@@ -1,7 +1,8 @@
-package com.github.kazenetu.listview
+package com.github.kazenetu.listview.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.*
+import com.github.kazenetu.listview.RowItem
 import com.github.kazenetu.listview.repository.TodoRepository
 import com.github.kazenetu.listview.room.TodoItem
 import kotlinx.coroutines.CoroutineScope
@@ -51,7 +52,7 @@ abstract class ViewModel(protected val repository: TodoRepository): AndroidViewM
     /**
      * 更新
      */
-    fun update(position:Int,data:RowItem) = CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
+    fun update(position:Int,data: RowItem) = CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
         if(items.size <= position){
             return@launch
         }

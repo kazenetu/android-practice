@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.kazenetu.listview.*
 import com.github.kazenetu.listview.room.TodoItem
+import com.github.kazenetu.listview.viewmodels.DoneViewModel
 import org.koin.android.ext.android.inject
 
 /**
