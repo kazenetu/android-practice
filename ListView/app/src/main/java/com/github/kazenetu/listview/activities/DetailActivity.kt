@@ -1,4 +1,4 @@
-package com.github.kazenetu.listview
+package com.github.kazenetu.listview.activities
 
 import android.content.Context
 import android.os.Bundle
@@ -7,6 +7,8 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import com.github.kazenetu.listview.R
+import com.github.kazenetu.listview.RowItem
 import kotlinx.android.synthetic.main.activity_detail.*
 
 class DetailActivity : AppCompatActivity() {
@@ -53,11 +55,14 @@ class DetailActivity : AppCompatActivity() {
 
             val i=intent.apply {
                 putExtra(ListActivity.EXTRA_POSITION,rowPosition)
-                putExtra(ListActivity.EXTRA_DATA,RowItem(false,title.text.toString(),description.text.toString(),isDone))
+                putExtra(
+                    ListActivity.EXTRA_DATA,
+                    RowItem(false,title.text.toString(),description.text.toString(),isDone)
+                )
             }
             setResult(RESULT_OK,i)
             finish()
-            overridePendingTransition( R.anim.detail_in,R.anim.detail_out)
+            overridePendingTransition(R.anim.detail_in, R.anim.detail_out)
         }
     }
 
@@ -76,7 +81,7 @@ class DetailActivity : AppCompatActivity() {
     override fun onBackPressed()
     {
         super.onBackPressed()
-        overridePendingTransition( R.anim.detail_in,R.anim.detail_out)
+        overridePendingTransition(R.anim.detail_in, R.anim.detail_out)
 
         // 戻る場合はキャンセル
         setResult(RESULT_CANCELED)

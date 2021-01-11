@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.kazenetu.listview.*
+import com.github.kazenetu.listview.activities.DetailActivity
+import com.github.kazenetu.listview.activities.ListActivity
 import com.github.kazenetu.listview.room.TodoItem
 import com.github.kazenetu.listview.viewmodels.DoneViewModel
 import org.koin.android.ext.android.inject

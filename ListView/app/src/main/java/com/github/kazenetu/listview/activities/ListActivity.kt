@@ -1,8 +1,9 @@
-package com.github.kazenetu.listview
+package com.github.kazenetu.listview.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.github.kazenetu.listview.R
 import com.github.kazenetu.listview.fragments.DoneFragment
 import com.github.kazenetu.listview.fragments.TodoFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -33,10 +34,10 @@ class ListActivity : AppCompatActivity() {
         // BottomNavigationの設定
         bottomNavigation.setOnNavigationItemSelectedListener(BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when(item.itemId){
-                R.id.navigation_todo->{
+                R.id.navigation_todo ->{
                     replaceFragment(todoFragment)
                 }
-                R.id.navigation_done->{
+                R.id.navigation_done ->{
                     replaceFragment(doneFragment)
                 }
             }
