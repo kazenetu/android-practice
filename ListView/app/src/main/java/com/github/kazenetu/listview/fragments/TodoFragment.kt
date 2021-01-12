@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.kazenetu.listview.*
 import com.github.kazenetu.listview.activities.DetailActivity
 import com.github.kazenetu.listview.activities.ListActivity
+import com.github.kazenetu.listview.recyclerView.RowItem
+import com.github.kazenetu.listview.recyclerView.ViewAdapter
 import com.github.kazenetu.listview.room.TodoItem
 import com.github.kazenetu.listview.viewmodels.TodoViewModel
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
@@ -74,7 +76,7 @@ class TodoFragment : Fragment() {
     /**
      * 詳細画面呼び出し
      */
-    private fun callDetail(position: Int, value:RowItem){
+    private fun callDetail(position: Int, value: RowItem){
 
         // 遷移済みの場合はキャンセル
         if(isMovedDetail) return
@@ -122,7 +124,10 @@ class TodoFragment : Fragment() {
         actionDeleteButton=view.findViewById(R.id.deleteButton)
 
         // リストセット
-        adapter = ViewAdapter(activity?.applicationContext!!, object:ViewAdapter.ItemClickListener {
+        adapter = ViewAdapter(activity?.applicationContext!!, object: ViewAdapter.ItemClickListener {
+            /**
+             * アイテムクリックイベント
+             */
             /**
              * アイテムクリックイベント
              */
@@ -130,6 +135,9 @@ class TodoFragment : Fragment() {
                 callDetail(position, RowItem(value.showImage,value.title,value.detail,value.isDone))
             }
 
+            /**
+             * アイテム長押し
+             */
             /**
              * アイテム長押し
              */
@@ -144,6 +152,9 @@ class TodoFragment : Fragment() {
                 return true
             }
 
+            /**
+             * Doneボタン
+             */
             /**
              * Doneボタン
              */

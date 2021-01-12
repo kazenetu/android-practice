@@ -8,7 +8,7 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import com.github.kazenetu.listview.R
-import com.github.kazenetu.listview.RowItem
+import com.github.kazenetu.listview.recyclerView.RowItem
 import kotlinx.android.synthetic.main.activity_detail.*
 
 class DetailActivity : AppCompatActivity() {

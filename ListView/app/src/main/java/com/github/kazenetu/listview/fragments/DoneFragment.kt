@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.kazenetu.listview.*
 import com.github.kazenetu.listview.activities.DetailActivity
 import com.github.kazenetu.listview.activities.ListActivity
+import com.github.kazenetu.listview.recyclerView.RowItem
+import com.github.kazenetu.listview.recyclerView.ViewAdapter
 import com.github.kazenetu.listview.room.TodoItem
 import com.github.kazenetu.listview.viewmodels.DoneViewModel
 import org.koin.android.ext.android.inject
@@ -55,7 +57,7 @@ class DoneFragment : Fragment() {
     /**
      * 詳細画面呼び出し
      */
-    private fun callDetail(position: Int, value:RowItem){
+    private fun callDetail(position: Int, value: RowItem){
 
         // 遷移済みの場合はキャンセル
         if(isMovedDetail) return
@@ -84,7 +86,10 @@ class DoneFragment : Fragment() {
         recyclerView = view.findViewById(R.id.recycler_list)
 
         // リストセット
-        adapter = ViewAdapter(activity?.applicationContext!!, object:ViewAdapter.ItemClickListener {
+        adapter = ViewAdapter(activity?.applicationContext!!, object: ViewAdapter.ItemClickListener {
+            /**
+             * アイテムクリックイベント
+             */
             /**
              * アイテムクリックイベント
              */
@@ -95,10 +100,16 @@ class DoneFragment : Fragment() {
             /**
              * アイテム長押し
              */
+            /**
+             * アイテム長押し
+             */
             override fun onItemLongClickListener(view: View, position: Int, value: TodoItem): Boolean {
                 return true
             }
 
+            /**
+             * Doneボタン
+             */
             /**
              * Doneボタン
              */

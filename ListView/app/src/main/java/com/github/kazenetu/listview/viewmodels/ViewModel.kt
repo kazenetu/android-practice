@@ -2,7 +2,7 @@ package com.github.kazenetu.listview.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.*
-import com.github.kazenetu.listview.RowItem
+import com.github.kazenetu.listview.recyclerView.RowItem
 import com.github.kazenetu.listview.repository.TodoRepository
 import com.github.kazenetu.listview.room.TodoItem
 import kotlinx.coroutines.CoroutineScope
