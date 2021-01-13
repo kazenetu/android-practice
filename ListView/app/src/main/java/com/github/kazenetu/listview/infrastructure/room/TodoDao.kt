@@ -1,4 +1,4 @@
-package com.github.kazenetu.listview.room
+package com.github.kazenetu.listview.infrastructure.room
 
 import androidx.room.*
 

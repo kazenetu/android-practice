@@ -1,4 +1,4 @@
-package com.github.kazenetu.listview.recyclerView
+package com.github.kazenetu.listview.view.recyclerView
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

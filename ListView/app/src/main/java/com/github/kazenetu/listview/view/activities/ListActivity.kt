@@ -1,11 +1,11 @@
-package com.github.kazenetu.listview.activities
+package com.github.kazenetu.listview.view.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.github.kazenetu.listview.R
-import com.github.kazenetu.listview.fragments.DoneFragment
-import com.github.kazenetu.listview.fragments.TodoFragment
+import com.github.kazenetu.listview.view.fragments.DoneFragment
+import com.github.kazenetu.listview.view.fragments.TodoFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_list.*
 

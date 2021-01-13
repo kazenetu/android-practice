@@ -1,7 +1,7 @@
-package com.github.kazenetu.listview.viewmodels
+package com.github.kazenetu.listview.view.viewmodels
 
+import com.github.kazenetu.listview.infrastructure.room.TodoItem
 import com.github.kazenetu.listview.repository.TodoRepository
-import com.github.kazenetu.listview.room.TodoItem
 
 /**
  * Doneリスト用ViewModel

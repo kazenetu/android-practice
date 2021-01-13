@@ -1,4 +1,4 @@
-package com.github.kazenetu.listview.recyclerView
+package com.github.kazenetu.listview.view.recyclerView
 
 import android.view.View
 import android.widget.ImageView

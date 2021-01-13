@@ -1,4 +1,4 @@
-package com.github.kazenetu.listview.recyclerView
+package com.github.kazenetu.listview.view.recyclerView
 
 import android.content.Context
 import android.graphics.Color
@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
 import com.github.kazenetu.listview.R
-import com.github.kazenetu.listview.room.TodoItem
+import com.github.kazenetu.listview.infrastructure.room.TodoItem
 
 class ViewAdapter internal constructor(
     private val context: Context,
@@ -93,8 +93,8 @@ class ViewAdapter internal constructor(
      * クリックイベント用インターフェイス
      */
     interface ItemClickListener {
-        fun onItemDoneClick(view: View, position: Int, value:TodoItem)
-        fun onItemClick(view: View, position: Int, value:TodoItem)
-        fun onItemLongClickListener(view: View, position: Int, value:TodoItem):Boolean
+        fun onItemDoneClick(view: View, position: Int, value: TodoItem)
+        fun onItemClick(view: View, position: Int, value: TodoItem)
+        fun onItemLongClickListener(view: View, position: Int, value: TodoItem):Boolean
     }
 }

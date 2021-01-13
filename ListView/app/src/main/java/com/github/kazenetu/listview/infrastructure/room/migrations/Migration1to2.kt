@@ -1,4 +1,4 @@
-package com.github.kazenetu.listview.room.migrations
+package com.github.kazenetu.listview.infrastructure.room.migrations
 
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase

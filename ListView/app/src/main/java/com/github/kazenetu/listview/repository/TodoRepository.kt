@@ -1,7 +1,7 @@
 package com.github.kazenetu.listview.repository
 
-import com.github.kazenetu.listview.room.TodoDao
-import com.github.kazenetu.listview.room.TodoItem
+import com.github.kazenetu.listview.infrastructure.room.TodoDao
+import com.github.kazenetu.listview.infrastructure.room.TodoItem
 
 class TodoRepository(private val todoDao: TodoDao) {
     suspend fun todoData() = todoDao.getTodo()

@@ -1,4 +1,4 @@
-package com.github.kazenetu.listview.fragments
+package com.github.kazenetu.listview.view.fragments
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,12 +11,12 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.kazenetu.listview.*
-import com.github.kazenetu.listview.activities.DetailActivity
-import com.github.kazenetu.listview.activities.ListActivity
-import com.github.kazenetu.listview.recyclerView.RowItem
-import com.github.kazenetu.listview.recyclerView.ViewAdapter
-import com.github.kazenetu.listview.room.TodoItem
-import com.github.kazenetu.listview.viewmodels.TodoViewModel
+import com.github.kazenetu.listview.view.activities.DetailActivity
+import com.github.kazenetu.listview.view.activities.ListActivity
+import com.github.kazenetu.listview.view.recyclerView.RowItem
+import com.github.kazenetu.listview.view.recyclerView.ViewAdapter
+import com.github.kazenetu.listview.infrastructure.room.TodoItem
+import com.github.kazenetu.listview.view.viewmodels.TodoViewModel
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import kotlinx.android.synthetic.main.fragment_todo.*
 import org.koin.android.ext.android.inject
