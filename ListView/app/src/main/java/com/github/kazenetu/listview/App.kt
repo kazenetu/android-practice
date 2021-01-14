@@ -2,10 +2,10 @@ package com.github.kazenetu.listview
 
 import androidx.room.Room
 import com.github.kazenetu.listview.repository.TodoRepository
-import com.github.kazenetu.listview.room.AppDatabase
-import com.github.kazenetu.listview.room.migrations.Migration1to2
-import com.github.kazenetu.listview.viewmodels.DoneViewModel
-import com.github.kazenetu.listview.viewmodels.TodoViewModel
+import com.github.kazenetu.listview.infrastructure.room.AppDatabase
+import com.github.kazenetu.listview.infrastructure.room.migrations.Migration1to2
+import com.github.kazenetu.listview.view.viewmodels.DoneViewModel
+import com.github.kazenetu.listview.view.viewmodels.TodoViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.viewmodel.dsl.viewModel
