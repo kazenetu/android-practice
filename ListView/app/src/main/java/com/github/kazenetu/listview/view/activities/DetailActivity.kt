@@ -1,6 +1,5 @@
 package com.github.kazenetu.listview.view.activities
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -8,19 +7,23 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import com.github.kazenetu.listview.R
+import com.github.kazenetu.listview.databinding.ActivityDetailBinding
 import com.github.kazenetu.listview.view.recyclerView.RowItem
-import kotlinx.android.synthetic.main.activity_detail.*
 
 class DetailActivity : AppCompatActivity() {
-    private val title: EditText by lazy { editTitle }
-    private val description: EditText by lazy { editDescription }
-    private val changeButton: Button by lazy { button }
+    private lateinit var binding: ActivityDetailBinding
+
+    private val title: EditText by lazy { binding.editTitle }
+    private val description: EditText by lazy { binding.editDescription }
+    private val changeButton: Button by lazy { binding.button }
     private var rowPosition:Int=-1
     private var isDone:Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail)
+        binding = ActivityDetailBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         rowPosition = intent.getIntExtra(ListActivity.EXTRA_POSITION,-1)
         val rowItem = intent.getParcelableExtra<RowItem>(ListActivity.EXTRA_DATA) as RowItem
@@ -32,12 +35,12 @@ class DetailActivity : AppCompatActivity() {
         if(isDone) {
             title.freezesText = false
             description.freezesText = false
-            button.visibility = View.GONE
+            changeButton.visibility = View.GONE
         }
 
         // ボタンの名称を設定
         if(rowPosition >=0 ) {
-            button.setText(R.string.Update)
+            changeButton.setText(R.string.Update)
         }
 
         /**
@@ -46,9 +49,11 @@ class DetailActivity : AppCompatActivity() {
         changeButton.setOnClickListener {
             if(title.text.trim().isEmpty()){
                 title.requestFocus()
-                val softKeyboard:InputMethodManager =  title.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                val softKeyboard:InputMethodManager =  title.context.getSystemService(
+                    INPUT_METHOD_SERVICE
+                ) as InputMethodManager
                 softKeyboard.showSoftInput(title,0)
-                val labelTitleName = labelTitle.text.toString()
+                val labelTitleName = binding.labelTitle.text.toString()
                 title.error = "${labelTitleName}を入力してください"
                 return@setOnClickListener
             }

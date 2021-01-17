@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.kazenetu.listview.*
+import com.github.kazenetu.listview.databinding.FragmentDoneBinding
 import com.github.kazenetu.listview.view.activities.DetailActivity
 import com.github.kazenetu.listview.view.activities.ListActivity
 import com.github.kazenetu.listview.view.recyclerView.RowItem
@@ -24,6 +25,8 @@ import org.koin.android.ext.android.inject
  * create an instance of this fragment.
  */
 class DoneFragment : Fragment() {
+    private var _binding: FragmentDoneBinding? = null
+    private val binding get() = _binding!!
 
     /**
      * リストビューのインスタンス
@@ -79,11 +82,12 @@ class DoneFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_done, container, false)
+        _binding = FragmentDoneBinding.inflate(inflater, container, false)
+        val view = binding.root
 
-        recyclerView = view.findViewById(R.id.recycler_list)
+        recyclerView = binding.recyclerList
 
         // リストセット
         adapter = ViewAdapter(activity?.applicationContext!!, object: ViewAdapter.ItemClickListener {

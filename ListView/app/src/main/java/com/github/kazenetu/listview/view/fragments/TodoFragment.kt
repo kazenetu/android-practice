@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.kazenetu.listview.*
+import com.github.kazenetu.listview.databinding.FragmentTodoBinding
 import com.github.kazenetu.listview.view.activities.DetailActivity
 import com.github.kazenetu.listview.view.activities.ListActivity
 import com.github.kazenetu.listview.view.recyclerView.RowItem
@@ -18,10 +19,11 @@ import com.github.kazenetu.listview.view.recyclerView.ViewAdapter
 import com.github.kazenetu.listview.infrastructure.room.TodoItem
 import com.github.kazenetu.listview.view.viewmodels.TodoViewModel
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-import kotlinx.android.synthetic.main.fragment_todo.*
 import org.koin.android.ext.android.inject
 
 class TodoFragment : Fragment() {
+    private var _binding: FragmentTodoBinding? = null
+    private val binding get() = _binding!!
 
     /**
      * リストビューのインスタンス
@@ -58,7 +60,7 @@ class TodoFragment : Fragment() {
         // ViewModelの更新監視
         todoViewModel.listItems.observe(this, {
             adapter.setList(it)
-            progress.visibility = View.GONE
+            binding.progress.visibility = View.GONE
         })
         todoViewModel.toggleDeleteImage.observe(this, { (isShow,all) ->
             if(isShow) {
@@ -73,6 +75,7 @@ class TodoFragment : Fragment() {
             }
         })
     }
+
     /**
      * 詳細画面呼び出し
      */
@@ -115,13 +118,14 @@ class TodoFragment : Fragment() {
         todoViewModel.hideAllDeleteImage()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_todo, container, false)
+        _binding = FragmentTodoBinding.inflate(inflater, container, false)
+        val view = binding.root
 
-        recyclerView = view.findViewById(R.id.recycler_list)
-        actionButton = view.findViewById(R.id.addButton)
-        actionDeleteButton=view.findViewById(R.id.deleteButton)
+        recyclerView = binding.recyclerList
+        actionButton = binding.addButton
+        actionDeleteButton = binding.deleteButton
 
         // リストセット
         adapter = ViewAdapter(activity?.applicationContext!!, object: ViewAdapter.ItemClickListener {
@@ -202,6 +206,11 @@ class TodoFragment : Fragment() {
         }
 
         return view
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {
