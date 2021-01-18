@@ -1,4 +1,4 @@
-package com.github.kazenetu.listview.repository
+package com.github.kazenetu.listview.infrastructure
 
 import com.github.kazenetu.listview.infrastructure.room.TodoDao
 import com.github.kazenetu.listview.infrastructure.room.TodoItem

@@ -1,7 +1,7 @@
 package com.github.kazenetu.listview
 
 import androidx.room.Room
-import com.github.kazenetu.listview.repository.TodoRepository
+import com.github.kazenetu.listview.infrastructure.TodoRepository
 import com.github.kazenetu.listview.infrastructure.room.AppDatabase
 import com.github.kazenetu.listview.infrastructure.room.migrations.Migration1to2
 import com.github.kazenetu.listview.view.viewmodels.DoneViewModel
