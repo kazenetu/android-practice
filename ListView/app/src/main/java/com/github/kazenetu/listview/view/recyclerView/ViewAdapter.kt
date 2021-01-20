@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
 import com.github.kazenetu.listview.R
+import com.github.kazenetu.listview.databinding.TextRowItemBinding
 import com.github.kazenetu.listview.infrastructure.room.TodoItem
 
 class ViewAdapter internal constructor(
@@ -22,9 +23,10 @@ class ViewAdapter internal constructor(
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         Log.d("Adapter", "onCreateViewHolder")
-        val rowView: View = LayoutInflater.from(parent.context).inflate(R.layout.text_row_item, parent, false)
 
-        return ItemViewHolder(rowView)
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = TextRowItemBinding.inflate(inflater, parent, false)
+        return ItemViewHolder(binding)
     }
 
     /**
