@@ -2,6 +2,7 @@ package com.github.kazenetu.listview.view.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.*
+import com.github.kazenetu.listview.domain.interfaces.TodoItemInterface
 import com.github.kazenetu.listview.view.recyclerView.RowItem
 import com.github.kazenetu.listview.infrastructure.TodoRepository
 import com.github.kazenetu.listview.infrastructure.room.TodoItem
@@ -16,13 +17,13 @@ abstract class ViewModel(protected val repository: TodoRepository): AndroidViewM
     /**
      * 公開用リストアイテム
      */
-    private var _listItems: MutableLiveData<List<TodoItem>> = MutableLiveData()
-    val listItems: LiveData<List<TodoItem>> get() =_listItems
+    private var _listItems: MutableLiveData<List<TodoItemInterface>> = MutableLiveData()
+    val listItems: LiveData<List<TodoItemInterface>> get() =_listItems
 
     /**
      * リストアイテム
      */
-    private val items: List<TodoItem>
+    private val items: List<TodoItemInterface>
         get() {
             return listItems.value ?: emptyList()
         }
@@ -46,7 +47,7 @@ abstract class ViewModel(protected val repository: TodoRepository): AndroidViewM
     /**
      * 選択対象取得
      */
-    protected abstract suspend fun getSelectData():List<TodoItem>
+    protected abstract suspend fun getSelectData():List<TodoItemInterface>
 
 
     /**

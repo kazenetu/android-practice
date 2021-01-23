@@ -10,13 +10,14 @@ import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
 import com.github.kazenetu.listview.R
 import com.github.kazenetu.listview.databinding.TextRowItemBinding
+import com.github.kazenetu.listview.domain.interfaces.TodoItemInterface
 import com.github.kazenetu.listview.infrastructure.room.TodoItem
 
 class ViewAdapter internal constructor(
     private val context: Context,
     private val listener: ItemClickListener
 ) : RecyclerView.Adapter<ItemViewHolder>() {
-    private var list = emptyList<TodoItem>()
+    private var list = emptyList<TodoItemInterface>()
 
     /**
      * ViewHolderを作成
@@ -86,7 +87,7 @@ class ViewAdapter internal constructor(
     /**
      * 表示用コレクションを設定
      */
-    internal fun setList(items: List<TodoItem>) {
+    internal fun setList(items: List<TodoItemInterface>) {
         this.list = items
         notifyDataSetChanged()
     }
@@ -95,8 +96,8 @@ class ViewAdapter internal constructor(
      * クリックイベント用インターフェイス
      */
     interface ItemClickListener {
-        fun onItemDoneClick(view: View, position: Int, value: TodoItem)
-        fun onItemClick(view: View, position: Int, value: TodoItem)
-        fun onItemLongClickListener(view: View, position: Int, value: TodoItem):Boolean
+        fun onItemDoneClick(view: View, position: Int, value: TodoItemInterface)
+        fun onItemClick(view: View, position: Int, value: TodoItemInterface)
+        fun onItemLongClickListener(view: View, position: Int, value: TodoItemInterface):Boolean
     }
 }

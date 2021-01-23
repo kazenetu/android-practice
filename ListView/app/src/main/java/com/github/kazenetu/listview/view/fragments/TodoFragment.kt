@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.kazenetu.listview.*
 import com.github.kazenetu.listview.databinding.FragmentTodoBinding
+import com.github.kazenetu.listview.domain.interfaces.TodoItemInterface
 import com.github.kazenetu.listview.view.activities.DetailActivity
 import com.github.kazenetu.listview.view.activities.ListActivity
 import com.github.kazenetu.listview.view.recyclerView.RowItem
@@ -135,7 +136,7 @@ class TodoFragment : Fragment() {
             /**
              * アイテムクリックイベント
              */
-            override fun onItemClick(view: View, position: Int, value: TodoItem) {
+            override fun onItemClick(view: View, position: Int, value: TodoItemInterface) {
                 callDetail(position, RowItem(value.showImage,value.title,value.detail,value.isDone))
             }
 
@@ -145,7 +146,7 @@ class TodoFragment : Fragment() {
             /**
              * アイテム長押し
              */
-            override fun onItemLongClickListener(view: View, position: Int, value: TodoItem): Boolean {
+            override fun onItemLongClickListener(view: View, position: Int, value: TodoItemInterface): Boolean {
                 if(value.showImage){
                     todoViewModel.hideDeleteImage(position)
                 }
@@ -162,7 +163,7 @@ class TodoFragment : Fragment() {
             /**
              * Doneボタン
              */
-            override fun onItemDoneClick(view: View, position: Int, value: TodoItem) {
+            override fun onItemDoneClick(view: View, position: Int, value: TodoItemInterface) {
                 todoViewModel.updateDone(position, !value.isDone)
                 adapter.notifyItemChanged(position)
             }
