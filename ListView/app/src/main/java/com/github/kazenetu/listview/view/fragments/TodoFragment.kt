@@ -130,9 +130,7 @@ class TodoFragment : Fragment() {
 
         // リストセット
         adapter = ViewAdapter(activity?.applicationContext!!, object: ViewAdapter.ItemClickListener {
-            /**
-             * アイテムクリックイベント
-             */
+
             /**
              * アイテムクリックイベント
              */
@@ -140,9 +138,6 @@ class TodoFragment : Fragment() {
                 callDetail(position, RowItem(value.showImage,value.title,value.detail,value.isDone))
             }
 
-            /**
-             * アイテム長押し
-             */
             /**
              * アイテム長押し
              */
@@ -157,9 +152,6 @@ class TodoFragment : Fragment() {
                 return true
             }
 
-            /**
-             * Doneボタン
-             */
             /**
              * Doneボタン
              */

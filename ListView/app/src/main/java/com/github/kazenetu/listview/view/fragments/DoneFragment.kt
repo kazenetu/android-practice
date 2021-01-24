@@ -92,9 +92,7 @@ class DoneFragment : Fragment() {
 
         // リストセット
         adapter = ViewAdapter(activity?.applicationContext!!, object: ViewAdapter.ItemClickListener {
-            /**
-             * アイテムクリックイベント
-             */
+
             /**
              * アイテムクリックイベント
              */
@@ -105,16 +103,10 @@ class DoneFragment : Fragment() {
             /**
              * アイテム長押し
              */
-            /**
-             * アイテム長押し
-             */
             override fun onItemLongClickListener(view: View, position: Int, value: TodoItemInterface): Boolean {
                 return true
             }
 
-            /**
-             * Doneボタン
-             */
             /**
              * Doneボタン
              */
