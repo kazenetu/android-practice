@@ -124,6 +124,6 @@ abstract class ViewModel(protected val repository: TodoRepository): AndroidViewM
 
     companion object{
         private var changedDoneEvent: MutableLiveData<Unit> = MutableLiveData()
-        val changeddDone:LiveData<Unit> get() = changedDoneEvent
+        val changedDone:LiveData<Unit> get() = changedDoneEvent
     }
 }

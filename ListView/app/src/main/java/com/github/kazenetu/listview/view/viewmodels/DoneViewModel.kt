@@ -10,7 +10,7 @@ import com.github.kazenetu.listview.infrastructure.TodoRepository
 class DoneViewModel(repository: TodoRepository): ViewModel(repository) {
 
     init{
-        changeddDone.observeForever({
+        changedDone.observeForever({
             select()
         })
     }
