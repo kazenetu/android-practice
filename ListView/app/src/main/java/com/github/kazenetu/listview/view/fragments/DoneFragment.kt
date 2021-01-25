@@ -9,14 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.github.kazenetu.listview.*
+import com.github.kazenetu.listview.R
 import com.github.kazenetu.listview.databinding.FragmentDoneBinding
 import com.github.kazenetu.listview.domain.interfaces.TodoItemInterface
 import com.github.kazenetu.listview.view.activities.DetailActivity
 import com.github.kazenetu.listview.view.activities.ListActivity
 import com.github.kazenetu.listview.view.recyclerView.RowItem
 import com.github.kazenetu.listview.view.recyclerView.ViewAdapter
-import com.github.kazenetu.listview.infrastructure.room.TodoItem
 import com.github.kazenetu.listview.view.viewmodels.DoneViewModel
 import org.koin.android.ext.android.inject
 
