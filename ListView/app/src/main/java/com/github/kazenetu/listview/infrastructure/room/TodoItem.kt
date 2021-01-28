@@ -15,4 +15,5 @@ data class TodoItem(
     @ColumnInfo(defaultValue = "false") override var isDone: Boolean
 ): TodoItemInterface {
     constructor(id: Int, title: String, detail: String) : this(id, false, title, detail, false)
+    constructor(src:TodoItemInterface) : this(src.id, src.showImage, src.title, src.detail, src.isDone)
 }
