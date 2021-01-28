@@ -9,14 +9,14 @@ class TodoRepository(private val todoDao: TodoDao) {
     suspend fun doneData() = todoDao.getDone() as List<TodoItemInterface>
 
     suspend fun insert(todo: TodoItemInterface) {
-        todoDao.insert(todo as TodoItem)
+        todoDao.insert(TodoItem(todo))
     }
 
     suspend fun update(todo: TodoItemInterface) {
-        todoDao.update(todo as TodoItem)
+        todoDao.update(TodoItem(todo))
     }
 
     suspend fun delete(todo: TodoItemInterface) {
-        todoDao.delete(todo as TodoItem)
+        todoDao.delete(TodoItem(todo))
     }
 }
