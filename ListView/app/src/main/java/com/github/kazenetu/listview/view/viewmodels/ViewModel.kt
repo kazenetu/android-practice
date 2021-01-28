@@ -2,10 +2,10 @@ package com.github.kazenetu.listview.view.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.*
+import com.github.kazenetu.listview.domain.domain.TodoEntity
 import com.github.kazenetu.listview.domain.interfaces.TodoItemInterface
 import com.github.kazenetu.listview.view.recyclerView.RowItem
 import com.github.kazenetu.listview.infrastructure.TodoRepository
-import com.github.kazenetu.listview.infrastructure.room.TodoItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -58,10 +58,10 @@ abstract class ViewModel(protected val repository: TodoRepository): AndroidViewM
             return@launch
         }
         if(position < 0){
-            repository.insert(TodoItem(0,false, data.title,data.detail,false))
+            repository.insert(TodoEntity.create(0,false, data.title,data.detail,false))
         } else {
             val id = items[position].id
-            repository.update(TodoItem(id,false, data.title,data.detail,data.isDone))
+            repository.update(TodoEntity.create(id,false, data.title,data.detail,data.isDone))
         }
         // 処理後の状態を取得
         select()
@@ -76,7 +76,7 @@ abstract class ViewModel(protected val repository: TodoRepository): AndroidViewM
         }
 
         val data = items[position]
-        repository.update(TodoItem(data.id, false, data.title, data.detail, isDone))
+        repository.update(TodoEntity.create(data.id, false, data.title, data.detail, isDone))
 
         // 処理後の状態を取得
         changedDoneEvent.postValue(Unit)
