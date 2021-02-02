@@ -1,6 +1,7 @@
 package com.github.kazenetu.listview
 
 import androidx.room.Room
+import com.github.kazenetu.listview.application.TodoApplicationService
 import com.github.kazenetu.listview.domain.interfaces.TodoRepositoryInterface
 import com.github.kazenetu.listview.infrastructure.TodoRepository
 import com.github.kazenetu.listview.infrastructure.room.AppDatabase
@@ -37,6 +38,7 @@ class App :android.app.Application() {
         }
         factory { get<AppDatabase>().todoDao() }
         single { TodoRepository(get()) as TodoRepositoryInterface }
+        single { TodoApplicationService(get())}
         viewModel { TodoViewModel(get()) }
         viewModel { DoneViewModel(get()) }
     }
