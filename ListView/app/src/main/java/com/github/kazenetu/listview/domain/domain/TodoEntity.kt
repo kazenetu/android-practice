@@ -17,8 +17,14 @@ class TodoEntity private constructor(
             title: String,
             detail: String,
             isDone: Boolean
-        ): TodoItemInterface {
+        ): TodoEntity {
             return TodoEntity(id, showImage, title, detail, isDone)
+        }
+
+        fun create(
+            src:TodoItemInterface
+        ): TodoEntity {
+            return TodoEntity(src.id, src.showImage, src.title, src.detail, src.isDone)
         }
     }
 }
