@@ -1,13 +1,13 @@
 package com.github.kazenetu.listview.view.viewmodels
 
+import com.github.kazenetu.listview.application.TodoApplicationService
+import com.github.kazenetu.listview.domain.domain.TodoEntity
 import com.github.kazenetu.listview.domain.interfaces.TodoItemInterface
-import com.github.kazenetu.listview.infrastructure.room.TodoItem
-import com.github.kazenetu.listview.infrastructure.TodoRepository
 
 /**
  * Doneリスト用ViewModel
  */
-class DoneViewModel(repository: TodoRepository): ViewModel(repository) {
+class DoneViewModel(applicationService: TodoApplicationService): ViewModel(applicationService) {
 
     init{
         changedDone.observeForever({
@@ -18,7 +18,7 @@ class DoneViewModel(repository: TodoRepository): ViewModel(repository) {
     /**
      * 選択対象取得
      */
-    override suspend fun getSelectData():List<TodoItemInterface> {
-        return repository.doneData()
+    override suspend fun getSelectData():List<TodoEntity> {
+        return applicationService.doneData()
     }
 }

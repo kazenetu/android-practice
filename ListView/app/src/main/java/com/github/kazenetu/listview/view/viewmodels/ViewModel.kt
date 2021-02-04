@@ -2,28 +2,28 @@ package com.github.kazenetu.listview.view.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.*
+import com.github.kazenetu.listview.application.TodoApplicationService
 import com.github.kazenetu.listview.domain.domain.TodoEntity
 import com.github.kazenetu.listview.domain.interfaces.TodoItemInterface
 import com.github.kazenetu.listview.view.recyclerView.RowItem
-import com.github.kazenetu.listview.infrastructure.TodoRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-abstract class ViewModel(protected val repository: TodoRepository): AndroidViewModel(Application()) {
+abstract class ViewModel(protected val applicationService: TodoApplicationService): AndroidViewModel(Application()) {
     private var toggleDeleteImageFlag: MutableLiveData<Pair<Boolean, Boolean>> = MutableLiveData()
     val toggleDeleteImage: LiveData<Pair<Boolean, Boolean>> get() = toggleDeleteImageFlag
 
     /**
      * 公開用リストアイテム
      */
-    private var _listItems: MutableLiveData<List<TodoItemInterface>> = MutableLiveData()
-    val listItems: LiveData<List<TodoItemInterface>> get() =_listItems
+    private var _listItems: MutableLiveData<List<TodoEntity>> = MutableLiveData()
+    val listItems: LiveData<List<TodoEntity>> get() =_listItems
 
     /**
      * リストアイテム
      */
-    private val items: List<TodoItemInterface>
+    private val items: List<TodoEntity>
         get() {
             return listItems.value ?: emptyList()
         }
@@ -47,7 +47,7 @@ abstract class ViewModel(protected val repository: TodoRepository): AndroidViewM
     /**
      * 選択対象取得
      */
-    protected abstract suspend fun getSelectData():List<TodoItemInterface>
+    protected abstract suspend fun getSelectData():List<TodoEntity>
 
 
     /**
@@ -58,10 +58,10 @@ abstract class ViewModel(protected val repository: TodoRepository): AndroidViewM
             return@launch
         }
         if(position < 0){
-            repository.insert(TodoEntity.create(0,false, data.title,data.detail,false))
+            applicationService.insert(TodoEntity.create(0,false, data.title,data.detail,false))
         } else {
             val id = items[position].id
-            repository.update(TodoEntity.create(id,false, data.title,data.detail,data.isDone))
+            applicationService.update(TodoEntity.create(id,false, data.title,data.detail,data.isDone))
         }
         // 処理後の状態を取得
         select()
@@ -76,7 +76,7 @@ abstract class ViewModel(protected val repository: TodoRepository): AndroidViewM
         }
 
         val data = items[position]
-        repository.update(TodoEntity.create(data.id, false, data.title, data.detail, isDone))
+        applicationService.update(TodoEntity.create(data.id, false, data.title, data.detail, isDone))
 
         // 処理後の状態を取得
         changedDoneEvent.postValue(Unit)
@@ -88,7 +88,7 @@ abstract class ViewModel(protected val repository: TodoRepository): AndroidViewM
     fun deleteAll() = CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
         val deleteTarget = items.filter { it.showImage }
         deleteTarget.forEach {
-            repository.delete(it)
+            applicationService.delete(it)
         }
         // 処理後の状態を取得
         select()
