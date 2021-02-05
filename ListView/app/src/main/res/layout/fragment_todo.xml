@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="1dp"
-        android:layout_marginTop="1dp" />
+        android:layout_marginTop="1dp"
+        android:layout_marginLeft="1dp" />
 
     <ProgressBar
         android:id="@+id/progress"
@@ -35,7 +36,8 @@
         android:clickable="true"
         android:focusable="true"
         android:text="@string/AddItem"
-        app:icon="@android:drawable/ic_menu_add" />
+        app:icon="@android:drawable/ic_menu_add"
+        android:layout_marginRight="50dp" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/deleteButton"
@@ -48,6 +50,7 @@
         android:focusable="true"
         app:icon="@android:drawable/ic_menu_delete"
         android:text="@string/AllRemove"
-        android:visibility="gone" />
+        android:visibility="gone"
+        android:layout_marginRight="50dp" />
 
 </FrameLayout>
