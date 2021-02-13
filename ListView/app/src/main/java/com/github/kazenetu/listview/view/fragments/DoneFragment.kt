@@ -48,6 +48,11 @@ class DoneFragment : Fragment() {
      */
     private var isMovedDetail:Boolean = false
 
+    /**
+     * 詳細画面の連携処理用
+     */
+    private lateinit var observer: CustomLifecycleObserver
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -73,10 +78,10 @@ class DoneFragment : Fragment() {
             putExtra(ListActivity.EXTRA_POSITION,position)
             putExtra(ListActivity.EXTRA_DATA,value)
         }
-        startActivity(intent)
+        observer.start(intent)
 
         // 遷移アニメーション設定
-        activity?.overridePendingTransition(R.anim.list_in, R.anim.list_out)
+        requireActivity().overridePendingTransition(R.anim.list_in, R.anim.list_out)
     }
 
     override fun onCreateView(
@@ -85,6 +90,12 @@ class DoneFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentDoneBinding.inflate(inflater, container, false)
+
+        observer = CustomLifecycleObserver(requireActivity().activityResultRegistry) {
+            isMovedDetail = false
+        }
+        lifecycle.addObserver(observer)
+
         val view = binding.root
 
         recyclerView = binding.recyclerList

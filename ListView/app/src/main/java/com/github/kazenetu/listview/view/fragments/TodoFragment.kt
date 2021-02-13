@@ -2,11 +2,19 @@ package com.github.kazenetu.listview.view.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.ActivityResultRegistry
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -54,6 +62,11 @@ class TodoFragment : Fragment() {
      */
     private var isMovedDetail:Boolean = false
 
+    /**
+     * 詳細画面の連携処理用
+     */
+    private lateinit var observer: CustomLifecycleObserver
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -88,39 +101,52 @@ class TodoFragment : Fragment() {
         isMovedDetail = true
 
         // 遷移処理
-        val intent = Intent(activity, DetailActivity::class.java).apply {
+        val intent = Intent(requireActivity(), DetailActivity::class.java).apply {
             putExtra(ListActivity.EXTRA_POSITION,position)
             putExtra(ListActivity.EXTRA_DATA,value)
         }
-        startActivityForResult(intent,0)
+
+        observer.start(intent)
 
         // 遷移アニメーション設定
-        activity?.overridePendingTransition(R.anim.list_in, R.anim.list_out)
+        requireActivity().overridePendingTransition(R.anim.list_in, R.anim.list_out)
     }
 
     /**
      * 詳細から更新イベント
      */
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
+    fun activityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         // 未遷移に設定
         isMovedDetail = false
 
-        if(requestCode==0 && resultCode== AppCompatActivity.RESULT_OK && data!=null) {
-            val position = data.getIntExtra(ListActivity.EXTRA_POSITION,-1)
-            val row = data.getParcelableExtra<RowItem>(ListActivity.EXTRA_DATA) as RowItem
-
-            todoViewModel.update(position,row)
-        }
-
         // 削除フラグを非表示にする
         todoViewModel.hideAllDeleteImage()
+
+        Log.d("result","${requestCode},${resultCode}")
+
+        if(resultCode != AppCompatActivity.RESULT_OK){
+            return
+        }
+
+        val position = data?.getIntExtra(ListActivity.EXTRA_POSITION,-1)
+        val row = data?.getParcelableExtra<RowItem>(ListActivity.EXTRA_DATA) as RowItem
+
+        if(position == null ){
+            return
+        }
+
+        todoViewModel.update(position,row)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         // Inflate the layout for this fragment
         _binding = FragmentTodoBinding.inflate(inflater, container, false)
+
+        observer = CustomLifecycleObserver(requireActivity().activityResultRegistry) {
+            activityResult(it.resultCode, it.resultCode, it.data)
+        }
+        lifecycle.addObserver(observer)
+
         val view = binding.root
 
         recyclerView = binding.recyclerList
