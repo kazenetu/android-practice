@@ -4,10 +4,10 @@ import android.app.Application
 import androidx.lifecycle.*
 import com.github.kazenetu.listview.application.TodoApplicationService
 import com.github.kazenetu.listview.domain.domain.TodoEntity
-import com.github.kazenetu.listview.domain.interfaces.TodoItemInterface
 import com.github.kazenetu.listview.view.recyclerView.RowItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 abstract class ViewModel(protected val applicationService: TodoApplicationService): AndroidViewModel(Application()) {
@@ -79,7 +79,7 @@ abstract class ViewModel(protected val applicationService: TodoApplicationServic
         applicationService.update(TodoEntity.create(data.id, false, data.title, data.detail, isDone))
 
         // 処理後の状態を取得
-        changedDoneEvent.postValue(Unit)
+        changedDoneEvent.emit(Unit)
     }
 
     /**
@@ -123,7 +123,7 @@ abstract class ViewModel(protected val applicationService: TodoApplicationServic
     }
 
     companion object{
-        private var changedDoneEvent: MutableLiveData<Unit> = MutableLiveData()
-        val changedDone:LiveData<Unit> get() = changedDoneEvent
+        private var changedDoneEvent = MutableSharedFlow<Unit>()
+        val changedDone: SharedFlow<Unit> get() = changedDoneEvent
     }
 }

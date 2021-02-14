@@ -1,8 +1,10 @@
 package com.github.kazenetu.listview.view.viewmodels
 
+import androidx.lifecycle.viewModelScope
 import com.github.kazenetu.listview.application.TodoApplicationService
 import com.github.kazenetu.listview.domain.domain.TodoEntity
-import com.github.kazenetu.listview.domain.interfaces.TodoItemInterface
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 /**
  * Doneリスト用ViewModel
@@ -10,9 +12,11 @@ import com.github.kazenetu.listview.domain.interfaces.TodoItemInterface
 class DoneViewModel(applicationService: TodoApplicationService): ViewModel(applicationService) {
 
     init{
-        changedDone.observeForever({
-            select()
-        })
+        viewModelScope.launch{
+            changedDone.collect{
+                select()
+            }
+        }
     }
 
     /**
