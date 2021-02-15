@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -71,11 +72,11 @@ class TodoFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         // ViewModelの更新監視
-        todoViewModel.listItems.observe(this, {
+        todoViewModel.listItems.asLiveData().observe(this, {
             adapter.setList(it)
             binding.progress.visibility = View.GONE
         })
-        todoViewModel.toggleDeleteImage.observe(this, { (isShow,all) ->
+        todoViewModel.toggleDeleteImage.asLiveData().observe(this, { (isShow,all) ->
             if(isShow) {
                 actionButton.hide()
                 actionDeleteButton.show()

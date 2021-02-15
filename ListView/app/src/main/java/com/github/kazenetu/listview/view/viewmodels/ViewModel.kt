@@ -11,27 +11,28 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 abstract class ViewModel(protected val applicationService: TodoApplicationService): AndroidViewModel(Application()) {
-    private var toggleDeleteImageFlag: MutableLiveData<Pair<Boolean, Boolean>> = MutableLiveData()
-    val toggleDeleteImage: LiveData<Pair<Boolean, Boolean>> get() = toggleDeleteImageFlag
+    private var toggleDeleteImageFlag: MutableStateFlow<Pair<Boolean, Boolean>> =
+        MutableStateFlow(Pair(first = true, second = false))
+    val toggleDeleteImage: StateFlow<Pair<Boolean, Boolean>> get() = toggleDeleteImageFlag
 
     /**
      * 公開用リストアイテム
      */
-    private var _listItems: MutableLiveData<List<TodoEntity>> = MutableLiveData()
-    val listItems: LiveData<List<TodoEntity>> get() =_listItems
+    private var _listItems: MutableStateFlow<List<TodoEntity>> = MutableStateFlow(emptyList())
+    val listItems: StateFlow<List<TodoEntity>> get() = _listItems
 
     /**
      * リストアイテム
      */
     private val items: List<TodoEntity>
         get() {
-            return listItems.value ?: emptyList()
+            return listItems.value
         }
 
     /**
      * コンストラクタ
      */
-    init{
+    init {
         select()
     }
 
@@ -39,48 +40,74 @@ abstract class ViewModel(protected val applicationService: TodoApplicationServic
      * 選択
      */
     protected fun select() {
-        viewModelScope.launch{
-            _listItems.postValue(getSelectData())
+        viewModelScope.launch {
+            _listItems.emit(getSelectData())
         }
     }
 
     /**
      * 選択対象取得
      */
-    protected abstract suspend fun getSelectData():List<TodoEntity>
+    protected abstract suspend fun getSelectData(): List<TodoEntity>
 
 
     /**
      * 更新
      */
-    fun update(position:Int,data: RowItem) = CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
-        if(items.size <= position){
-            return@launch
+    fun update(position: Int, data: RowItem) =
+        CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
+            if (items.size <= position) {
+                return@launch
+            }
+            if (position < 0) {
+                applicationService.insert(
+                    TodoEntity.create(
+                        0,
+                        false,
+                        data.title,
+                        data.detail,
+                        false
+                    )
+                )
+            } else {
+                val id = items[position].id
+                applicationService.update(
+                    TodoEntity.create(
+                        id,
+                        false,
+                        data.title,
+                        data.detail,
+                        data.isDone
+                    )
+                )
+            }
+            // 処理後の状態を取得
+            select()
         }
-        if(position < 0){
-            applicationService.insert(TodoEntity.create(0,false, data.title,data.detail,false))
-        } else {
-            val id = items[position].id
-            applicationService.update(TodoEntity.create(id,false, data.title,data.detail,data.isDone))
-        }
-        // 処理後の状態を取得
-        select()
-    }
 
     /**
      * Doneフラグの更新
      */
-    fun updateDone(position:Int,isDone:Boolean) = CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
-        if (items.size <= position) {
-            return@launch
+    fun updateDone(position: Int, isDone: Boolean) =
+        CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
+            if (items.size <= position) {
+                return@launch
+            }
+
+            val data = items[position]
+            applicationService.update(
+                TodoEntity.create(
+                    data.id,
+                    false,
+                    data.title,
+                    data.detail,
+                    isDone
+                )
+            )
+
+            // 処理後の状態を取得
+            changedDoneEvent.emit(Unit)
         }
-
-        val data = items[position]
-        applicationService.update(TodoEntity.create(data.id, false, data.title, data.detail, isDone))
-
-        // 処理後の状態を取得
-        changedDoneEvent.emit(Unit)
-    }
 
     /**
      * すべて削除
@@ -92,37 +119,37 @@ abstract class ViewModel(protected val applicationService: TodoApplicationServic
         }
         // 処理後の状態を取得
         select()
-        this@ViewModel.toggleDeleteImageFlag.postValue(Pair(first = false, second = true))
+        this@ViewModel.toggleDeleteImageFlag.emit(Pair(first = false, second = true))
     }
 
     /**
      * すべての削除イメージを非表示にする
      */
-    fun hideAllDeleteImage(){
+    fun hideAllDeleteImage() = viewModelScope.launch {
         val deleteTarget = items.filter { it.showImage }
         deleteTarget.forEach {
             it.showImage = false
         }
-        this.toggleDeleteImageFlag.postValue(Pair(first = false, second = true))
+        toggleDeleteImageFlag.emit(Pair(first = false, second = true))
     }
 
     /**
      * 削除対象イメージ表示
      */
-    fun showDeleteImage(position:Int){
+    fun showDeleteImage(position: Int) = viewModelScope.launch {
         items[position].showImage = true
-        this.toggleDeleteImageFlag.postValue(Pair(first = true, second = false))
+        toggleDeleteImageFlag.emit(Pair(first = true, second = false))
     }
 
     /**
      * 削除対象イメージ非表示
      */
-    fun hideDeleteImage(position:Int){
+    fun hideDeleteImage(position: Int) = viewModelScope.launch {
         items[position].showImage = false
-        this.toggleDeleteImageFlag.postValue(Pair(first = items[position].showImage, second = false))
+        toggleDeleteImageFlag.emit(Pair(first = items[position].showImage, second = false))
     }
 
-    companion object{
+    companion object {
         private var changedDoneEvent = MutableSharedFlow<Unit>()
         val changedDone: SharedFlow<Unit> get() = changedDoneEvent
     }
