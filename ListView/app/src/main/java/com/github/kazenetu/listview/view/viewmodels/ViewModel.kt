@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 
 abstract class ViewModel(protected val applicationService: TodoApplicationService): AndroidViewModel(Application()) {
     private var toggleDeleteImageFlag: MutableStateFlow<Pair<Boolean, Boolean>> =
-        MutableStateFlow(Pair(first = true, second = false))
+        MutableStateFlow(Pair(first = false, second = false))
     val toggleDeleteImage: StateFlow<Pair<Boolean, Boolean>> get() = toggleDeleteImageFlag
 
     /**
