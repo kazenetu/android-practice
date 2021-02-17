@@ -41,7 +41,7 @@ abstract class ViewModel(protected val applicationService: TodoApplicationServic
      */
     protected fun select() {
         viewModelScope.launch {
-            _listItems.emit(getSelectData())
+            _listItems.value = getSelectData()
         }
     }
 
@@ -119,34 +119,34 @@ abstract class ViewModel(protected val applicationService: TodoApplicationServic
         }
         // 処理後の状態を取得
         select()
-        this@ViewModel.toggleDeleteImageFlag.emit(Pair(first = false, second = true))
+        toggleDeleteImageFlag.value = Pair(first = false, second = true)
     }
 
     /**
      * すべての削除イメージを非表示にする
      */
-    fun hideAllDeleteImage() = viewModelScope.launch {
+    fun hideAllDeleteImage()  {
         val deleteTarget = items.filter { it.showImage }
         deleteTarget.forEach {
             it.showImage = false
         }
-        toggleDeleteImageFlag.emit(Pair(first = false, second = true))
+        toggleDeleteImageFlag.value = Pair(first = false, second = true)
     }
 
     /**
      * 削除対象イメージ表示
      */
-    fun showDeleteImage(position: Int) = viewModelScope.launch {
+    fun showDeleteImage(position: Int)  {
         items[position].showImage = true
-        toggleDeleteImageFlag.emit(Pair(first = true, second = false))
+        toggleDeleteImageFlag.value = Pair(first = true, second = false)
     }
 
     /**
      * 削除対象イメージ非表示
      */
-    fun hideDeleteImage(position: Int) = viewModelScope.launch {
+    fun hideDeleteImage(position: Int)  {
         items[position].showImage = false
-        toggleDeleteImageFlag.emit(Pair(first = items[position].showImage, second = false))
+        toggleDeleteImageFlag.value = Pair(first = items[position].showImage, second = false)
     }
 
     companion object {
