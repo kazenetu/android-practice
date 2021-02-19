@@ -92,7 +92,7 @@ class DoneFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentDoneBinding.inflate(inflater, container, false)
 
-        observer = CustomLifecycleObserver(requireActivity().activityResultRegistry) {
+        observer = CustomLifecycleObserver(requireActivity().activityResultRegistry, this.javaClass.name) {
             isMovedDetail = false
         }
         lifecycle.addObserver(observer)

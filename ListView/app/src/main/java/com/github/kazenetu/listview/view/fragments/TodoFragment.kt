@@ -143,7 +143,7 @@ class TodoFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentTodoBinding.inflate(inflater, container, false)
 
-        observer = CustomLifecycleObserver(requireActivity().activityResultRegistry) {
+        observer = CustomLifecycleObserver(requireActivity().activityResultRegistry, this.javaClass.name) {
             activityResult(it.resultCode, it.resultCode, it.data)
         }
         lifecycle.addObserver(observer)

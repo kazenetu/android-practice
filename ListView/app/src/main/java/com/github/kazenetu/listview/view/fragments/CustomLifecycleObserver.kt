@@ -9,14 +9,14 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 
-class CustomLifecycleObserver(private val registry: ActivityResultRegistry, private val callback: ActivityResultCallback<ActivityResult>) :
+class CustomLifecycleObserver(private val registry: ActivityResultRegistry, private val keyName:String ,private val callback: ActivityResultCallback<ActivityResult>) :
     DefaultLifecycleObserver {
 
     private lateinit var startForResult: ActivityResultLauncher<Intent>
 
     override fun onCreate(owner: LifecycleOwner) {
         startForResult =
-            registry.register("key", owner, ActivityResultContracts.StartActivityForResult(),
+            registry.register(keyName, owner, ActivityResultContracts.StartActivityForResult(),
                 callback)
     }
 
