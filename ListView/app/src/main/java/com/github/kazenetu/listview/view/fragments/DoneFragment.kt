@@ -57,6 +57,11 @@ class DoneFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        observer = CustomLifecycleObserver(requireActivity().activityResultRegistry, this.javaClass.name) {
+            isMovedDetail = false
+        }
+        lifecycle.addObserver(observer)
+
         // ViewModelの更新監視
         doneViewModel.listItems.asLiveData().observe(this, {
             it.let{adapter.setList(it)}
@@ -91,11 +96,6 @@ class DoneFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentDoneBinding.inflate(inflater, container, false)
-
-        observer = CustomLifecycleObserver(requireActivity().activityResultRegistry, this.javaClass.name) {
-            isMovedDetail = false
-        }
-        lifecycle.addObserver(observer)
 
         val view = binding.root
 

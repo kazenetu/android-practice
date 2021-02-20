@@ -71,6 +71,11 @@ class TodoFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        observer = CustomLifecycleObserver(requireActivity().activityResultRegistry, this.javaClass.name) {
+            activityResult(it.resultCode, it.resultCode, it.data)
+        }
+        lifecycle.addObserver(observer)
+
         // ViewModelの更新監視
         todoViewModel.listItems.asLiveData().observe(this, {
             adapter.setList(it)
@@ -142,11 +147,6 @@ class TodoFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         // Inflate the layout for this fragment
         _binding = FragmentTodoBinding.inflate(inflater, container, false)
-
-        observer = CustomLifecycleObserver(requireActivity().activityResultRegistry, this.javaClass.name) {
-            activityResult(it.resultCode, it.resultCode, it.data)
-        }
-        lifecycle.addObserver(observer)
 
         val view = binding.root
 
