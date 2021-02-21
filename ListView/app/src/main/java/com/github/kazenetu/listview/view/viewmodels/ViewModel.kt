@@ -7,6 +7,7 @@ import com.github.kazenetu.listview.domain.domain.TodoEntity
 import com.github.kazenetu.listview.view.recyclerView.RowItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -14,6 +15,9 @@ abstract class ViewModel(protected val applicationService: TodoApplicationServic
     private var toggleDeleteImageFlag: MutableStateFlow<Pair<Boolean, Boolean>> =
         MutableStateFlow(Pair(first = false, second = false))
     val toggleDeleteImage: StateFlow<Pair<Boolean, Boolean>> get() = toggleDeleteImageFlag
+
+    private var timeOutEvent:MutableSharedFlow<Unit> = MutableSharedFlow()
+    var timeOut:SharedFlow<Unit> = timeOutEvent
 
     /**
      * 公開用リストアイテム
@@ -50,6 +54,12 @@ abstract class ViewModel(protected val applicationService: TodoApplicationServic
      */
     protected abstract suspend fun getSelectData(): List<TodoEntity>
 
+    fun setTimeOut(ms :Long){
+        viewModelScope.launch{
+            delay(ms)
+            timeOutEvent.emit(Unit)
+        }
+    }
 
     /**
      * 更新
