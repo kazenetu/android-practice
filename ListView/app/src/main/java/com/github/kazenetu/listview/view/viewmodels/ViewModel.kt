@@ -1,6 +1,7 @@
 package com.github.kazenetu.listview.view.viewmodels
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.*
 import com.github.kazenetu.listview.application.TodoApplicationService
 import com.github.kazenetu.listview.domain.domain.TodoEntity
@@ -54,7 +55,8 @@ abstract class ViewModel(protected val applicationService: TodoApplicationServic
      */
     protected abstract suspend fun getSelectData(): List<TodoEntity>
 
-    fun setTimeOut(ms :Long){
+    open fun setTimeOut(ms :Long){
+
         viewModelScope.launch{
             delay(ms)
             timeOutEvent.emit(Unit)
