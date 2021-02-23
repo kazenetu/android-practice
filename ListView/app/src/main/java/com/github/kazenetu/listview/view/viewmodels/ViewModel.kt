@@ -1,7 +1,6 @@
 package com.github.kazenetu.listview.view.viewmodels
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.*
 import com.github.kazenetu.listview.application.TodoApplicationService
 import com.github.kazenetu.listview.domain.domain.TodoEntity
@@ -16,9 +15,6 @@ abstract class ViewModel(protected val applicationService: TodoApplicationServic
     private var toggleDeleteImageFlag: MutableStateFlow<Pair<Boolean, Boolean>> =
         MutableStateFlow(Pair(first = false, second = false))
     val toggleDeleteImage: StateFlow<Pair<Boolean, Boolean>> get() = toggleDeleteImageFlag
-
-    private var timeOutEvent:MutableSharedFlow<Unit> = MutableSharedFlow()
-    var timeOut:SharedFlow<Unit> = timeOutEvent
 
     /**
      * 公開用リストアイテム
@@ -55,10 +51,20 @@ abstract class ViewModel(protected val applicationService: TodoApplicationServic
      */
     protected abstract suspend fun getSelectData(): List<TodoEntity>
 
-    open fun setTimeOut(ms :Long){
+    /**
+     * タイマーイベント
+     */
+    private var timeOutEvent:MutableSharedFlow<Unit> = MutableSharedFlow()
+    var timeOut:SharedFlow<Unit> = timeOutEvent
 
+    /**
+     * タイマー設定
+     */
+    open fun setTimeOut(ms :Long){
         viewModelScope.launch{
-            delay(ms)
+            if(ms>0L)
+                delay(ms)
+
             timeOutEvent.emit(Unit)
         }
     }
