@@ -28,6 +28,7 @@ import com.github.kazenetu.listview.view.recyclerView.RowItem
 import com.github.kazenetu.listview.view.recyclerView.ViewAdapter
 import com.github.kazenetu.listview.view.viewmodels.TodoViewModel
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+import kotlinx.coroutines.flow.count
 import org.koin.android.ext.android.inject
 
 class TodoFragment : Fragment() {
@@ -79,7 +80,6 @@ class TodoFragment : Fragment() {
         // ViewModelの更新監視
         todoViewModel.listItems.asLiveData().observe(this, {
             adapter.setList(it)
-            binding.progress.visibility = View.GONE
         })
         todoViewModel.toggleDeleteImage.asLiveData().observe(this, { (isShow,all) ->
             if(isShow) {
@@ -93,6 +93,10 @@ class TodoFragment : Fragment() {
                 adapter.notifyDataSetChanged()
             }
         })
+        todoViewModel.timeOut.asLiveData().observe(this,{
+            binding.progress.visibility = View.GONE
+        })
+        todoViewModel.clearTimeout()
     }
 
     /**
@@ -153,6 +157,15 @@ class TodoFragment : Fragment() {
         recyclerView = binding.recyclerList
         actionButton = binding.addButton
         actionDeleteButton = binding.deleteButton
+
+        recyclerView.addOnChildAttachStateChangeListener(object :RecyclerView.OnChildAttachStateChangeListener{
+            override fun onChildViewAttachedToWindow(view: View) {
+                todoViewModel.setTimeOut(1000L)
+            }
+
+            override fun onChildViewDetachedFromWindow(view: View) {
+            }
+        })
 
         // リストセット
         adapter = ViewAdapter(activity?.applicationContext!!, object: ViewAdapter.ItemClickListener {
