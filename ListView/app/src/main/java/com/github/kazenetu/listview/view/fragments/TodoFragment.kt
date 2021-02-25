@@ -95,6 +95,7 @@ class TodoFragment : Fragment() {
         })
         todoViewModel.timeOut.asLiveData().observe(this,{
             binding.progress.visibility = View.GONE
+            binding.recyclerList.visibility = View.VISIBLE
         })
         todoViewModel.clearTimeout()
     }
