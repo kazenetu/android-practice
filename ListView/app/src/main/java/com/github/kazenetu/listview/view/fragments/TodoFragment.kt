@@ -97,7 +97,9 @@ class TodoFragment : Fragment() {
             binding.progress.visibility = View.GONE
             binding.recyclerList.visibility = View.VISIBLE
         })
-        todoViewModel.clearTimeout()
+
+        // ViewModelで管理しているLoading表示フラグを表示状態に初期化
+        todoViewModel.resetLoadingFlag()
     }
 
     /**

@@ -29,22 +29,41 @@ class TodoViewModel(applicationService: TodoApplicationService): ViewModel(appli
     }
 
     /**
-     * Loadingの表示制御
+     * Loadingが表示されているか否か
      */
-    private var loading:Boolean = true
-    private var firstSetTime:Boolean=true
-    override fun setTimeOut(ms :Long){
-        if(!loading) return
+    private var shownLoading:Boolean = true
 
-        if(firstSetTime){
-            super.setTimeOut(ms)
-        }else{
+    /**
+     * すでに実行されているか否か
+     */
+    private var executedSetTimeout:Boolean=false
+
+    /**
+     * 設定時間後のイベント発行
+     */
+    override fun setTimeOut(ms :Long){
+        // Loadingが非表示の場合は終了
+        if(!shownLoading) return
+
+        if(executedSetTimeout){
+            // すでに初回実行がされている場合は即座にイベント発行
             super.setTimeOut(0L)
+        }else{
+            // 初回実行の場合は一定時間後にイベント発行
+            super.setTimeOut(ms)
         }
-        firstSetTime = false;
-        loading = false
+
+        // 初回実行済みに設定
+        executedSetTimeout = true
+
+        // Loadingを非表示に設定
+        shownLoading = false
     }
-    fun clearTimeout(){
-        loading = true
+
+    /**
+     * Loadingを表示状態に変更
+     */
+    fun resetLoadingFlag(){
+        shownLoading = true
     }
 }
