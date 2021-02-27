@@ -1,11 +1,9 @@
 package com.github.kazenetu.listview.view.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.github.kazenetu.listview.application.TodoApplicationService
 import com.github.kazenetu.listview.domain.domain.TodoEntity
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.count
 import kotlinx.coroutines.launch
 
 /**
