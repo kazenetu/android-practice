@@ -80,7 +80,7 @@ class DoneFragment : Fragment() {
         isMovedDetail = true
 
         // 遷移処理
-        val intent = Intent(activity, DetailActivity::class.java).apply {
+        val intent = Intent(requireActivity(), DetailActivity::class.java).apply {
             putExtra(ListActivity.EXTRA_POSITION,position)
             putExtra(ListActivity.EXTRA_DATA,value)
         }
@@ -102,7 +102,7 @@ class DoneFragment : Fragment() {
         recyclerView = binding.recyclerList
 
         // リストセット
-        adapter = ViewAdapter(activity?.applicationContext!!, object: ViewAdapter.ItemClickListener {
+        adapter = ViewAdapter(requireActivity(), object: ViewAdapter.ItemClickListener {
 
             /**
              * アイテムクリックイベント

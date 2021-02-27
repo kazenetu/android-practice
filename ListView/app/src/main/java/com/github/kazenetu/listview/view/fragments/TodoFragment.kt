@@ -163,7 +163,7 @@ class TodoFragment : Fragment() {
         })
 
         // リストセット
-        adapter = ViewAdapter(activity?.applicationContext!!, object: ViewAdapter.ItemClickListener {
+        adapter = ViewAdapter(requireActivity(), object: ViewAdapter.ItemClickListener {
 
             /**
              * アイテムクリックイベント
