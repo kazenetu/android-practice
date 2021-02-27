@@ -120,7 +120,7 @@ class TodoFragment : Fragment() {
     /**
      * 詳細から更新イベント
      */
-    fun activityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    private fun activityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         // 未遷移に設定
         isMovedDetail = false
 
