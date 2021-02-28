@@ -88,6 +88,10 @@ class TodoFragment : Fragment() {
         todoViewModel.timeOut.asLiveData().observe(this,{
             binding.progress.visibility = View.GONE
             binding.recyclerList.visibility = View.VISIBLE
+
+            if(todoViewModel.scrollY > 0 ){
+                recyclerView.smoothScrollBy(0,todoViewModel.scrollY)
+            }
         })
 
         // ViewModelで管理しているLoading表示フラグを表示状態に初期化
@@ -210,6 +214,7 @@ class TodoFragment : Fragment() {
                     actionButton.shrink()
                 }
                 super.onScrolled(recyclerView, dx, dy)
+                todoViewModel.scrollY = dy
             }
 
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
