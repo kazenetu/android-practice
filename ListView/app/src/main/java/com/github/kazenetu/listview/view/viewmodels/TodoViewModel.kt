@@ -64,4 +64,6 @@ class TodoViewModel(applicationService: TodoApplicationService): ViewModel(appli
     fun resetLoadingFlag(){
         shownLoading = true
     }
+
+    var addButtonExpanded :Boolean = true;
 }
