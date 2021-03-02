@@ -214,7 +214,7 @@ class TodoFragment : Fragment() {
                     actionButton.shrink()
                 }
                 super.onScrolled(recyclerView, dx, dy)
-                todoViewModel.scrollY = dy
+                todoViewModel.addButtonExpanded = actionButton.isExtended
             }
 
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -224,9 +224,10 @@ class TodoFragment : Fragment() {
                     actionButton.extend()
                 }
                 super.onScrollStateChanged(recyclerView, newState)
+                todoViewModel.addButtonExpanded = actionButton.isExtended
             }
         })
-
+        
         // 追加ボタンイベント
         actionButton.setOnClickListener {
             callDetail(-1, RowItem(false,"", "",false))
