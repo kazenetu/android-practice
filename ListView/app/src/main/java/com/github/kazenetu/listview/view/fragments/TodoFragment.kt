@@ -89,9 +89,8 @@ class TodoFragment : Fragment() {
             binding.progress.visibility = View.GONE
             binding.recyclerList.visibility = View.VISIBLE
 
-            if(todoViewModel.scrollY > 0 ){
-                recyclerView.smoothScrollBy(0,todoViewModel.scrollY)
-            }
+            if(!todoViewModel.addButtonExpanded)
+                actionButton.shrink()
         })
 
         // ViewModelで管理しているLoading表示フラグを表示状態に初期化
