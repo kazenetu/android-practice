@@ -70,8 +70,16 @@ class TodoFragment : Fragment() {
         lifecycle.addObserver(observer)
 
         // ViewModelの更新監視
-        todoViewModel.listItems.asLiveData().observe(this, {
-            adapter.setList(it)
+       todoViewModel.listItems.asLiveData().observe(this, {
+            if(it.isNotEmpty()){
+                binding.progress.visibility = View.GONE
+                binding.recyclerList.visibility = View.VISIBLE
+                adapter.setList(it)
+                if(!todoViewModel.addButtonExpanded)
+                    actionButton.shrink()
+            }else{
+                binding.progress.visibility = View.VISIBLE
+            }
         })
         todoViewModel.toggleDeleteImage.asLiveData().observe(this, { (isShow,all) ->
             if(isShow) {
@@ -84,13 +92,6 @@ class TodoFragment : Fragment() {
             if(all){
                 adapter.notifyDataSetChanged()
             }
-        })
-        todoViewModel.timeOut.asLiveData().observe(this,{
-            binding.progress.visibility = View.GONE
-            binding.recyclerList.visibility = View.VISIBLE
-
-            if(!todoViewModel.addButtonExpanded)
-                actionButton.shrink()
         })
 
         // ViewModelで管理しているLoading表示フラグを表示状態に初期化
