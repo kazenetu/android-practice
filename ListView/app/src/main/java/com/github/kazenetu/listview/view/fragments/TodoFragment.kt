@@ -70,17 +70,6 @@ class TodoFragment : Fragment() {
         lifecycle.addObserver(observer)
 
         // ViewModelの更新監視
-       todoViewModel.listItems.asLiveData().observe(this, {
-            if(it.isNotEmpty()){
-                binding.progress.visibility = View.GONE
-                binding.recyclerList.visibility = View.VISIBLE
-                adapter.setList(it)
-                if(!todoViewModel.addButtonExpanded)
-                    actionButton.shrink()
-            }else{
-                binding.progress.visibility = View.VISIBLE
-            }
-        })
         todoViewModel.toggleDeleteImage.asLiveData().observe(this, { (isShow,all) ->
             if(isShow) {
                 actionButton.hide()
@@ -93,9 +82,17 @@ class TodoFragment : Fragment() {
                 adapter.notifyDataSetChanged()
             }
         })
-
-        // ViewModelで管理しているLoading表示フラグを表示状態に初期化
-        todoViewModel.resetLoadingFlag()
+        todoViewModel.listItems.asLiveData().observe(this, {
+            if(it.isNotEmpty()){
+                binding.progress.visibility = View.GONE
+                binding.recyclerList.visibility = View.VISIBLE
+                adapter.setList(it)
+                if(!todoViewModel.addButtonExpanded)
+                    actionButton.shrink()
+            }else{
+                binding.progress.visibility = View.VISIBLE
+            }
+        })
     }
 
     /**
@@ -156,15 +153,6 @@ class TodoFragment : Fragment() {
         recyclerView = binding.recyclerList
         actionButton = binding.addButton
         actionDeleteButton = binding.deleteButton
-
-        recyclerView.addOnChildAttachStateChangeListener(object :RecyclerView.OnChildAttachStateChangeListener{
-            override fun onChildViewAttachedToWindow(view: View) {
-                todoViewModel.setTimeOut(1000L)
-            }
-
-            override fun onChildViewDetachedFromWindow(view: View) {
-            }
-        })
 
         // リストセット
         adapter = ViewAdapter(requireActivity(), object: ViewAdapter.ItemClickListener {
@@ -227,7 +215,7 @@ class TodoFragment : Fragment() {
                 todoViewModel.addButtonExpanded = actionButton.isExtended
             }
         })
-        
+
         // 追加ボタンイベント
         actionButton.setOnClickListener {
             callDetail(-1, RowItem(false,"", "",false))

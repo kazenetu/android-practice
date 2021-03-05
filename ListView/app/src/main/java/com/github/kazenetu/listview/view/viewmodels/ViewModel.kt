@@ -52,24 +52,6 @@ abstract class ViewModel(protected val applicationService: TodoApplicationServic
     protected abstract suspend fun getSelectData(): List<TodoEntity>
 
     /**
-     * タイマーイベント
-     */
-    private var timeOutEvent:MutableSharedFlow<Unit> = MutableSharedFlow()
-    var timeOut:SharedFlow<Unit> = timeOutEvent
-
-    /**
-     * タイマー設定
-     */
-    open fun setTimeOut(ms :Long){
-        viewModelScope.launch{
-            if(ms>0L)
-                delay(ms)
-
-            timeOutEvent.emit(Unit)
-        }
-    }
-
-    /**
      * 更新
      */
     fun update(position: Int, data: RowItem) =
