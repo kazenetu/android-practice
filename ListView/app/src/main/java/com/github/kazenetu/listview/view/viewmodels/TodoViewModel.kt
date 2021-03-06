@@ -26,5 +26,5 @@ class TodoViewModel(applicationService: TodoApplicationService): ViewModel(appli
         return applicationService.todoData()
     }
 
-    var addButtonExpanded :Boolean = true;
+    var addButtonExpanded :Boolean = true
 }
