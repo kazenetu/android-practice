@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,6 +22,7 @@ import com.github.kazenetu.listview.view.recyclerView.RowItem
 import com.github.kazenetu.listview.view.recyclerView.ViewAdapter
 import com.github.kazenetu.listview.view.viewmodels.TodoViewModel
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+import kotlinx.coroutines.flow.collect
 import org.koin.android.ext.android.inject
 
 class TodoFragment : Fragment() {
