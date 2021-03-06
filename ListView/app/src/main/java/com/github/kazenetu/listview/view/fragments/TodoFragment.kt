@@ -82,17 +82,20 @@ class TodoFragment : Fragment() {
                 adapter.notifyDataSetChanged()
             }
         })
-        todoViewModel.listItems.asLiveData().observe(this, {
-            if(it.isNotEmpty()){
-                binding.progress.visibility = View.GONE
-                binding.recyclerList.visibility = View.VISIBLE
-                adapter.setList(it)
-                if(!todoViewModel.addButtonExpanded)
-                    actionButton.shrink()
-            }else{
-                binding.progress.visibility = View.VISIBLE
+
+        lifecycleScope.launchWhenStarted {
+            todoViewModel.listItems.collect {
+                if(it.isNotEmpty()){
+                    binding.progress.visibility = View.GONE
+                    binding.recyclerList.visibility = View.VISIBLE
+                    adapter.setList(it)
+                    if(!todoViewModel.addButtonExpanded)
+                        actionButton.shrink()
+                }else{
+                    binding.progress.visibility = View.VISIBLE
+                }
             }
-        })
+        }
     }
 
     /**
