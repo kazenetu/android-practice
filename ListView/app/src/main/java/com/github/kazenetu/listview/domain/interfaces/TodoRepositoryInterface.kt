@@ -1,8 +1,10 @@
 package com.github.kazenetu.listview.domain.interfaces
 
+import kotlinx.coroutines.flow.Flow
+
 interface TodoRepositoryInterface {
-    suspend fun todoData():List<TodoItemInterface>
-    suspend fun doneData() :List<TodoItemInterface>
+    fun todoData(): Flow<List<TodoItemInterface>>
+    fun doneData() :Flow<List<TodoItemInterface>>
 
     suspend fun insert(todo: TodoItemInterface)
     suspend fun update(todo: TodoItemInterface)

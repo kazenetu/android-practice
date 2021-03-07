@@ -34,22 +34,15 @@ abstract class ViewModel(protected val applicationService: TodoApplicationServic
      * コンストラクタ
      */
     init {
-        select()
-    }
-
-    /**
-     * 選択
-     */
-    protected fun select() {
         viewModelScope.launch {
-            _listItems.value = getSelectData()
+            getSelectData().collect { _listItems.value = it }
         }
     }
 
     /**
      * 選択対象取得
      */
-    protected abstract suspend fun getSelectData(): List<TodoEntity>
+    protected abstract fun getSelectData(): Flow<List<TodoEntity>>
 
     /**
      * 更新
@@ -81,8 +74,6 @@ abstract class ViewModel(protected val applicationService: TodoApplicationServic
                     )
                 )
             }
-            // 処理後の状態を取得
-            select()
         }
 
     /**
@@ -117,8 +108,6 @@ abstract class ViewModel(protected val applicationService: TodoApplicationServic
         deleteTarget.forEach {
             applicationService.delete(it)
         }
-        // 処理後の状態を取得
-        select()
         toggleDeleteImageFlag.value = Pair(first = false, second = true)
     }
 
