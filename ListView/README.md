@@ -3,12 +3,12 @@
 
 ## 開発環境
 * Debian10.1(Celeron 2.5Ghsx2Core 8GB)
-  * Android Studio 4.0
-  * kotlin 1.3.72
+  * Android Studio 4.1.3
+  * kotlin 1.4.20
 
 * Windows10(i7 16GB)
-  * Android Studio 4.0
-  * kotlin 1.3.72
+  * Android Studio 4.1.3
+  * kotlin 1.4.20
 
 
 ## 参考サイト 
