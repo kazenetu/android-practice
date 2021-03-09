@@ -7,7 +7,6 @@ import com.github.kazenetu.listview.domain.domain.TodoEntity
 import com.github.kazenetu.listview.view.recyclerView.RowItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 

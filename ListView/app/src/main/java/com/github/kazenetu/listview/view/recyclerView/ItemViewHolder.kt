@@ -1,6 +1,5 @@
 package com.github.kazenetu.listview.view.recyclerView
 
-import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView

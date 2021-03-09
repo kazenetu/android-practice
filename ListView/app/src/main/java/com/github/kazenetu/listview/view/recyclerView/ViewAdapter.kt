@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.github.kazenetu.listview.R
 import com.github.kazenetu.listview.databinding.TextRowItemBinding
 import com.github.kazenetu.listview.domain.interfaces.TodoItemInterface
-import com.github.kazenetu.listview.infrastructure.room.TodoItem
 
 class ViewAdapter internal constructor(
     private val context: Context,
