@@ -21,9 +21,7 @@ import com.github.kazenetu.listview.view.viewmodels.DoneViewModel
 import org.koin.android.ext.android.inject
 
 /**
- * A simple [Fragment] subclass.
- * Use the [DoneFragment.newInstance] factory method to
- * create an instance of this fragment.
+ * DONEリスト用Fragment
  */
 class DoneFragment : Fragment() {
     private var _binding: FragmentDoneBinding? = null

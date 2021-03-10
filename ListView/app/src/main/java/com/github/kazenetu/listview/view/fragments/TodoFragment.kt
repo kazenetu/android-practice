@@ -25,6 +25,9 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import kotlinx.coroutines.flow.collect
 import org.koin.android.ext.android.inject
 
+/**
+ * TODOリスト用Fragment
+ */
 class TodoFragment : Fragment() {
     private var _binding: FragmentTodoBinding? = null
     private val binding get() = _binding!!
