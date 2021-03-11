@@ -12,6 +12,9 @@ import com.github.kazenetu.listview.R
 import com.github.kazenetu.listview.databinding.TextRowItemBinding
 import com.github.kazenetu.listview.domain.interfaces.TodoItemInterface
 
+/**
+ * RecyclerView用アダプタ
+ */
 class ViewAdapter internal constructor(
     private val context: Context,
     private val listener: ItemClickListener

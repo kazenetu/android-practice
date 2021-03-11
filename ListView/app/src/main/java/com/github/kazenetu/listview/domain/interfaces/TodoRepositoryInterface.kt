@@ -2,6 +2,9 @@ package com.github.kazenetu.listview.domain.interfaces
 
 import kotlinx.coroutines.flow.Flow
 
+/**
+ * リポジトリインターフェース
+ */
 interface TodoRepositoryInterface {
     fun todoData(): Flow<List<TodoItemInterface>>
     fun doneData() :Flow<List<TodoItemInterface>>

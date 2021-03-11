@@ -10,6 +10,9 @@ import com.github.kazenetu.listview.R
 import com.github.kazenetu.listview.databinding.ActivityDetailBinding
 import com.github.kazenetu.listview.view.recyclerView.RowItem
 
+/**
+ * 詳細Activity
+ */
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
 

@@ -3,6 +3,9 @@ package com.github.kazenetu.listview.infrastructure.room
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 
+/**
+ * データベースにアクセスする際に使用するメソッドインターフェース
+ */
 @Dao
 interface TodoDao {
     @Query("SELECT * FROM items WHERE isDone = 0 ORDER BY id DESC")
