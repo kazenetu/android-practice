@@ -43,6 +43,11 @@ class TodoFragment : Fragment() {
     private lateinit var actionButton: ExtendedFloatingActionButton
 
     /**
+     * 追加ボタンの展開状況
+     */
+    private var addButtonExpanded :Boolean = true
+
+    /**
      * 削除ボタン
      */
     private lateinit var actionDeleteButton: ExtendedFloatingActionButton
@@ -94,7 +99,7 @@ class TodoFragment : Fragment() {
                     binding.progress.visibility = View.GONE
                     binding.recyclerList.visibility = View.VISIBLE
                     adapter.setList(it)
-                    if(!todoViewModel.addButtonExpanded)
+                    if(!addButtonExpanded)
                         actionButton.shrink()
                 }else{
                     binding.progress.visibility = View.VISIBLE
@@ -210,7 +215,7 @@ class TodoFragment : Fragment() {
                     actionButton.shrink()
                 }
                 super.onScrolled(recyclerView, dx, dy)
-                todoViewModel.addButtonExpanded = actionButton.isExtended
+                addButtonExpanded = actionButton.isExtended
             }
 
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -220,7 +225,7 @@ class TodoFragment : Fragment() {
                     actionButton.extend()
                 }
                 super.onScrollStateChanged(recyclerView, newState)
-                todoViewModel.addButtonExpanded = actionButton.isExtended
+                addButtonExpanded = actionButton.isExtended
             }
         })
 
