@@ -15,6 +15,4 @@ class TodoViewModel(applicationService: TodoApplicationService): ViewModel(appli
     override fun getSelectData(): Flow<List<TodoEntity>> {
         return applicationService.todoData()
     }
-
-    var addButtonExpanded :Boolean = true
 }
