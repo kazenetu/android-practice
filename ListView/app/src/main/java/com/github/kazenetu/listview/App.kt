@@ -2,7 +2,7 @@ package com.github.kazenetu.listview
 
 import androidx.room.Room
 import com.github.kazenetu.listview.application.TodoApplicationService
-import com.github.kazenetu.listview.domain.interfaces.TodoRepositoryInterface
+import com.github.kazenetu.listview.application.TodoRepositoryInterface
 import com.github.kazenetu.listview.infrastructure.TodoRepository
 import com.github.kazenetu.listview.infrastructure.room.AppDatabase
 import com.github.kazenetu.listview.infrastructure.room.migrations.Migration1to2
@@ -37,7 +37,7 @@ class App :android.app.Application() {
                 .build()
         }
         factory { get<AppDatabase>().todoDao() }
-        single { TodoRepository(get()) as TodoRepositoryInterface}
+        single { TodoRepository(get()) as TodoRepositoryInterface }
         single { TodoApplicationService(get())}
         viewModel { TodoViewModel(get()) }
         viewModel { DoneViewModel(get()) }

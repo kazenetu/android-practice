@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
-import com.github.kazenetu.listview.domain.interfaces.TodoItemInterface
+import com.github.kazenetu.listview.domain.domain.TodoItemInterface
 
 /**
  * リストアイテム
@@ -25,5 +25,5 @@ data class TodoItem(
     /**
      * TodoItemInterfaceを引数とするコンストラクタ
      */
-    constructor(src:TodoItemInterface) : this(src.id, src.showImage, src.title, src.detail, src.isDone)
+    constructor(src: TodoItemInterface) : this(src.id, src.showImage, src.title, src.detail, src.isDone)
 }

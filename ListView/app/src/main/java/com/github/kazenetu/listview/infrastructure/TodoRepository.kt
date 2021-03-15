@@ -1,7 +1,7 @@
 package com.github.kazenetu.listview.infrastructure
 
-import com.github.kazenetu.listview.domain.interfaces.TodoItemInterface
-import com.github.kazenetu.listview.domain.interfaces.TodoRepositoryInterface
+import com.github.kazenetu.listview.domain.domain.TodoItemInterface
+import com.github.kazenetu.listview.application.TodoRepositoryInterface
 import com.github.kazenetu.listview.infrastructure.room.TodoDao
 import com.github.kazenetu.listview.infrastructure.room.TodoItem
 import kotlinx.coroutines.flow.Flow

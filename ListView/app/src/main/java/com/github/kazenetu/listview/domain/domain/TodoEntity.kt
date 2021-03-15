@@ -1,7 +1,5 @@
 package com.github.kazenetu.listview.domain.domain
 
-import com.github.kazenetu.listview.domain.interfaces.TodoItemInterface
-
 /**
  * Todoエンティティ
  */
@@ -11,7 +9,7 @@ class TodoEntity private constructor(
     override var title: String,
     override var detail: String,
     override var isDone: Boolean
-) :TodoItemInterface {
+) : TodoItemInterface {
 
     companion object {
         /**
@@ -31,7 +29,7 @@ class TodoEntity private constructor(
          * TodoItemInterfaceからエンティティ生成
          */
         fun create(
-            src:TodoItemInterface
+            src: TodoItemInterface
         ): TodoEntity {
             return TodoEntity(src.id, src.showImage, src.title, src.detail, src.isDone)
         }

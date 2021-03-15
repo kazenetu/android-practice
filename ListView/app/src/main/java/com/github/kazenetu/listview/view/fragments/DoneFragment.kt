@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.github.kazenetu.listview.R
 import com.github.kazenetu.listview.databinding.FragmentDoneBinding
-import com.github.kazenetu.listview.domain.interfaces.TodoItemInterface
+import com.github.kazenetu.listview.domain.domain.TodoItemInterface
 import com.github.kazenetu.listview.view.activities.DetailActivity
 import com.github.kazenetu.listview.view.activities.ListActivity
 import com.github.kazenetu.listview.view.recyclerView.RowItem

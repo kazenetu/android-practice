@@ -1,5 +1,6 @@
-package com.github.kazenetu.listview.domain.interfaces
+package com.github.kazenetu.listview.application
 
+import com.github.kazenetu.listview.domain.domain.TodoItemInterface
 import kotlinx.coroutines.flow.Flow
 
 /**

@@ -10,7 +10,7 @@ import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
 import com.github.kazenetu.listview.R
 import com.github.kazenetu.listview.databinding.TextRowItemBinding
-import com.github.kazenetu.listview.domain.interfaces.TodoItemInterface
+import com.github.kazenetu.listview.domain.domain.TodoItemInterface
 
 /**
  * RecyclerView用アダプタ

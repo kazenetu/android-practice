@@ -1,7 +1,6 @@
 package com.github.kazenetu.listview.application
 
 import com.github.kazenetu.listview.domain.domain.TodoEntity
-import com.github.kazenetu.listview.domain.interfaces.TodoRepositoryInterface
 import kotlinx.coroutines.flow.map
 
 /**

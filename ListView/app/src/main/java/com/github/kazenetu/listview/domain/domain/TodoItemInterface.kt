@@ -1,4 +1,4 @@
-package com.github.kazenetu.listview.domain.interfaces
+package com.github.kazenetu.listview.domain.domain
 
 /**
  * Todo要素のインターフェース
