@@ -64,18 +64,18 @@
                 android:importantForAutofill="no"
                 tools:ignore="LabelFor"
                 android:layout_marginStart="50dp" />
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="189dp"
+                android:layout_marginTop="80dp"
+                android:text="@string/Save"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editDescription"
+                android:layout_marginStart="189dp" />
         </LinearLayout>
     </ScrollView>
 
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="18dp"
-        android:layout_marginTop="10dp"
-        android:text="@string/Save"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginEnd="18dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
