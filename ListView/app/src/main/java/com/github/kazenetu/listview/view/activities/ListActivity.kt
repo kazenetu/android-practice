@@ -33,6 +33,7 @@ class ListActivity : AppCompatActivity() {
         val todoFragment = TodoFragment.newInstance()
         val doneFragment = DoneFragment.newInstance()
 
+        // Fragment切り替え
         replaceFragment(todoFragment)
 
         // BottomNavigationの設定
@@ -50,6 +51,9 @@ class ListActivity : AppCompatActivity() {
         })
     }
 
+    /**
+     * Fragment切り替え
+     */
     private fun replaceFragment(fragment: Fragment) {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()

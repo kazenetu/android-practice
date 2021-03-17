@@ -22,6 +22,9 @@ class DetailActivity : AppCompatActivity() {
     private var rowPosition:Int=-1
     private var isDone:Boolean = false
 
+    /**
+     * Activity生成
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
