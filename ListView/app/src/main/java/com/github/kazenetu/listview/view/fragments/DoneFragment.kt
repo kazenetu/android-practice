@@ -52,6 +52,9 @@ class DoneFragment : Fragment() {
      */
     private lateinit var observer: CustomLifecycleObserver
 
+    /**
+     * fragment生成
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -88,6 +91,9 @@ class DoneFragment : Fragment() {
         requireActivity().overridePendingTransition(R.anim.list_in, R.anim.list_out)
     }
 
+    /**
+     * UI描画
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -137,6 +143,9 @@ class DoneFragment : Fragment() {
     }
 
     companion object {
+        /**
+         * インスタンス生成
+         */
         @JvmStatic
         fun newInstance() =
             DoneFragment().apply {

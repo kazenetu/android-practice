@@ -71,6 +71,9 @@ class TodoFragment : Fragment() {
      */
     private lateinit var observer: CustomLifecycleObserver
 
+    /**
+     * fragment生成
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -157,6 +160,9 @@ class TodoFragment : Fragment() {
         todoViewModel.update(position,row)
     }
 
+    /**
+     * UI描画
+     */
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         // Inflate the layout for this fragment
         _binding = FragmentTodoBinding.inflate(inflater, container, false)
@@ -242,12 +248,18 @@ class TodoFragment : Fragment() {
         return view
     }
 
+    /**
+     * UI削除
+     */
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
     companion object {
+        /**
+         * インスタンス生成
+         */
         @JvmStatic
         fun newInstance() =
             TodoFragment().apply {
