@@ -142,6 +142,14 @@ class DoneFragment : Fragment() {
         return view
     }
 
+    /**
+     * UI削除
+     */
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     companion object {
         /**
          * インスタンス生成
