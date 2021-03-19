@@ -112,55 +112,6 @@ class TodoFragment : Fragment() {
     }
 
     /**
-     * 詳細画面呼び出し
-     */
-    private fun callDetail(position: Int, value: RowItem){
-
-        // 遷移済みの場合はキャンセル
-        if(isMovedDetail) return
-
-        // 遷移済みに設定
-        isMovedDetail = true
-
-        // 遷移処理
-        val intent = Intent(requireActivity(), DetailActivity::class.java).apply {
-            putExtra(ListActivity.EXTRA_POSITION,position)
-            putExtra(ListActivity.EXTRA_DATA,value)
-        }
-
-        observer.start(intent)
-
-        // 遷移アニメーション設定
-        requireActivity().overridePendingTransition(R.anim.list_in, R.anim.list_out)
-    }
-
-    /**
-     * 詳細から更新イベント
-     */
-    private fun activityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        // 未遷移に設定
-        isMovedDetail = false
-
-        // 削除フラグを非表示にする
-        todoViewModel.hideAllDeleteImage()
-
-        Log.d("result","${requestCode},${resultCode}")
-
-        if(resultCode != AppCompatActivity.RESULT_OK){
-            return
-        }
-
-        val position = data?.getIntExtra(ListActivity.EXTRA_POSITION,-1)
-        val row = data?.getParcelableExtra<RowItem>(ListActivity.EXTRA_DATA) as RowItem
-
-        if(position == null ){
-            return
-        }
-
-        todoViewModel.update(position,row)
-    }
-
-    /**
      * UI描画
      */
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -254,6 +205,55 @@ class TodoFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    /**
+     * 詳細画面呼び出し
+     */
+    private fun callDetail(position: Int, value: RowItem){
+
+        // 遷移済みの場合はキャンセル
+        if(isMovedDetail) return
+
+        // 遷移済みに設定
+        isMovedDetail = true
+
+        // 遷移処理
+        val intent = Intent(requireActivity(), DetailActivity::class.java).apply {
+            putExtra(ListActivity.EXTRA_POSITION,position)
+            putExtra(ListActivity.EXTRA_DATA,value)
+        }
+
+        observer.start(intent)
+
+        // 遷移アニメーション設定
+        requireActivity().overridePendingTransition(R.anim.list_in, R.anim.list_out)
+    }
+
+    /**
+     * 詳細から更新イベント
+     */
+    private fun activityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        // 未遷移に設定
+        isMovedDetail = false
+
+        // 削除フラグを非表示にする
+        todoViewModel.hideAllDeleteImage()
+
+        Log.d("result","${requestCode},${resultCode}")
+
+        if(resultCode != AppCompatActivity.RESULT_OK){
+            return
+        }
+
+        val position = data?.getIntExtra(ListActivity.EXTRA_POSITION,-1)
+        val row = data?.getParcelableExtra<RowItem>(ListActivity.EXTRA_DATA) as RowItem
+
+        if(position == null ){
+            return
+        }
+
+        todoViewModel.update(position,row)
     }
 
     companion object {

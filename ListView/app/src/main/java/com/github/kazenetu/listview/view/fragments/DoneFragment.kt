@@ -70,28 +70,6 @@ class DoneFragment : Fragment() {
     }
 
     /**
-     * 詳細画面呼び出し
-     */
-    private fun callDetail(position: Int, value: RowItem){
-
-        // 遷移済みの場合はキャンセル
-        if(isMovedDetail) return
-
-        // 遷移済みに設定
-        isMovedDetail = true
-
-        // 遷移処理
-        val intent = Intent(requireActivity(), DetailActivity::class.java).apply {
-            putExtra(ListActivity.EXTRA_POSITION,position)
-            putExtra(ListActivity.EXTRA_DATA,value)
-        }
-        observer.start(intent)
-
-        // 遷移アニメーション設定
-        requireActivity().overridePendingTransition(R.anim.list_in, R.anim.list_out)
-    }
-
-    /**
      * UI描画
      */
     override fun onCreateView(
@@ -148,6 +126,28 @@ class DoneFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    /**
+     * 詳細画面呼び出し
+     */
+    private fun callDetail(position: Int, value: RowItem){
+
+        // 遷移済みの場合はキャンセル
+        if(isMovedDetail) return
+
+        // 遷移済みに設定
+        isMovedDetail = true
+
+        // 遷移処理
+        val intent = Intent(requireActivity(), DetailActivity::class.java).apply {
+            putExtra(ListActivity.EXTRA_POSITION,position)
+            putExtra(ListActivity.EXTRA_DATA,value)
+        }
+        observer.start(intent)
+
+        // 遷移アニメーション設定
+        requireActivity().overridePendingTransition(R.anim.list_in, R.anim.list_out)
     }
 
     companion object {
