@@ -28,6 +28,8 @@
 
   * [Qiita:［Android］Room を使ったサンプルと解説](https://qiita.com/kaleidot725/items/34f29efaeb6d836e010e)
 
+  * [stackoverflow How to get rid of Incremental annotation processing requested warning?](https://stackoverflow.com/questions/57670510/how-to-get-rid-of-incremental-annotation-processing-requested-warning)
+
 * Koin系
   * [koin2.2.2](https://start.insert-koin.io/)
   * [Qiita:Kotlinで DI （Dependency Injection）~ Koin 編](https://qiita.com/sudachi808/items/8e03503f52b4f11533a2)
