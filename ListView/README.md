@@ -38,5 +38,8 @@
 
   * [Room + Coroutines + Koin + Kotlin構成での実装](https://qiita.com/Slowhand0309/items/ece245e2c0e3656afe6b)
 
+  * ["No cast needed" warning when declaring an interface implementation in module #556](https://github.com/InsertKoinIO/koin/issues/556)  
+    Koinでのインターフェース指定方法
+
 * その他
   * [Qiita:KotlinでfindViewByIdとさよならしましょう](https://qiita.com/superman9387/items/9df8038c4db92a7136c8)
