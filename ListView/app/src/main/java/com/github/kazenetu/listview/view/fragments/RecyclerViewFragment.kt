@@ -46,7 +46,7 @@ open class RecyclerViewFragment : Fragment() {
      */
     private var isMovedDetail:Boolean = false
 
-    /**
+      /**
      * fragment生成
      */
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,21 +79,21 @@ open class RecyclerViewFragment : Fragment() {
              * アイテムクリックイベント
              */
             override fun onItemClick(view: View, position: Int, value: TodoItemInterface) {
-                onItemClick(view, position, value)
+                onItemClickEvent(view, position, value)
             }
 
             /**
              * アイテム長押し
              */
             override fun onItemLongClickListener(view: View, position: Int, value: TodoItemInterface): Boolean {
-                return onItemLongClickListener(view, position, value)
+                return onItemLongClickEvent(view, position, value)
             }
 
             /**
              * Doneボタン
              */
             override fun onItemDoneClick(view: View, position: Int, value: TodoItemInterface) {
-                onItemDoneClick(view, position, value)
+                onItemDoneClickEvent(view, position, value)
             }
         })
         // Adapterの内容がRecyclerViewのサイズに影響しない場合はtrueにするとパフォーマンスアップ
@@ -108,14 +108,14 @@ open class RecyclerViewFragment : Fragment() {
         return view
     }
 
-    open protected fun onItemClick(view: View, position: Int, value: TodoItemInterface){
+    open protected fun onItemClickEvent(view: View, position: Int, value: TodoItemInterface){
     }
 
-    open  protected fun onItemLongClickListener(view: View, position: Int, value: TodoItemInterface): Boolean {
+    open  protected fun onItemLongClickEvent(view: View, position: Int, value: TodoItemInterface): Boolean {
         return true
     }
 
-    open protected  fun onItemDoneClick(view: View, position: Int, value: TodoItemInterface) {
+    open protected  fun onItemDoneClickEvent(view: View, position: Int, value: TodoItemInterface) {
     }
 
     /**
@@ -159,7 +159,7 @@ open class RecyclerViewFragment : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance() =
             RecyclerViewFragment().apply {
                 arguments = Bundle().apply {
                 }
