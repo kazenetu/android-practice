@@ -46,7 +46,9 @@ open class RecyclerViewFragment : Fragment() {
      */
     private var isMovedDetail:Boolean = false
 
-      /**
+    protected  fun base() = binding.root
+
+    /**
      * fragment生成
      */
     override fun onCreate(savedInstanceState: Bundle?) {
