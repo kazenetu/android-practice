@@ -23,14 +23,9 @@ import org.koin.android.ext.android.inject
 /**
  * DONEリスト用Fragment
  */
-class DoneFragment : Fragment() {
+class DoneFragment : RecyclerViewFragment() {
     private var _binding: FragmentDoneBinding? = null
     private val binding get() = _binding!!
-
-    /**
-     * リストビューのインスタンス
-     */
-    private lateinit var recyclerView: RecyclerView
 
     /**
      * TodoViewModelのインスタンス
@@ -38,30 +33,10 @@ class DoneFragment : Fragment() {
     private val doneViewModel: DoneViewModel by inject()
 
     /**
-     * RecyclerView.Adapterのインスタンス
-     */
-    private lateinit var adapter: ViewAdapter
-
-    /**
-     * 詳細画面の遷移フラグ
-     */
-    private var isMovedDetail:Boolean = false
-
-    /**
-     * 詳細画面の連携処理用
-     */
-    private lateinit var observer: CustomLifecycleObserver
-
-    /**
      * fragment生成
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        observer = CustomLifecycleObserver(requireActivity().activityResultRegistry, this.javaClass.name) {
-            isMovedDetail = false
-        }
-        lifecycle.addObserver(observer)
 
         // ViewModelの更新監視
         doneViewModel.listItems.asLiveData().observe(this, {
@@ -76,48 +51,24 @@ class DoneFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        super.onCreateView(inflater, container, savedInstanceState)
+
         // Inflate the layout for this fragment
         _binding = FragmentDoneBinding.inflate(inflater, container, false)
 
         val view = binding.root
 
-        recyclerView = binding.recyclerList
-
-        // リストセット
-        adapter = ViewAdapter(requireActivity(), object: ViewAdapter.ItemClickListener {
-
-            /**
-             * アイテムクリックイベント
-             */
-            override fun onItemClick(view: View, position: Int, value: TodoItemInterface) {
-                callDetail(position, RowItem(value.showImage,value.title,value.detail,value.isDone))
-            }
-
-            /**
-             * アイテム長押し
-             */
-            override fun onItemLongClickListener(view: View, position: Int, value: TodoItemInterface): Boolean {
-                return true
-            }
-
-            /**
-             * Doneボタン
-             */
-            override fun onItemDoneClick(view: View, position: Int, value: TodoItemInterface) {
-                doneViewModel.updateDone(position, !value.isDone)
-                adapter.notifyItemChanged(position)
-            }
-        })
-        // Adapterの内容がRecyclerViewのサイズに影響しない場合はtrueにするとパフォーマンスアップ
-        recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = adapter
-
-        // 区切り線を設定
-        val separateLine = DividerItemDecoration(activity, DividerItemDecoration.VERTICAL)
-        recyclerView.addItemDecoration(separateLine)
+        binding.superConstraintLayout.addView(super.base())
 
         return view
+    }
+
+    override fun onItemClickEvent(view: View, position: Int, value: TodoItemInterface){
+        callDetail(position, RowItem(value.showImage,value.title,value.detail,value.isDone))
+    }
+
+    override fun onItemDoneClickEvent(view: View, position: Int, value: TodoItemInterface) {
+        doneViewModel.updateDone(position, !value.isDone)
     }
 
     /**
@@ -126,28 +77,6 @@ class DoneFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    /**
-     * 詳細画面呼び出し
-     */
-    private fun callDetail(position: Int, value: RowItem){
-
-        // 遷移済みの場合はキャンセル
-        if(isMovedDetail) return
-
-        // 遷移済みに設定
-        isMovedDetail = true
-
-        // 遷移処理
-        val intent = Intent(requireActivity(), DetailActivity::class.java).apply {
-            putExtra(ListActivity.EXTRA_POSITION,position)
-            putExtra(ListActivity.EXTRA_DATA,value)
-        }
-        observer.start(intent)
-
-        // 遷移アニメーション設定
-        requireActivity().overridePendingTransition(R.anim.list_in, R.anim.list_out)
     }
 
     companion object {

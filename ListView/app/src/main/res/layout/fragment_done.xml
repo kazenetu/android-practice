@@ -5,12 +5,8 @@
     android:layout_height="match_parent"
     tools:context=".view.fragments.DoneFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginLeft="1dp" />
-
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/superConstraintLayout"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent" />
 </FrameLayout>
