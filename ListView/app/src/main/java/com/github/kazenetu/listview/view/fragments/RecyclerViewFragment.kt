@@ -110,14 +110,14 @@ open class RecyclerViewFragment : Fragment() {
         return view
     }
 
-    open protected fun onItemClickEvent(view: View, position: Int, value: TodoItemInterface){
+    protected open fun onItemClickEvent(view: View, position: Int, value: TodoItemInterface){
     }
 
-    open  protected fun onItemLongClickEvent(view: View, position: Int, value: TodoItemInterface): Boolean {
+    protected open fun onItemLongClickEvent(view: View, position: Int, value: TodoItemInterface): Boolean {
         return true
     }
 
-    open protected  fun onItemDoneClickEvent(view: View, position: Int, value: TodoItemInterface) {
+    protected open fun onItemDoneClickEvent(view: View, position: Int, value: TodoItemInterface) {
     }
 
     /**
