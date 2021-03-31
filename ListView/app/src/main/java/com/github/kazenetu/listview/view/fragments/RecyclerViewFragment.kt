@@ -56,6 +56,7 @@ open class RecyclerViewFragment : Fragment() {
 
         observer = CustomLifecycleObserver(requireActivity().activityResultRegistry, this.javaClass.name) {
             isMovedDetail = false
+            onActivityResultEvent(it.resultCode, it.resultCode, it.data)
         }
         lifecycle.addObserver(observer)
     }
@@ -107,6 +108,20 @@ open class RecyclerViewFragment : Fragment() {
         val separateLine = DividerItemDecoration(activity, DividerItemDecoration.VERTICAL)
         recyclerView.addItemDecoration(separateLine)
 
+        // スクロール監視
+        recyclerView.addOnScrollListener(object:RecyclerView.OnScrollListener(){
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                onScrolledEvent(recyclerView, dx, dy)
+            }
+
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                onScrollStateChangedEvent(recyclerView, newState)
+            }
+        })
+
+
         return view
     }
 
@@ -118,6 +133,15 @@ open class RecyclerViewFragment : Fragment() {
     }
 
     protected open fun onItemDoneClickEvent(view: View, position: Int, value: TodoItemInterface) {
+    }
+
+    protected open fun onScrolledEvent(recyclerView: RecyclerView, dx: Int, dy: Int) {
+    }
+
+    protected open fun onScrollStateChangedEvent(recyclerView: RecyclerView, newState: Int) {
+    }
+
+    protected open fun onActivityResultEvent(requestCode: Int, resultCode: Int, data: Intent?) {
     }
 
     /**
