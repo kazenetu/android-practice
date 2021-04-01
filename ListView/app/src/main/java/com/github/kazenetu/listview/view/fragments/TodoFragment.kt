@@ -7,19 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.github.kazenetu.listview.R
 import com.github.kazenetu.listview.databinding.FragmentTodoBinding
 import com.github.kazenetu.listview.domain.domain.TodoItemInterface
-import com.github.kazenetu.listview.view.activities.DetailActivity
 import com.github.kazenetu.listview.view.activities.ListActivity
 import com.github.kazenetu.listview.view.recyclerView.RowItem
-import com.github.kazenetu.listview.view.recyclerView.ViewAdapter
 import com.github.kazenetu.listview.view.viewmodels.TodoViewModel
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import kotlinx.coroutines.flow.collect
@@ -28,14 +22,9 @@ import org.koin.android.ext.android.inject
 /**
  * TODOリスト用Fragment
  */
-class TodoFragment : Fragment() {
+class TodoFragment : RecyclerViewFragment() {
     private var _binding: FragmentTodoBinding? = null
     private val binding get() = _binding!!
-
-    /**
-     * リストビューのインスタンス
-     */
-    private lateinit var recyclerView: RecyclerView
 
     /**
      * 追加ボタン
@@ -56,31 +45,12 @@ class TodoFragment : Fragment() {
      * TodoViewModelのインスタンス
      */
     private val todoViewModel: TodoViewModel by inject()
-    /**
-     * RecyclerView.Adapterのインスタンス
-     */
-    private lateinit var adapter: ViewAdapter
-
-    /**
-     * 詳細画面の遷移フラグ
-     */
-    private var isMovedDetail:Boolean = false
-
-    /**
-     * 詳細画面の連携処理用
-     */
-    private lateinit var observer: CustomLifecycleObserver
 
     /**
      * fragment生成
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        observer = CustomLifecycleObserver(requireActivity().activityResultRegistry, this.javaClass.name) {
-            activityResult(it.resultCode, it.resultCode, it.data)
-        }
-        lifecycle.addObserver(observer)
 
         // ViewModelの更新監視
         todoViewModel.toggleDeleteImage.asLiveData().observe(this, { (isShow,all) ->
@@ -100,7 +70,7 @@ class TodoFragment : Fragment() {
             todoViewModel.listItems.collect {
                 if(it.isNotEmpty()){
                     binding.progress.visibility = View.GONE
-                    binding.recyclerList.visibility = View.VISIBLE
+                    binding.superConstraintLayout.visibility = View.VISIBLE
                     adapter.setList(it)
                     if(!addButtonExpanded)
                         actionButton.shrink()
@@ -115,76 +85,16 @@ class TodoFragment : Fragment() {
      * UI描画
      */
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        super.onCreateView(inflater, container, savedInstanceState)
+
         // Inflate the layout for this fragment
         _binding = FragmentTodoBinding.inflate(inflater, container, false)
 
         val view = binding.root
 
-        recyclerView = binding.recyclerList
+        binding.superConstraintLayout.addView(super.base())
         actionButton = binding.addButton
         actionDeleteButton = binding.deleteButton
-
-        // リストセット
-        adapter = ViewAdapter(requireActivity(), object: ViewAdapter.ItemClickListener {
-
-            /**
-             * アイテムクリックイベント
-             */
-            override fun onItemClick(view: View, position: Int, value: TodoItemInterface) {
-                callDetail(position, RowItem(value.showImage,value.title,value.detail,value.isDone))
-            }
-
-            /**
-             * アイテム長押し
-             */
-            override fun onItemLongClickListener(view: View, position: Int, value: TodoItemInterface): Boolean {
-                if(value.showImage){
-                    todoViewModel.hideDeleteImage(position)
-                }
-                else{
-                    todoViewModel.showDeleteImage(position)
-                }
-                adapter.notifyItemChanged(position)
-                return true
-            }
-
-            /**
-             * Doneボタン
-             */
-            override fun onItemDoneClick(view: View, position: Int, value: TodoItemInterface) {
-                todoViewModel.updateDone(position, !value.isDone)
-                adapter.notifyItemChanged(position)
-            }
-        })
-        // Adapterの内容がRecyclerViewのサイズに影響しない場合はtrueにするとパフォーマンスアップ
-        recyclerView.setHasFixedSize(true)
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = adapter
-
-        // 区切り線を設定
-        val separateLine = DividerItemDecoration(activity, DividerItemDecoration.VERTICAL)
-        recyclerView.addItemDecoration(separateLine)
-
-        // スクロール監視
-        recyclerView.addOnScrollListener(object:RecyclerView.OnScrollListener(){
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                if(dy != 0 && actionButton.isExtended){
-                    actionButton.shrink()
-                }
-                super.onScrolled(recyclerView, dx, dy)
-                addButtonExpanded = actionButton.isExtended
-            }
-
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                if(newState == RecyclerView.SCROLL_STATE_IDLE &&
-                    recyclerView.computeVerticalScrollOffset() == 0 &&
-                    !actionButton.isExtended){
-                    actionButton.extend()
-                }
-                super.onScrollStateChanged(recyclerView, newState)
-                addButtonExpanded = actionButton.isExtended
-            }
-        })
 
         // 追加ボタンイベント
         actionButton.setOnClickListener {
@@ -200,43 +110,62 @@ class TodoFragment : Fragment() {
     }
 
     /**
-     * UI削除
+     * アイテムクリック
      */
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    override fun onItemClickEvent(view: View, position: Int, value: TodoItemInterface){
+        callDetail(position, RowItem(value.showImage,value.title,value.detail,value.isDone))
     }
 
     /**
-     * 詳細画面呼び出し
+     * アイテム長押し
      */
-    private fun callDetail(position: Int, value: RowItem){
-
-        // 遷移済みの場合はキャンセル
-        if(isMovedDetail) return
-
-        // 遷移済みに設定
-        isMovedDetail = true
-
-        // 遷移処理
-        val intent = Intent(requireActivity(), DetailActivity::class.java).apply {
-            putExtra(ListActivity.EXTRA_POSITION,position)
-            putExtra(ListActivity.EXTRA_DATA,value)
+    override fun onItemLongClickEvent(view: View, position: Int, value: TodoItemInterface): Boolean {
+        if(value.showImage){
+            todoViewModel.hideDeleteImage(position)
         }
-
-        observer.start(intent)
-
-        // 遷移アニメーション設定
-        requireActivity().overridePendingTransition(R.anim.list_in, R.anim.list_out)
+        else{
+            todoViewModel.showDeleteImage(position)
+        }
+        adapter.notifyItemChanged(position)
+        return true
     }
 
     /**
-     * 詳細から更新イベント
+     * Doneボタン
      */
-    private fun activityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        // 未遷移に設定
-        isMovedDetail = false
+    override fun onItemDoneClickEvent(view: View, position: Int, value: TodoItemInterface) {
+        todoViewModel.updateDone(position, !value.isDone)
+        adapter.notifyItemChanged(position)
+    }
 
+    /**
+     * スクロール中
+     */
+    override fun onScrolledEvent(recyclerView: RecyclerView, dx: Int, dy: Int) {
+        // スクロール発生、アイコンの縮小
+        if(dy != 0 && actionButton.isExtended){
+            actionButton.shrink()
+        }
+        addButtonExpanded = actionButton.isExtended
+    }
+
+    /**
+     * スクロール停止
+     */
+    override fun onScrollStateChangedEvent(recyclerView: RecyclerView, newState: Int) {
+        // スクロール位置0の場合はアイコン拡張
+        if(newState == RecyclerView.SCROLL_STATE_IDLE &&
+            recyclerView.computeVerticalScrollOffset() == 0 &&
+            !actionButton.isExtended){
+            actionButton.extend()
+        }
+        addButtonExpanded = actionButton.isExtended
+    }
+
+    /**
+     * 画面遷移先からの戻り値
+     */
+    override fun onActivityResultEvent(requestCode: Int, resultCode: Int, data: Intent?) {
         // 削除フラグを非表示にする
         todoViewModel.hideAllDeleteImage()
 
@@ -254,6 +183,14 @@ class TodoFragment : Fragment() {
         }
 
         todoViewModel.update(position,row)
+    }
+
+    /**
+     * UI削除
+     */
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {
