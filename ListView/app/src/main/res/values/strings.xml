@@ -6,4 +6,5 @@
     <string name="detailLabel">説明</string>
     <string name="AddItem">追加</string>
     <string name="AllRemove">すべて削除</string>
+    <string name="oss_license_title">OSSライセンス</string>
 </resources>
