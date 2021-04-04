@@ -1,5 +1,6 @@
 package com.github.kazenetu.listview.view.activities
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -7,6 +8,7 @@ import com.github.kazenetu.listview.R
 import com.github.kazenetu.listview.databinding.ActivityListBinding
 import com.github.kazenetu.listview.view.fragments.DoneFragment
 import com.github.kazenetu.listview.view.fragments.TodoFragment
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 /**
@@ -44,6 +46,10 @@ class ListActivity : AppCompatActivity() {
                 }
                 R.id.navigation_done ->{
                     replaceFragment(doneFragment)
+                }
+                R.id.navigation_license ->{
+                    val intent = Intent(this, OssLicensesMenuActivity::class.java)
+                    startActivity(intent)
                 }
             }
 
