@@ -9,6 +9,8 @@ import kotlinx.coroutines.flow.Flow
  */
 class TodoViewModel(applicationService: TodoApplicationService): ViewModel(applicationService) {
 
+    var shownLoading:Boolean = false;
+
     /**
      * 選択対象取得
      */
