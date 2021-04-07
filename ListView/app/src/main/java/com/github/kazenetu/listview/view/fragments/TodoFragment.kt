@@ -16,6 +16,7 @@ import com.github.kazenetu.listview.view.activities.ListActivity
 import com.github.kazenetu.listview.view.recyclerView.RowItem
 import com.github.kazenetu.listview.view.viewmodels.TodoViewModel
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import org.koin.android.ext.android.inject
 
@@ -69,6 +70,11 @@ class TodoFragment : RecyclerViewFragment() {
         lifecycleScope.launchWhenStarted {
             todoViewModel.listItems.collect {
                 if(it.isNotEmpty()){
+                    if(todoViewModel.shownLoading){
+                        delay(500)
+                        todoViewModel.shownLoading = false
+                    }
+
                     binding.progress.visibility = View.GONE
                     binding.superConstraintLayout.visibility = View.VISIBLE
                     adapter.setList(it)
