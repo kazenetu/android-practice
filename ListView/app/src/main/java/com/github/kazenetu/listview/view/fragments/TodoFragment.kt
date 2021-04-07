@@ -70,6 +70,10 @@ class TodoFragment : RecyclerViewFragment() {
         lifecycleScope.launchWhenStarted {
             todoViewModel.listItems.collect {
                 if(it.isNotEmpty()){
+                    adapter.setList(it)
+                    if(!addButtonExpanded)
+                        actionButton.shrink()
+
                     if(todoViewModel.shownLoading){
                         delay(500)
                         todoViewModel.shownLoading = false
@@ -77,9 +81,6 @@ class TodoFragment : RecyclerViewFragment() {
 
                     binding.progress.visibility = View.GONE
                     binding.superConstraintLayout.visibility = View.VISIBLE
-                    adapter.setList(it)
-                    if(!addButtonExpanded)
-                        actionButton.shrink()
                 }else{
                     binding.progress.visibility = View.VISIBLE
                 }
