@@ -113,7 +113,7 @@ static def modifyOssLicense(project)
     def start = licensesFile.length()
 
     // ライセンスファイルへ書き込み
-    def licenseContentFile = new URL("http://www.apache.org/licenses/LICENSE-2.0.txt").text
+    def licenseContentFile = new URL("https://www.apache.org/licenses/LICENSE-2.0.txt").text
     licensesFile << licenseContentFile
     licensesFile << (LINE_SEPARATOR)
 
