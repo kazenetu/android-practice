@@ -75,7 +75,7 @@ class TodoFragment : RecyclerViewFragment() {
                         actionButton.shrink()
 
                     if(todoViewModel.shownLoading){
-                        delay(500)
+                        delay(1000)
                         todoViewModel.shownLoading = false
                     }
 
