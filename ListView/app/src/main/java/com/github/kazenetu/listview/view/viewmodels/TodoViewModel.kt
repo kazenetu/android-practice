@@ -10,9 +10,19 @@ import kotlinx.coroutines.flow.Flow
 class TodoViewModel(applicationService: TodoApplicationService): ViewModel(applicationService) {
 
     /**
-     * ローディングイメージ表示
+     * ローディングイメージ表示状態
      */
-    var shownLoading:Boolean = false;
+    private var shownLoading:Boolean = false;
+
+    /**
+     * ローディングイメージ表示状態
+     */
+    val displayedLoading get() = shownLoading
+
+    fun hideLoading()
+    {
+        shownLoading = false
+    }
 
     /**
      * 選択対象取得

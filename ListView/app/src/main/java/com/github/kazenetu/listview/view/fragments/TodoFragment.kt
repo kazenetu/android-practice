@@ -74,9 +74,9 @@ class TodoFragment : RecyclerViewFragment() {
                     if(!addButtonExpanded)
                         actionButton.shrink()
 
-                    if(todoViewModel.shownLoading){
+                    if(todoViewModel.displayedLoading){
                         delay(1000)
-                        todoViewModel.shownLoading = false
+                        todoViewModel.hideLoading()
                     }
 
                     binding.progress.visibility = View.GONE
