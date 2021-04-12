@@ -12,7 +12,7 @@ class TodoViewModel(applicationService: TodoApplicationService): ViewModel(appli
     /**
      * ローディングイメージ表示状態
      */
-    private var shownLoading:Boolean = false;
+    private var shownLoading:Boolean = true;
 
     /**
      * ローディングイメージ表示状態
