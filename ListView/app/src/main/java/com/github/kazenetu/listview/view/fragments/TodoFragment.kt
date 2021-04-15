@@ -16,7 +16,6 @@ import com.github.kazenetu.listview.view.activities.ListActivity
 import com.github.kazenetu.listview.view.recyclerView.RowItem
 import com.github.kazenetu.listview.view.viewmodels.TodoViewModel
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import org.koin.android.ext.android.inject
 
@@ -73,14 +72,10 @@ class TodoFragment : RecyclerViewFragment() {
                     adapter.setList(it)
                     if(!addButtonExpanded)
                         actionButton.shrink()
-
-                    if(todoViewModel.displayedLoading){
-                        delay(1000)
-                        todoViewModel.hideLoading()
-                    }
-
-                    binding.progress.visibility = View.GONE
                     binding.superConstraintLayout.visibility = View.VISIBLE
+                    if(!todoViewModel.displayedLoading){
+                        binding.progress.visibility = View.GONE
+                    }
                 }else{
                     binding.progress.visibility = View.VISIBLE
                 }
@@ -167,6 +162,17 @@ class TodoFragment : RecyclerViewFragment() {
             actionButton.extend()
         }
         addButtonExpanded = actionButton.isExtended
+    }
+
+    /**
+     * RecyclerViewアイテム描画
+     */
+    override fun onItemDecorationDrawOverEvent()
+    {
+        if(todoViewModel.displayedLoading){
+            todoViewModel.hideLoading()
+            binding.progress.visibility = View.GONE
+        }
     }
 
     /**

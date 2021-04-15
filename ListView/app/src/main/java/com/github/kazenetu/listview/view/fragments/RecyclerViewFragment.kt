@@ -14,6 +14,7 @@ import com.github.kazenetu.listview.databinding.FragmentRecyclerViewBinding
 import com.github.kazenetu.listview.domain.domain.TodoItemInterface
 import com.github.kazenetu.listview.view.activities.DetailActivity
 import com.github.kazenetu.listview.view.activities.ListActivity
+import com.github.kazenetu.listview.view.recyclerView.CustomDividerItemDecoration
 import com.github.kazenetu.listview.view.recyclerView.RowItem
 import com.github.kazenetu.listview.view.recyclerView.ViewAdapter
 
@@ -105,7 +106,13 @@ open class RecyclerViewFragment : Fragment() {
         recyclerView.adapter = adapter
 
         // 区切り線を設定
-        val separateLine = DividerItemDecoration(activity, DividerItemDecoration.VERTICAL)
+        val separateLine = CustomDividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL,
+            object :CustomDividerItemDecoration.DrawOverListener
+            {
+                override fun onDrawOverEvent() {
+                    onItemDecorationDrawOverEvent()
+                }
+            })
         recyclerView.addItemDecoration(separateLine)
 
         // スクロール監視
@@ -120,7 +127,6 @@ open class RecyclerViewFragment : Fragment() {
                 onScrollStateChangedEvent(recyclerView, newState)
             }
         })
-
 
         return view
     }
@@ -139,6 +145,10 @@ open class RecyclerViewFragment : Fragment() {
     }
 
     protected open fun onScrollStateChangedEvent(recyclerView: RecyclerView, newState: Int) {
+    }
+
+    protected open fun onItemDecorationDrawOverEvent(){
+
     }
 
     protected open fun onActivityResultEvent(requestCode: Int, resultCode: Int, data: Intent?) {
