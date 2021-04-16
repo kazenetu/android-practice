@@ -7,8 +7,8 @@ import kotlinx.coroutines.flow.map
  * アプリケーションサービス
  */
 class TodoApplicationService(private val repository: TodoRepositoryInterface) {
-    fun todoData() = repository.todoData().map {it.map {item-> TodoEntity.create(item) } }
-    fun doneData() = repository.doneData().map{it.map {item-> TodoEntity.create(item) } }
+    suspend fun todoData() = repository.todoData().map { TodoEntity.create(it) }
+    suspend fun doneData() = repository.doneData().map { TodoEntity.create(it) }
 
     /**
      * 登録

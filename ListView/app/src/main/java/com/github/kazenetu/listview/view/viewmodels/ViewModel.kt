@@ -9,6 +9,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 /**
  * ViewModelのスーパークラス
@@ -36,15 +37,23 @@ abstract class ViewModel(protected val applicationService: TodoApplicationServic
      * コンストラクタ
      */
     init {
-        viewModelScope.launch {
-            getSelectData().collect { _listItems.value = it }
+        CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
+            updateListItems()
+
+            changedDone.collect {
+                updateListItems()
+            }
         }
     }
 
     /**
      * 選択対象取得
      */
-    protected abstract fun getSelectData(): Flow<List<TodoEntity>>
+    protected abstract suspend fun getSelectData(): List<TodoEntity>
+
+    suspend fun updateListItems(){
+        _listItems.value = getSelectData()
+    }
 
     /**
      * 更新
@@ -76,6 +85,7 @@ abstract class ViewModel(protected val applicationService: TodoApplicationServic
                     )
                 )
             }
+            updateListItems()
         }
 
     /**
@@ -98,6 +108,8 @@ abstract class ViewModel(protected val applicationService: TodoApplicationServic
                 )
             )
 
+            updateListItems()
+
             // 処理後の状態を取得
             changedDoneEvent.emit(Unit)
         }
@@ -111,6 +123,7 @@ abstract class ViewModel(protected val applicationService: TodoApplicationServic
             applicationService.delete(it)
         }
         toggleDeleteImageFlag.value = Pair(first = false, second = true)
+        updateListItems()
     }
 
     /**
@@ -142,6 +155,6 @@ abstract class ViewModel(protected val applicationService: TodoApplicationServic
 
     companion object {
         private var changedDoneEvent = MutableSharedFlow<Unit>()
-        val changedDone: SharedFlow<Unit> get() = changedDoneEvent
+        private val changedDone: SharedFlow<Unit> get() = changedDoneEvent
     }
 }

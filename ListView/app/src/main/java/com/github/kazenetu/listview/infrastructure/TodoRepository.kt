@@ -10,8 +10,8 @@ import kotlinx.coroutines.flow.Flow
  * TODOリポジトリ
  */
 class TodoRepository(private val todoDao: TodoDao): TodoRepositoryInterface {
-    override fun todoData() = todoDao.getTodo() as Flow<List<TodoItemInterface>>
-    override fun doneData() = todoDao.getDone() as Flow<List<TodoItemInterface>>
+    override suspend fun todoData() = todoDao.getTodo()
+    override suspend fun doneData() = todoDao.getDone()
 
     /**
      * 追加

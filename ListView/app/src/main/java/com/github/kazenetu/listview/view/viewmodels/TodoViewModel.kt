@@ -27,7 +27,7 @@ class TodoViewModel(applicationService: TodoApplicationService): ViewModel(appli
     /**
      * 選択対象取得
      */
-    override fun getSelectData(): Flow<List<TodoEntity>> {
+    override suspend fun getSelectData(): List<TodoEntity> {
         return applicationService.todoData()
     }
 }
