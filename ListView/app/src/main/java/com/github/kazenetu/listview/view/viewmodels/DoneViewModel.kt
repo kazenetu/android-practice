@@ -2,7 +2,6 @@ package com.github.kazenetu.listview.view.viewmodels
 
 import com.github.kazenetu.listview.application.TodoApplicationService
 import com.github.kazenetu.listview.domain.domain.TodoEntity
-import kotlinx.coroutines.flow.Flow
 
 /**
  * Doneリスト用ViewModel

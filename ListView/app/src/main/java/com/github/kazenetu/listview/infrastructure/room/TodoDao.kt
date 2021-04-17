@@ -1,7 +1,6 @@
 package com.github.kazenetu.listview.infrastructure.room
 
 import androidx.room.*
-import kotlinx.coroutines.flow.Flow
 
 /**
  * データベースにアクセスする際に使用するメソッドインターフェース
