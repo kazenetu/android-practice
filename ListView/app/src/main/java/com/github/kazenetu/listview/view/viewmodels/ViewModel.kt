@@ -9,14 +9,15 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 /**
  * ViewModelのスーパークラス
  */
 abstract class ViewModel(protected val applicationService: TodoApplicationService): AndroidViewModel(Application()) {
-    private var toggleDeleteImageFlag: MutableStateFlow<Pair<Boolean, Boolean>> =
+    private var toggleDeleteImageFlag: MutableSharedFlow<Pair<Boolean, Boolean>> =
         MutableStateFlow(Pair(first = false, second = false))
-    val toggleDeleteImage: StateFlow<Pair<Boolean, Boolean>> get() = toggleDeleteImageFlag
+    val toggleDeleteImage: SharedFlow<Pair<Boolean, Boolean>> get() = toggleDeleteImageFlag
 
     /**
      * 公開用リストアイテム
@@ -121,35 +122,41 @@ abstract class ViewModel(protected val applicationService: TodoApplicationServic
         deleteTarget.forEach {
             applicationService.delete(it)
         }
-        toggleDeleteImageFlag.value = Pair(first = false, second = true)
+        toggleDeleteImageFlag.emit(Pair(first = false, second = true))
         updateListItems()
     }
 
     /**
      * すべての削除イメージを非表示にする
      */
-    fun hideAllDeleteImage()  {
-        val deleteTarget = items.filter { it.showImage }
-        deleteTarget.forEach {
-            it.showImage = false
+    fun hideAllDeleteImage() {
+        runBlocking {
+            val deleteTarget = items.filter { it.showImage }
+            deleteTarget.forEach {
+                it.showImage = false
+            }
+            toggleDeleteImageFlag.emit(Pair(first = false, second = true))
         }
-        toggleDeleteImageFlag.value = Pair(first = false, second = true)
     }
 
     /**
      * 削除対象イメージ表示
      */
     fun showDeleteImage(position: Int)  {
-        items[position].showImage = true
-        toggleDeleteImageFlag.value = Pair(first = true, second = false)
+        runBlocking {
+            items[position].showImage = true
+            toggleDeleteImageFlag.emit(Pair(first = true, second = false))
+        }
     }
 
     /**
      * 削除対象イメージ非表示
      */
     fun hideDeleteImage(position: Int)  {
-        items[position].showImage = false
-        toggleDeleteImageFlag.value = Pair(first = items[position].showImage, second = false)
+        runBlocking {
+            items[position].showImage = false
+            toggleDeleteImageFlag.emit(Pair(first = items.filter { it.showImage }.isNotEmpty(), second = false))
+        }
     }
 
     companion object {
