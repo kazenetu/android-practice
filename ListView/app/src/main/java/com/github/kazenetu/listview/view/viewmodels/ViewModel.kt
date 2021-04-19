@@ -15,10 +15,6 @@ import kotlinx.coroutines.runBlocking
  * ViewModelのスーパークラス
  */
 abstract class ViewModel(protected val applicationService: TodoApplicationService): AndroidViewModel(Application()) {
-    private var toggleDeleteImageFlag: MutableSharedFlow<Pair<Boolean, Boolean>> =
-        MutableStateFlow(Pair(first = false, second = false))
-    val toggleDeleteImage: SharedFlow<Pair<Boolean, Boolean>> get() = toggleDeleteImageFlag
-
     /**
      * 公開用リストアイテム
      */
@@ -28,7 +24,7 @@ abstract class ViewModel(protected val applicationService: TodoApplicationServic
     /**
      * リストアイテム
      */
-    private val items: List<TodoEntity>
+    protected val items: List<TodoEntity>
         get() {
             return listItems.value
         }
@@ -51,7 +47,7 @@ abstract class ViewModel(protected val applicationService: TodoApplicationServic
      */
     protected abstract suspend fun getSelectData(): List<TodoEntity>
 
-    suspend fun updateListItems(){
+    protected suspend fun updateListItems(){
         _listItems.value = getSelectData()
     }
 
@@ -114,50 +110,6 @@ abstract class ViewModel(protected val applicationService: TodoApplicationServic
             changedDoneEvent.emit(Unit)
         }
 
-    /**
-     * すべて削除
-     */
-    fun deleteAll() = CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
-        val deleteTarget = items.filter { it.showImage }
-        deleteTarget.forEach {
-            applicationService.delete(it)
-        }
-        toggleDeleteImageFlag.emit(Pair(first = false, second = true))
-        updateListItems()
-    }
-
-    /**
-     * すべての削除イメージを非表示にする
-     */
-    fun hideAllDeleteImage() {
-        runBlocking {
-            val deleteTarget = items.filter { it.showImage }
-            deleteTarget.forEach {
-                it.showImage = false
-            }
-            toggleDeleteImageFlag.emit(Pair(first = false, second = true))
-        }
-    }
-
-    /**
-     * 削除対象イメージ表示
-     */
-    fun showDeleteImage(position: Int)  {
-        runBlocking {
-            items[position].showImage = true
-            toggleDeleteImageFlag.emit(Pair(first = true, second = false))
-        }
-    }
-
-    /**
-     * 削除対象イメージ非表示
-     */
-    fun hideDeleteImage(position: Int)  {
-        runBlocking {
-            items[position].showImage = false
-            toggleDeleteImageFlag.emit(Pair(first = items.filter { it.showImage }.isNotEmpty(), second = false))
-        }
-    }
 
     companion object {
         private var changedDoneEvent = MutableSharedFlow<Unit>()
