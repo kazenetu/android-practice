@@ -32,7 +32,7 @@ abstract class ViewModel(protected val applicationService: TodoApplicationServic
      * コンストラクタ
      */
     init {
-        CoroutineScope(Dispatchers.Default).launch(Dispatchers.IO) {
+        CoroutineScope(Dispatchers.IO).launch() {
             updateListItems()
 
             changedDone.collect {
