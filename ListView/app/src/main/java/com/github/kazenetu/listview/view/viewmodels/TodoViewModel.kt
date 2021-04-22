@@ -60,7 +60,7 @@ class TodoViewModel(applicationService: TodoApplicationService): ViewModel(appli
     fun hideDeleteImage(position: Int)  {
         runBlocking {
             items[position].showImage = false
-            toggleDeleteImageFlag.emit(Pair(first = items.filter { it.showImage }.isNotEmpty(), second = false))
+            toggleDeleteImageFlag.emit(Pair(first = items.any { it.showImage }, second = false))
         }
     }
 
