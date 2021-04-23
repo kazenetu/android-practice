@@ -40,6 +40,7 @@ class ListActivity : AppCompatActivity() {
 
         // BottomNavigationの設定
         binding.bottomNavigation.setOnNavigationItemSelectedListener(BottomNavigationView.OnNavigationItemSelectedListener { item ->
+            var result = true
             when(item.itemId){
                 R.id.navigation_todo ->{
                     replaceFragment(todoFragment)
@@ -50,10 +51,11 @@ class ListActivity : AppCompatActivity() {
                 R.id.navigation_license ->{
                     val intent = Intent(this, OssLicensesMenuActivity::class.java)
                     startActivity(intent)
+                    result = false
                 }
             }
 
-            return@OnNavigationItemSelectedListener true
+            return@OnNavigationItemSelectedListener result
         })
     }
 
