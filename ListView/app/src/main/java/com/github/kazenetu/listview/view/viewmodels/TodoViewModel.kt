@@ -15,8 +15,15 @@ import kotlinx.coroutines.runBlocking
  */
 class TodoViewModel(applicationService: TodoApplicationService): ViewModel(applicationService) {
 
+    /**
+     * 削除状態イベント
+     */
     private var toggleDeleteImageFlag: MutableSharedFlow<Pair<Boolean, Boolean>> =
         MutableStateFlow(Pair(first = false, second = false))
+
+    /**
+     * 公開用削除状態イベント
+     */
     val toggleDeleteImage: SharedFlow<Pair<Boolean, Boolean>> get() = toggleDeleteImageFlag
 
     /**
@@ -74,6 +81,9 @@ class TodoViewModel(applicationService: TodoApplicationService): ViewModel(appli
      */
     val displayedLoading get() = shownLoading
 
+    /**
+     * ローディング表示状態を非表示に設定
+     */
     fun hideLoading()
     {
         shownLoading = false
