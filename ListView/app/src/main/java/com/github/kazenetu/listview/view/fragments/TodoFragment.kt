@@ -169,6 +169,7 @@ class TodoFragment : RecyclerViewFragment() {
      */
     override fun onItemDecorationDrawOverEvent()
     {
+        // ローディング表示中の場合は非表示にする
         if(todoViewModel.displayedLoading){
             todoViewModel.hideLoading()
             binding.progress.visibility = View.GONE
