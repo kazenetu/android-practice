@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-parcelize'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.android.gms.oss-licenses-plugin'
+apply from: '../buildSrc/build.gradle'
 
 android {
     compileSdkVersion 30
@@ -95,75 +96,6 @@ task addOssLicenseTask {
         modifyOssLicense(project)
     }
 }
-
-// OSSライセンスを変更する
-static def modifyOssLicense(project)
-{
-    final String UTF_8 = "UTF-8"
-    final byte[] LINE_SEPARATOR = System.getProperty("line.separator").getBytes(UTF_8)
-
-    def dependencyOutput = new File(project.buildDir, "generated/third_party_licenses")
-    def resourceOutput = new File(dependencyOutput, "/res")
-    def outputDir = new File(resourceOutput, "/raw")
-
-    // ライセンスファイル
-    def licensesFile = new File(outputDir, "third_party_licenses")
-
-    // ライセンスファイルへの書き込み前に現在の位置を保持
-    def start = licensesFile.length()
-
-    // ライセンスファイルへ書き込み
-    def licenseContentFile = new URL("https://www.apache.org/licenses/LICENSE-2.0.txt").text
-    licensesFile << licenseContentFile
-    licensesFile << (LINE_SEPARATOR)
-
-    def licensesText = licensesFile.text
-
-    List<String> metaData =  []
-    // ライセンスメタデータファイル
-    def licensesMetadataFile = new File(outputDir, "third_party_license_metadata")
-    for (entry in licensesMetadataFile)
-    {
-        def elements = entry.split()
-        def packageName = ""
-        entry.split().each {element->
-            if(!element.contains(elements[0])){
-                if(packageName != "") packageName+=" "
-                packageName += element
-            }
-        }
-
-        // メタファイル再構成リストに追加
-        metaData.add("${getMetaStartLength(elements[0],licensesText,start)} ${packageName}")
-    }
-
-    // メタファイルの再生成
-    licensesMetadataFile.newWriter().withWriter {w ->
-        w << ''
-    }
-
-    // リストからメタファイルを再作成
-    metaData.each { data->
-        licensesMetadataFile << (data)
-        licensesMetadataFile << (LINE_SEPARATOR)
-    }
-
-}
-
-// メタファイル用スタート位置と長さの文字列を取得
-static def getMetaStartLength(startLengthElement, licenseText, apacheL2start){
-    def startLength = startLengthElement.split(":")
-    def start = Integer.parseInt(startLength[0])
-    def end = start + Integer.parseInt(startLength[1])
-    def text = licenseText.substring(start,end)
-
-    if(text.contains("www.apache.org/licenses/LICENSE-2.0.txt")){
-        return "${(int)apacheL2start}:${licenseText.length()}"
-    }
-
-    return startLengthElement
-}
-
 
 // preBuild前にライセンス情報を追加する
 tasks.findByPath(':app:preBuild').dependsOn addOssLicenseTask
