@@ -46,6 +46,9 @@ abstract class ViewModel(protected val applicationService: TodoApplicationServic
      */
     protected abstract suspend fun getSelectData(): List<TodoEntity>
 
+    /**
+     * List更新
+     */
     protected suspend fun updateListItems(){
         _listItems.value = getSelectData()
     }

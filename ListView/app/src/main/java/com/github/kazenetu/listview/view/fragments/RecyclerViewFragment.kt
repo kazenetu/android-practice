@@ -47,6 +47,9 @@ open class RecyclerViewFragment : Fragment() {
      */
     private var isMovedDetail:Boolean = false
 
+    /**
+     * レイアウトを返す
+     */
     protected  fun base() = binding.root
 
     /**
