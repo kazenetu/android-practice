@@ -49,7 +49,7 @@ class DoneFragment : RecyclerViewFragment() {
 
         val view = binding.root
 
-        binding.superConstraintLayout.addView(super.base())
+        binding.superConstraintLayout.addView(super.getRecyclerViewLayout())
 
         return view
     }

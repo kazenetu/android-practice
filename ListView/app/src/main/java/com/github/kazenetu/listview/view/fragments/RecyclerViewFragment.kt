@@ -50,7 +50,7 @@ open class RecyclerViewFragment : Fragment() {
     /**
      * レイアウトを返す
      */
-    protected  fun base() = binding.root
+    protected  fun getRecyclerViewLayout() = binding.root
 
     /**
      * fragment生成

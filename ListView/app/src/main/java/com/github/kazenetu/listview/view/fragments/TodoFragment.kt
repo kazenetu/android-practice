@@ -94,7 +94,7 @@ class TodoFragment : RecyclerViewFragment() {
 
         val view = binding.root
 
-        binding.superConstraintLayout.addView(super.base())
+        binding.superConstraintLayout.addView(super.getRecyclerViewLayout())
         actionButton = binding.addButton
         actionDeleteButton = binding.deleteButton
 
